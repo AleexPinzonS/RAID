@@ -3,6 +3,9 @@ Option Strict On
 Imports Microsoft.VisualBasic
 Imports System.Reflection.MethodBase    'used to get procedure name for error logging
 Imports ADOX
+Imports System.Data
+Imports System.Linq
+
 
 Public Class Main
 
@@ -80,12 +83,12 @@ Public Class Main
         Dim oini As ini
         oini = New ini
 
-        UserTextBoxestoSave = { _
-                                txtMsg21_MOT_CODE, _
-                                txtRequestNextProdOrder_DeliveryLocation, _
-                                txtlblRaid_Msg23_SelectedSlot, _
-                                txtShipULPickUp_Load_Flag, _
-                                txtMsg11_Tech_Group, _
+        UserTextBoxestoSave = {
+                                txtMsg21_MOT_CODE,
+                                txtRequestNextProdOrder_DeliveryLocation,
+                                txtlblRaid_Msg23_SelectedSlot,
+                                txtShipULPickUp_Load_Flag,
+                                txtMsg11_Tech_Group,
                                 txtMsg11_RDT_Message,
                                 txtInfeedRestrictToUlPall,
                                 txtInfeedRestrictToCtlgrp,
@@ -143,17 +146,18 @@ Public Class Main
 
 
         'give user 3 chances to login into WCS database
-        For x = 1 To 3
-            bRetry = TryLogintoWMSDatabase()
-            If bRetry = False Then
-                Exit For   'user logged in successfully or decided to skip WMS connect
-            Else
-                If x = 3 Then
-                    MessageBox.Show("Check all parameters and credentials before trying again", "Too Many WMS Database Login Failures", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        'SAJJAD UNCOMMENT THIS
+        '''''''For x = 1 To 3
+        '''''''    bRetry = TryLogintoWMSDatabase()
+        '''''''    If bRetry = False Then
+        '''''''        Exit For   'user logged in successfully or decided to skip WMS connect
+        '''''''    Else
+        '''''''        If x = 3 Then
+        '''''''            MessageBox.Show("Check all parameters and credentials before trying again", "Too Many WMS Database Login Failures", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
 
-                End If
-            End If
-        Next
+        '''''''        End If
+        '''''''    End If
+        '''''''Next
 
         'Write the version and settings to the log file
         WriteLog("START", Strings.StrDup(60, "-"))
@@ -186,7 +190,7 @@ Public Class Main
         ToolStripStatusLblConnections.Text = "Host Connection:" & Space(1) & gstrSocketServerIP & Space(2) & "Port: " & gstrSocketServerPort & " | DB: " & DBServer & "/" & DBUserName
 
         ApplyDatabasePatches(strVersion.ToUpper, False)
-        AnyRequiredDatabaseTablesMissing() 
+        AnyRequiredDatabaseTablesMissing()
 
         'summary page setup
         'SetupGraphicalSummary()
@@ -365,10 +369,10 @@ Public Class Main
 
                 strDatabase = Application.ProductName & ".mdb"
 
-                dbConStatus = oDataBaseConnection.ConnectToAccessDB( _
+                dbConStatus = oDataBaseConnection.ConnectToAccessDB(
                                          gstrProgramDataPath & strDatabase)
                 If dbConStatus = -1 Then
-                    Call oDataBaseConnection.DisplayDatabaseConnectionError( _
+                    Call oDataBaseConnection.DisplayDatabaseConnectionError(
                        strDatabase)
                     ConnectToRAIDDatabase = False
                 Else
@@ -397,7 +401,7 @@ Public Class Main
 
                 oDataBaseConnection = New DatabaseConnections
 
-              
+
                 'oracle  dbcon2
                 strDatabase = "RTCIS"
                 dbConStatus = oDataBaseConnection.ConnectToDB(DBUserName, DBPassword)
@@ -492,7 +496,7 @@ Public Class Main
             For x = Application.OpenForms.Count - 1 To 0 Step -1
 
                 'MessageBox.Show(Application.OpenForms.Item(x).Name)
-                If Application.OpenForms.Item(x).Name = "frmStepDetail" Or _
+                If Application.OpenForms.Item(x).Name = "frmStepDetail" Or
                   Application.OpenForms.Item(x).Name = "frmXMLEditor" Then
 
                     Application.OpenForms.Item(x).Close()
@@ -602,17 +606,27 @@ Public Class Main
 
             Case "TabPage11"
 
-                    If flxGrid13.Rows <= 1 Then
-                        GetAndDisplayTrailerFPDSData()
+                If flxGrid13.Rows <= 1 Then
+                    GetAndDisplayTrailerFPDSData()
 
-                    End If
-                    If flxGrid14.Rows <= 1 Then
-                        GetAndDisplayTrailerAllInputConveyorData()
-                    End If
+                End If
+                If flxGrid14.Rows <= 1 Then
+                    GetAndDisplayTrailerAllInputConveyorData()
+                End If
+            Case "tabPgTrlMovEmu"
+                'If (dGridTraMovData.RowCount = 0) Then
+                'dGridTraMovData.RowCount = 0
+                GetAndDisplayTrailerMoveData()
+
+                'End If
+
 
         End Select
 
     End Sub
+
+
+
     Private Sub butRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butRefresh.Click
         RefreshLog()
     End Sub
@@ -844,10 +858,10 @@ Public Class Main
 
 
 
-            strSQL = "select u.ULID, u.LOCATN, NVL(u.UL_STACOD,0) UL_STACOD, u.CTRL_DATE,U.BASE_ULID " & _
-                "from UNITLD U, UNTDTL D " & _
-                "where d.ulid=u.ulid " & _
-                 "and u.locatn in (" & gstrFPDSLocationsSQL & ") " & _
+            strSQL = "select u.ULID, u.LOCATN, NVL(u.UL_STACOD,0) UL_STACOD, u.CTRL_DATE,U.BASE_ULID " &
+                "from UNITLD U, UNTDTL D " &
+                "where d.ulid=u.ulid " &
+                 "and u.locatn in (" & gstrFPDSLocationsSQL & ") " &
                 "and u.subsit='" & gstrFPDSSubsitCharacter & "' "
 
             If txtInfeedRestrictToUlPall.TextLength > 0 Then
@@ -866,7 +880,7 @@ Public Class Main
                 strSQL &= "and (U.BASE_ULID is null or U.BASE_ULID=U.ULID) "
             End If
 
-            strSQL &= "and rownum <=" & giMaxNumUlRecordsRTCISInfeedToQuery & " " & _
+            strSQL &= "and rownum <=" & giMaxNumUlRecordsRTCISInfeedToQuery & " " &
                 "order by u.CTRL_DATE desc"
 
             ' Open the Recordset using the select string:
@@ -991,7 +1005,7 @@ Public Class Main
                 flxGrid1.Col = 6
                 flxGrid1.CellBackColor = colorBack
                 flxGrid1.CellForeColor = colorFore
-                flxGrid1.Text = vbNullString & ULsOnFPDS(x).base_ulid
+                flxGrid1.Text = vbNullString & ULsOnFPDS(x).BASE_ULID
 
 
                 flxGrid1.Col = 7
@@ -1091,12 +1105,12 @@ Public Class Main
 
                                     InsertULInto_CUST_PALLET(strULID, "5", .BRAND_CODE, .BRAND_DESC, .CODE_DATE, .PALLET_TYPE, .HOLD_STATUS, gstrASRSSystemLocationName, .BASE_ULID)
                                     'add 00 prefix to delivery code to ensure any existign number is cleared out
-                                    SendKeystoPutty(strULID & "~" & _
-                                                    "000" & gstrDtldrvsndMsg5UlWeight & "~" & _
-                                                    "00" & gstrDtldrvsndMsg5DeliveryCode & "~" & _
-                                                    gstrDtldrvsndMsg5UnitLoadStatus & "~" & _
-                                                    gstrDtldrvsndMsg5StationId & "~" & _
-                                                    gstrDtldrvsndMsg5PortId & "~" & _
+                                    SendKeystoPutty(strULID & "~" &
+                                                    "000" & gstrDtldrvsndMsg5UlWeight & "~" &
+                                                    "00" & gstrDtldrvsndMsg5DeliveryCode & "~" &
+                                                    gstrDtldrvsndMsg5UnitLoadStatus & "~" &
+                                                    gstrDtldrvsndMsg5StationId & "~" &
+                                                    gstrDtldrvsndMsg5PortId & "~" &
                                                     "~~")
 
                                     WriteLog(gcstrINFO, "DTLDRVSND Msg5 - ULID:" & strULID & ", Dlvcod: " & gstrDtldrvsndMsg5DeliveryCode)
@@ -1155,16 +1169,16 @@ Public Class Main
             MessageBox.Show("Please Select at Least 1 Row in the Grid", "No Rows Selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
     End Function
-  
+
 
     Private Sub FillUlsASRSInfeed()
         Dim strSQL As String
         Try
 
-            strSQL = "select CUST_ID, ACTIV_INPUT_LOCATION,RETRO_STATUS,RETRO_LOC,CTRL_DATE,PLC_USERID " & _
-                "from CUST_PALLET " & _
-                "where " & _
-                 "retro_status in ('5','A8','S8','C8','U8','L8','M8') " & _
+            strSQL = "select CUST_ID, ACTIV_INPUT_LOCATION,RETRO_STATUS,RETRO_LOC,CTRL_DATE,PLC_USERID " &
+                "from CUST_PALLET " &
+                "where " &
+                 "retro_status in ('5','A8','S8','C8','U8','L8','M8') " &
                 "order by CTRL_DATE asc"
 
             ' Open the Recordset using the select string:
@@ -1184,7 +1198,7 @@ Public Class Main
                     .CUST_ID = Convert.ToString(dbrec1.Fields("CUST_ID").Value)
                     .CTRL_DATE = Convert.ToString(dbrec1.Fields("CTRL_DATE").Value)
                     .ACTIV_INPUT_LOCATION = Convert.ToString(dbrec1.Fields("ACTIV_INPUT_LOCATION").Value)
-                    .Retro_Status = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
+                    .RETRO_STATUS = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
                     .RETRO_LOC = Convert.ToString(dbrec1.Fields("RETRO_LOC").Value)
                     .PLC_USERID = Convert.ToString(dbrec1.Fields("PLC_USERID").Value)
 
@@ -1208,9 +1222,9 @@ Public Class Main
 
 
         Try
-            strSQL = "select CUST_ID, ACTIV_INPUT_LOCATION,RETRO_STATUS,RETRO_LOC,CTRL_DATE, BASE_ULID " & _
-             "from CUST_PALLET " & _
-             "where " & _
+            strSQL = "select CUST_ID, ACTIV_INPUT_LOCATION,RETRO_STATUS,RETRO_LOC,CTRL_DATE, BASE_ULID " &
+             "from CUST_PALLET " &
+             "where " &
              "retro_status in ('6') "
 
             If gbShowOnlyTheBaseStackedULID = True Then
@@ -1257,18 +1271,18 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select l.activ_loc, u.ulid " & _
-                    "from unitld u,locatn l, untdtl d, ctlgrp c " & _
-                    "Where u.subsit(+)=l.subsit and u.locatn(+)=l.locatn " & _
-                    "and u.ulid=d.ulid(+)  " & _
-                    "and d.itmcod=c.itmcod(+) and d.itmcls=c.itmcls(+) and d.ctlgrp=c.ctlgrp(+)  " & _
-                    "and l.activ_loc is not null   " & _
+            strSQL = "select l.activ_loc, u.ulid " &
+                    "from unitld u,locatn l, untdtl d, ctlgrp c " &
+                    "Where u.subsit(+)=l.subsit and u.locatn(+)=l.locatn " &
+                    "and u.ulid=d.ulid(+)  " &
+                    "and d.itmcod=c.itmcod(+) and d.itmcls=c.itmcls(+) and d.ctlgrp=c.ctlgrp(+)  " &
+                    "and l.activ_loc is not null   " &
                     "order by lpad(l.activ_loc,10)"
 
-            strSQL = "select nvl(l.activ_loc,l.locatn) ACTIV_LOC, u.ulid " & _
-                    "from unitld u,locatn l " & _
-                    "Where u.subsit(+)=l.subsit and u.locatn(+)=l.locatn " & _
-                    "and (l.activ_loc is not null or l.locatn like '" & gstrManualOutputVTLPrefix & "%')  " & _
+            strSQL = "select nvl(l.activ_loc,l.locatn) ACTIV_LOC, u.ulid " &
+                    "from unitld u,locatn l " &
+                    "Where u.subsit(+)=l.subsit and u.locatn(+)=l.locatn " &
+                    "and (l.activ_loc is not null or l.locatn like '" & gstrManualOutputVTLPrefix & "%')  " &
                     "order by lpad(nvl(l.activ_loc,l.locatn),10)"
 
             ' Open the Recordset using the select string:
@@ -1307,10 +1321,10 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select CUST_ID " & _
-                "from CUST_PALLET " & _
-                "where " & _
-                 "retro_status is not null " & _
+            strSQL = "select CUST_ID " &
+                "from CUST_PALLET " &
+                "where " &
+                 "retro_status is not null " &
                 "order by CTRL_DATE asc"
 
             ' Open the Recordset using the select string:
@@ -1411,9 +1425,9 @@ Public Class Main
                 flxGrid2.CellForeColor = colorFore
 
                 'determine the infeed location based upon the message type
-                flxGrid2.Text = vbNullString & FindActivInputLocation(UlsASRSInfeed(x).Retro_Status)
+                flxGrid2.Text = vbNullString & FindActivInputLocation(UlsASRSInfeed(x).RETRO_STATUS)
                 If UlsASRSInfeed(x).ACTIV_INPUT_LOCATION.Length = 0 OrElse UlsASRSInfeed(x).ACTIV_INPUT_LOCATION = "-1" Then
-                    flxGrid2.Text = vbNullString & FindActivInputLocation(UlsASRSInfeed(x).Retro_Status)
+                    flxGrid2.Text = vbNullString & FindActivInputLocation(UlsASRSInfeed(x).RETRO_STATUS)
                 Else
                     flxGrid2.Text = vbNullString & UlsASRSInfeed(x).ACTIV_INPUT_LOCATION
                 End If
@@ -1421,7 +1435,7 @@ Public Class Main
                 flxGrid2.Col = 4
                 flxGrid2.CellBackColor = colorBack
                 flxGrid2.CellForeColor = colorFore
-                flxGrid2.Text = vbNullString & UlsASRSInfeed(x).Retro_Status
+                flxGrid2.Text = vbNullString & UlsASRSInfeed(x).RETRO_STATUS
 
                 flxGrid2.Col = 5
                 flxGrid2.CellBackColor = colorBack
@@ -1821,10 +1835,10 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "'," & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "'," &
             "ACTIV_INPUT_LOCATION='" & strInputLoc & "'," &
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -1861,9 +1875,9 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            strFieldName & "='" & strFieldValue & "'," & _
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            strSql = "update CUST_PALLET set " &
+            strFieldName & "='" & strFieldValue & "'," &
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -1885,8 +1899,8 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='" & strRetro_Status & "' " & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='" & strRetro_Status & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -1909,10 +1923,10 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_LOC='" & strRetro_Loc & "'," & _
-            "RETRO_STATUS='" & strRetro_Status & " '," & _
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_LOC='" & strRetro_Loc & "'," &
+            "RETRO_STATUS='" & strRetro_Status & " '," &
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -1934,11 +1948,11 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_LOC" & "='" & gstrASRSSystemLocationName & "'," & _
-            "RETRO_STATUS='7'," & _
-            "SHIP_ID" & "= null," & _
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_LOC" & "='" & gstrASRSSystemLocationName & "'," &
+            "RETRO_STATUS='7'," &
+            "SHIP_ID" & "= null," &
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where SHIP_ID ='" & strSHIP_ID & "'"
 
             If Len(strSql) > 0 Then
@@ -1960,8 +1974,8 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "SHIP_ID='" & strShipid & "'," & _
+            strSql = "update CUST_PALLET set " &
+            "SHIP_ID='" & strShipid & "'," &
             "RETRO_LOC='" & strRetro_loc & "'," &
              "RETRO_STATUS='" & strRetro_Status & "' " &
             "where CUST_ID ='" & strULID & "'"
@@ -1985,8 +1999,8 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_SHIPMENT set " & _
-            strFieldName & "='" & strFieldValue & "' " & _
+            strSql = "update CUST_SHIPMENT set " &
+            strFieldName & "='" & strFieldValue & "' " &
             "where CUST_SHIPMENT ='" & strShipId & "'"
 
             If Len(strSql) > 0 Then
@@ -2170,7 +2184,7 @@ Public Class Main
                             End If
                         End If
                     Else
-                            Exit For
+                        Exit For
                     End If
 
                 End If
@@ -2263,13 +2277,13 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select L.SHIP_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE, " & _
-                "sum(L.QUANTITY) AS SUMofQuantity , L.RETRO_STATUS, S.SLOT " & _
-                "from CUST_LINEITEM L, CUST_SHIPMENT S " & _
-                "where " & _
-                "L.SHIP_ID=S.CUST_SHIPMENT " & _
-                 "and L.retro_status in ('13') " & _
-                 "group by L.SHIP_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE,L.RETRO_STATUS,S.SLOT " & _
+            strSQL = "select L.SHIP_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE, " &
+                "sum(L.QUANTITY) AS SUMofQuantity , L.RETRO_STATUS, S.SLOT " &
+                "from CUST_LINEITEM L, CUST_SHIPMENT S " &
+                "where " &
+                "L.SHIP_ID=S.CUST_SHIPMENT " &
+                 "and L.retro_status in ('13') " &
+                 "group by L.SHIP_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE,L.RETRO_STATUS,S.SLOT " &
                 "order by L.SHIP_ID  asc"
 
             ' Open the Recordset using the select string:
@@ -2291,7 +2305,7 @@ Public Class Main
                     .PAL_TYPE = Convert.ToString(dbrec1.Fields("PAL_TYPE").Value)
                     .QUANTITY = Convert.ToString(dbrec1.Fields("SUMofQuantity").Value)
                     .RETRO_STATUS = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
-                    .SLOT = Convert.ToString(dbrec1.Fields("SLOT").Value)
+                    .Slot = Convert.ToString(dbrec1.Fields("SLOT").Value)
                     '  .WITHDRAWAL_INTENT_CODE = Convert.ToString(dbrec1.Fields("WITHDRAWAL_INTENT_CODE").Value)
 
                 End With
@@ -2314,11 +2328,11 @@ Public Class Main
 
         Dim strSQL As String
         Try
-            strSQL = "select L.SHIP_ID,L.LINE_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE, S.SLOT, L.SELECT_FLAG, L.RETRO_STATUS, L.CUST_ID " & _
-                "from CUST_LINEITEM L, CUST_SHIPMENT S " & _
-                "where " & _
+            strSQL = "select L.SHIP_ID,L.LINE_ID,L.BRAND_CODE,L.CODE_DATE,L.PAL_TYPE, S.SLOT, L.SELECT_FLAG, L.RETRO_STATUS, L.CUST_ID " &
+                "from CUST_LINEITEM L, CUST_SHIPMENT S " &
+                "where " &
                 "L.SHIP_ID=S.CUST_SHIPMENT " &
-                 "and L.retro_status in ('13S','13C','14','14D')" & _
+                 "and L.retro_status in ('13S','13C','14','14D')" &
                 "order by L.SHIP_ID,L.LINE_ID  asc"
 
             ' Open the Recordset using the select string:
@@ -2339,7 +2353,7 @@ Public Class Main
                     .BRAND_CODE = Convert.ToString(dbrec1.Fields("BRAND_CODE").Value)
                     .CODE_DATE = Convert.ToString(dbrec1.Fields("CODE_DATE").Value)
                     .PAL_TYPE = Convert.ToString(dbrec1.Fields("PAL_TYPE").Value)
-                    .SLOT = Convert.ToString(dbrec1.Fields("SLOT").Value)
+                    .Slot = Convert.ToString(dbrec1.Fields("SLOT").Value)
                     .SELECT_FLAG = Convert.ToString(dbrec1.Fields("SELECT_FLAG").Value)
                     .RETRO_STATUS = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
                     .CUST_ID = Convert.ToString(dbrec1.Fields("CUST_ID").Value)
@@ -2463,7 +2477,7 @@ Public Class Main
                 flxGrid6.Col = 8
                 flxGrid6.CellBackColor = colorBack
                 flxGrid6.CellForeColor = colorFore
-                flxGrid6.Text = vbNullString & Msg13_Cust_LineItem_Aggregate(x).SLOT
+                flxGrid6.Text = vbNullString & Msg13_Cust_LineItem_Aggregate(x).Slot
 
                 flxGrid6.Col = 9
                 flxGrid6.CellBackColor = colorBack
@@ -2561,12 +2575,12 @@ Public Class Main
                 flxGrid5.Col = 4
                 flxGrid5.CellBackColor = colorBack
                 flxGrid5.CellForeColor = colorFore
-                flxGrid5.Text = vbNullString & Msg16_History(x).Code_Date
+                flxGrid5.Text = vbNullString & Msg16_History(x).CODE_DATE
 
                 flxGrid5.Col = 5
                 flxGrid5.CellBackColor = colorBack
                 flxGrid5.CellForeColor = colorFore
-                flxGrid5.Text = vbNullString & Msg16_History(x).Hold_Status
+                flxGrid5.Text = vbNullString & Msg16_History(x).HOLD_STATUS
 
 
                 flxGrid5.Rows += 1
@@ -2596,7 +2610,7 @@ Public Class Main
     End Sub
 
     Private Sub ManualOutputRequestsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManualOutputRequestsToolStripMenuItem.Click
-       
+
         ShowIniForm("ManualOutputRequests")
 
     End Sub
@@ -2653,7 +2667,7 @@ Public Class Main
                             If strUserRequestedSlot.Length <> 0 Then
                                 'take whatever is on the grid
                                 strAvailableSlot = strUserRequestedSlot
-                                
+
                             Else
                                 strAvailableSlot = FindOpenSlotForManualWithdraw(strUserRequestedSlot)
                             End If
@@ -2700,8 +2714,8 @@ Public Class Main
 
         Try
 
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "'" & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "'" &
             "where SHIP_ID ='" & strSHIP_ID & "'"
 
             If Len(strSql) > 0 Then
@@ -2783,11 +2797,11 @@ Public Class Main
 
             'find all currently used slots but not those that have been requested by user
 
-            strSql = "select SLOT " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
-                 "slot in (" & gstrManualOutputLocationsSQL & ") " & _
-                 "and retro_status not in ('13') " & _
+            strSql = "select SLOT " &
+                "from CUST_SHIPMENT " &
+                "where " &
+                 "slot in (" & gstrManualOutputLocationsSQL & ") " &
+                 "and retro_status not in ('13') " &
                 "order by SLOT asc "
 
             ' Open the Recordset using the select string:
@@ -2874,11 +2888,11 @@ Public Class Main
 
             'find all currently used slot
 
-            strSql = "select SLOT " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
-                 "slot in (" & gstrSlotsSQL & ") " & _
-                 "and retro_status not in ('21') " & _
+            strSql = "select SLOT " &
+                "from CUST_SHIPMENT " &
+                "where " &
+                 "slot in (" & gstrSlotsSQL & ") " &
+                 "and retro_status not in ('21') " &
                 "order by SLOT asc "
 
             ' Open the Recordset using the select string:
@@ -3037,11 +3051,11 @@ Public Class Main
 
                             If strUNIT_LOAD_ID = "-1" Then
 
-                                WriteLog("Info", "No Inventory for Manual Request " & _
-                                                "|ShipId:" & strSHIP_ID & _
-                                                "|Brand:" & strBRAND_CODE & _
-                                                "|Pal:" & strPALLET_TYPE & _
-                                                "|CodDat:" & strCODE_DATE & _
+                                WriteLog("Info", "No Inventory for Manual Request " &
+                                                "|ShipId:" & strSHIP_ID &
+                                                "|Brand:" & strBRAND_CODE &
+                                                "|Pal:" & strPALLET_TYPE &
+                                                "|CodDat:" & strCODE_DATE &
                                                 "|")
                                 strMsgTyp = "D14"    'cant fulfill request
                                 strRetro_Status = "14D"
@@ -3077,7 +3091,7 @@ Public Class Main
                         End If
 
                         If bSkipMsgSend = False Then
-                            If SendRequest(CreateXML_WithdrawalULArrival(strMsgTyp, strSHIP_ID, strACTIV_OUTPUT_LOCATION, _
+                            If SendRequest(CreateXML_WithdrawalULArrival(strMsgTyp, strSHIP_ID, strACTIV_OUTPUT_LOCATION,
                                     strUNIT_LOAD_ID, strPALLET_TYPE, strBRAND_CODE, strCODE_DATE, strWITHDRAWAL_OUTPUT_STATUS)) = True Then
 
                                 'update the shipment table 
@@ -3113,7 +3127,7 @@ Public Class Main
             WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
         Finally
 
-         
+
 
         End Try
     End Sub
@@ -3142,19 +3156,19 @@ Public Class Main
         End Try
     End Function
 
-    Public Function Update_CUST_LINEITEM_AfterStaging(ByVal strSHIP_ID As String, ByVal strLINE_ID As String, _
+    Public Function Update_CUST_LINEITEM_AfterStaging(ByVal strSHIP_ID As String, ByVal strLINE_ID As String,
                                                ByVal strULID As String, ByVal strRETRO_STATUS As String, ByVal strQty As String) As Boolean
 
         Dim strSql As String = String.Empty
 
         Try
             'If strULID <> "-1" Then      'dave removed the IF on 20140827 because it was not cancelign SS correctly
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "', " & _
-            "CUST_ID='" & strULID & "', " & _
-            "STAGED='" & strQty & "', " & _
-            "SUPPLIED='" & strQty & "' " & _
-            "where SHIP_ID ='" & strSHIP_ID & "' " & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "', " &
+            "CUST_ID='" & strULID & "', " &
+            "STAGED='" & strQty & "', " &
+            "SUPPLIED='" & strQty & "' " &
+            "where SHIP_ID ='" & strSHIP_ID & "' " &
             "and LINE_ID ='" & strLINE_ID & "' "
             'Else
 
@@ -3172,17 +3186,17 @@ Public Class Main
         End Try
 
     End Function
-    Public Function Update_CUST_LINEITEM_forD14(ByVal strSHIP_ID As String,  ByVal strRETRO_STATUS As String, ByVal strQty As String) As Boolean
+    Public Function Update_CUST_LINEITEM_forD14(ByVal strSHIP_ID As String, ByVal strRETRO_STATUS As String, ByVal strQty As String) As Boolean
 
         Dim strSql As String
 
         Try
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "', " & _
-            "CUST_ID='-1', " & _
-            "STAGED='" & strQty & "', " & _
-            "SUPPLIED='" & strQty & "' " & _
-            "where SHIP_ID ='" & strSHIP_ID & "' " & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "', " &
+            "CUST_ID='-1', " &
+            "STAGED='" & strQty & "', " &
+            "SUPPLIED='" & strQty & "' " &
+            "where SHIP_ID ='" & strSHIP_ID & "' " &
             "and (staged <> '1' or staged is null) "
 
             If Len(strSql) > 0 Then
@@ -3202,7 +3216,7 @@ Public Class Main
         ProcessGridMouseDown(CType(sender, AxMSFlexGrid), e.button)
     End Sub
 
-    Private Function FindULforShipid(ByVal strULID As String, ByVal strPallet_Type As String, _
+    Private Function FindULforShipid(ByVal strULID As String, ByVal strPallet_Type As String,
                                      ByVal strBrand_Code As String, ByVal strCode_date As String, ByVal strHoldStatus As String) As Cust_pallet
         Dim strSql As String
         Dim iRecordCount As Integer = 0
@@ -3232,22 +3246,22 @@ Public Class Main
 
             If strULID.Length = 0 Then   ' need to find  UL
 
-                strSql = "select CUST_ID as THEVALUE, PALLET_TYPE, CODE_DATE " & _
-                    "from CUST_PALLET " & _
-                    "where " & _
-                    "BRAND_CODE='" & strBrand_Code & "' " & _
-                    strPalletSQL & _
-                    strCoddatSQL & _
-                    strHoldStatusSQL & _
-                    "and (ship_id is null or ship_id='') " & _
+                strSql = "select CUST_ID as THEVALUE, PALLET_TYPE, CODE_DATE " &
+                    "from CUST_PALLET " &
+                    "where " &
+                    "BRAND_CODE='" & strBrand_Code & "' " &
+                    strPalletSQL &
+                    strCoddatSQL &
+                    strHoldStatusSQL &
+                    "and (ship_id is null or ship_id='') " &
                     "order by cust_id asc "
             Else
                 'dave fix this later needs to get code_date etc
-                strSql = "select CUST_ID as THEVALUE, PALLET_TYPE, CODE_DATE " & _
-                    "from CUST_PALLET " & _
-                    "where " & _
-                    "BRAND_CODE='" & strBrand_Code & "', " & _
-                    "and CUST_ID='" & strULID & "' " & _
+                strSql = "select CUST_ID as THEVALUE, PALLET_TYPE, CODE_DATE " &
+                    "from CUST_PALLET " &
+                    "where " &
+                    "BRAND_CODE='" & strBrand_Code & "', " &
+                    "and CUST_ID='" & strULID & "' " &
                     "order by cust_id asc "
             End If
 
@@ -3263,7 +3277,7 @@ Public Class Main
 
                 struct.strCust_ID = Convert.ToString(dbrec1.Fields("THEVALUE").Value)
                 struct.strPallet_Type = Convert.ToString(dbrec1.Fields("PALLET_TYPE").Value)
-                struct.CODE_DATE = Convert.ToString(dbrec1.Fields("CODE_DATE").Value)
+                struct.Code_Date = Convert.ToString(dbrec1.Fields("CODE_DATE").Value)
 
                 dbrec1.MoveNext()
 
@@ -3318,10 +3332,10 @@ Public Class Main
 
         Try
 
-            strSQL = "select CTRL_DATE,CUST_ID,CODE_DATE,HOLD_STATUS,BRAND_CODE " & _
-                "from MSG16HST " & _
-                "where " & _
-                "ctrl_date > " & Today.AddDays(giDaysOfMsg16HistoryToDisplay * -1) & _
+            strSQL = "select CTRL_DATE,CUST_ID,CODE_DATE,HOLD_STATUS,BRAND_CODE " &
+                "from MSG16HST " &
+                "where " &
+                "ctrl_date > " & Today.AddDays(giDaysOfMsg16HistoryToDisplay * -1) &
                 " order by CTRL_DATE  desc"
 
             ' Open the Recordset using the select string:
@@ -3338,8 +3352,8 @@ Public Class Main
                 With Msg16_History(Msg16_History_RecordCount)
                     .CTRL_DATE = Convert.ToString(dbrec1.Fields("CTRL_DATE").Value)
                     .CUST_ID = Convert.ToString(dbrec1.Fields("CUST_ID").Value)
-                    .Code_Date = Convert.ToString(dbrec1.Fields("CODE_DATE").Value)
-                    .Hold_Status = Convert.ToString(dbrec1.Fields("HOLD_STATUS").Value)
+                    .CODE_DATE = Convert.ToString(dbrec1.Fields("CODE_DATE").Value)
+                    .HOLD_STATUS = Convert.ToString(dbrec1.Fields("HOLD_STATUS").Value)
                     .BRAND_CODE = Convert.ToString(dbrec1.Fields("BRAND_CODE").Value)
 
 
@@ -3469,7 +3483,7 @@ Public Class Main
                 flxGrid7.Col = 8
                 flxGrid7.CellBackColor = colorBack
                 flxGrid7.CellForeColor = colorFore
-                flxGrid7.Text = vbNullString & Msg13_Cust_LineItem(x).SLOT
+                flxGrid7.Text = vbNullString & Msg13_Cust_LineItem(x).Slot
 
                 flxGrid7.Col = 9
                 flxGrid7.CellBackColor = colorBack
@@ -3648,11 +3662,11 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select CUST_SHIPMENT,DISPOSITION, APP_DATETIME, RETRO_STATUS, SLOT, LOAD_STATUS, SHIP_TYPE " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
-                 "(retro_status in ('21','A22','D22','41','A42','D42') or (retro_status in ('A24','A44') and LOAD_STATUS='CANCLD'))  " & _
-                 "and SHIP_TYPE in('SR','CR') " & _
+            strSQL = "select CUST_SHIPMENT,DISPOSITION, APP_DATETIME, RETRO_STATUS, SLOT, LOAD_STATUS, SHIP_TYPE " &
+                "from CUST_SHIPMENT " &
+                "where " &
+                 "(retro_status in ('21','A22','D22','41','A42','D42') or (retro_status in ('A24','A44') and LOAD_STATUS='CANCLD'))  " &
+                 "and SHIP_TYPE in('SR','CR') " &
                 "order by APP_DATETIME  asc"
 
             ' Open the Recordset using the select string:
@@ -3987,12 +4001,12 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select L.LINE_ID,L.SEQUENCE,L.BRAND_CODE, L.CODE_DATE, L.PAL_TYPE, L.STAGED, L.CUST_ID,L.RETRO_STATUS, PALLET_TYPE as CUST_PALLET_TYPE, SELECT_FLAG " & _
-                "from CUST_LINEITEM L " & _
-                "LEFT OUTER JOIN CUST_PALLET P " & _
-                "ON L.CUST_ID = P.CUST_ID " & _
-                "where " & _
-                 "L.SHIP_ID= '" & strShipid & "' " & _
+            strSQL = "select L.LINE_ID,L.SEQUENCE,L.BRAND_CODE, L.CODE_DATE, L.PAL_TYPE, L.STAGED, L.CUST_ID,L.RETRO_STATUS, PALLET_TYPE as CUST_PALLET_TYPE, SELECT_FLAG " &
+                "from CUST_LINEITEM L " &
+                "LEFT OUTER JOIN CUST_PALLET P " &
+                "ON L.CUST_ID = P.CUST_ID " &
+                "where " &
+                 "L.SHIP_ID= '" & strShipid & "' " &
                 "order by L.LINE_ID, L.BRAND_CODE  asc"
 
             ' Open the Recordset using the select string:
@@ -4213,7 +4227,7 @@ Public Class Main
                                 DestageUL(strSHIP_ID, strLINE_ID, strULID, strSlot, strBRAND_CODE, strRetroStatus)
                             Else
                                 If bProvideLogging = True Then
-                                    WriteLog(gcstrINFO, "Selected Line Item Doesn't Have UL Assigned - Shipid :" & _
+                                    WriteLog(gcstrINFO, "Selected Line Item Doesn't Have UL Assigned - Shipid :" &
                                              strSHIP_ID & " Line Item: " & strLINE_ID)
                                 End If
                             End If
@@ -4251,7 +4265,7 @@ Public Class Main
 
         End Try
     End Sub
-    Private Sub DestageUL(ByVal strShip_Id As String, ByVal strLINE_ID As String, ByVal strULID As String, ByVal strActivOutPutLocation As String, _
+    Private Sub DestageUL(ByVal strShip_Id As String, ByVal strLINE_ID As String, ByVal strULID As String, ByVal strActivOutPutLocation As String,
                           ByVal strBrandCode As String, ByVal strCurrentRetroStatus As String)
 
         Dim strRetro_Status As String
@@ -4263,7 +4277,7 @@ Public Class Main
         End If
 
         Try
-            If SendRequest(CreateXML_ShipULDestaged(strRetro_Status, String.Empty, strULID, strActivOutPutLocation, String.Empty, String.Empty, _
+            If SendRequest(CreateXML_ShipULDestaged(strRetro_Status, String.Empty, strULID, strActivOutPutLocation, String.Empty, String.Empty,
                                             strBrandCode, String.Empty)) = True Then
 
                 'update the line_item table     indicate that the pallet was destaged with the D23
@@ -4281,9 +4295,9 @@ Public Class Main
         End Try
 
     End Sub
-    Private Function StageUL(ByVal strShip_Id As String, ByVal strSlot As String, ByVal strULID As String, ByVal strPAL_TYPE As String, _
-                            ByVal strBRAND_CODE As String, ByVal strCODE_DATE As String, ByVal strLINE_ID As String, _
-                            ByVal strSequence As String, ByVal bStopStageAfterNextMsg23 As Boolean, _
+    Private Function StageUL(ByVal strShip_Id As String, ByVal strSlot As String, ByVal strULID As String, ByVal strPAL_TYPE As String,
+                            ByVal strBRAND_CODE As String, ByVal strCODE_DATE As String, ByVal strLINE_ID As String,
+                            ByVal strSequence As String, ByVal bStopStageAfterNextMsg23 As Boolean,
                             ByVal strQaStatus As String, ByVal strCurrent_Retro_Status As String, ByVal bManualAadvance As Boolean) As Boolean
 
         Dim bCancelULLineItem As Boolean
@@ -4318,23 +4332,23 @@ Public Class Main
                         If structCust_Pallet.strCust_ID = "-1" Then
 
                             bCancelULLineItem = True
-                            WriteLog("Info", "No Inventory for " & _
-                                     "|ShipId:" & strShip_Id & _
-                                     "|Brand:" & strBRAND_CODE & _
-                                     "|Pal: Stage Any " & _
-                                     "|CodDat:" & strCODE_DATE & _
-                                     "|QaStatus:" & strQaStatus & _
+                            WriteLog("Info", "No Inventory for " &
+                                     "|ShipId:" & strShip_Id &
+                                     "|Brand:" & strBRAND_CODE &
+                                     "|Pal: Stage Any " &
+                                     "|CodDat:" & strCODE_DATE &
+                                     "|QaStatus:" & strQaStatus &
                                      "|")
 
                         Else
                             'UL was not staged and a UL was found on a differing pallet type and SW selected
                             bStageUl = True
-                            WriteLog("Info", "Shipment with Disposition SW Staged Different Pallet Type  " & _
-                                     "|ShipId:" & strShip_Id & _
-                                     "|Brand:" & strBRAND_CODE & _
-                                     "|Pal: Stage Any " & _
-                                     "|CodDat:" & strCODE_DATE & _
-                                     "|QaStatus:" & strQaStatus & _
+                            WriteLog("Info", "Shipment with Disposition SW Staged Different Pallet Type  " &
+                                     "|ShipId:" & strShip_Id &
+                                     "|Brand:" & strBRAND_CODE &
+                                     "|Pal: Stage Any " &
+                                     "|CodDat:" & strCODE_DATE &
+                                     "|QaStatus:" & strQaStatus &
                                      "|")
 
                             strULID = structCust_Pallet.strCust_ID
@@ -4346,32 +4360,32 @@ Public Class Main
                         Select Case lblRaid_Msg23_SelectedDisposition.Text.ToUpper
                             Case "SO"
 
-                                WriteLog("Info", "Stage Open - No Inventory for " & _
-                                            "|ShipId:" & strShip_Id & _
-                                            "|Brand:" & strBRAND_CODE & _
-                                            "|Pal:" & strPAL_TYPE & _
-                                            "|CodDat:" & strCODE_DATE & _
-                                            "|QaStatus:" & strQaStatus & _
+                                WriteLog("Info", "Stage Open - No Inventory for " &
+                                            "|ShipId:" & strShip_Id &
+                                            "|Brand:" & strBRAND_CODE &
+                                            "|Pal:" & strPAL_TYPE &
+                                            "|CodDat:" & strCODE_DATE &
+                                            "|QaStatus:" & strQaStatus &
                                             "|")
                             Case "SS"
 
-                                WriteLog("Info", "Cancel CUST_LINEITEM  - Stage Short - No Inventory for " & _
-                                            "|ShipId:" & strShip_Id & _
-                                            "|Brand:" & strBRAND_CODE & _
-                                            "|Pal:" & strPAL_TYPE & _
-                                            "|CodDat:" & strCODE_DATE & _
-                                            "|QaStatus:" & strQaStatus & _
+                                WriteLog("Info", "Cancel CUST_LINEITEM  - Stage Short - No Inventory for " &
+                                            "|ShipId:" & strShip_Id &
+                                            "|Brand:" & strBRAND_CODE &
+                                            "|Pal:" & strPAL_TYPE &
+                                            "|CodDat:" & strCODE_DATE &
+                                            "|QaStatus:" & strQaStatus &
                                             "|")
                                 Update_CUST_LINEITEM_AfterStaging(strShip_Id, strLINE_ID, "-1", strRetro_Status, "0")
 
                             Case Else  'normal disposition
 
-                                WriteLog("Info", "Normal Disposition - No Inventory for " & _
-                                            "|ShipId:" & strShip_Id & _
-                                            "|Brand:" & strBRAND_CODE & _
-                                            "|Pal:" & strPAL_TYPE & _
-                                            "|CodDat:" & strCODE_DATE & _
-                                            "|QaStatus:" & strQaStatus & _
+                                WriteLog("Info", "Normal Disposition - No Inventory for " &
+                                            "|ShipId:" & strShip_Id &
+                                            "|Brand:" & strBRAND_CODE &
+                                            "|Pal:" & strPAL_TYPE &
+                                            "|CodDat:" & strCODE_DATE &
+                                            "|QaStatus:" & strQaStatus &
                                             "|")
                         End Select
                     End If
@@ -4395,11 +4409,11 @@ Public Class Main
                 strACTIV_LEVELforCurrentStagingULID = FindThenSetNextActivLevelIDforShipid(strShip_Id)
 
                 If strRetro_Status = "A43" Then
-                    bMsgSendSuccess = SendRequest(CreateXML_ProdULStaged(strRetro_Status, strShip_Id, strULID, strSlot, strACTIV_LEVELforCurrentStagingULID, _
+                    bMsgSendSuccess = SendRequest(CreateXML_ProdULStaged(strRetro_Status, strShip_Id, strULID, strSlot, strACTIV_LEVELforCurrentStagingULID,
                                                  strPAL_TYPE, strBRAND_CODE, strCODE_DATE, strSequence))
                 Else
 
-                    bMsgSendSuccess = SendRequest(CreateXML_ShipULStaged(strRetro_Status, strShip_Id, strULID, strSlot, strACTIV_LEVELforCurrentStagingULID, _
+                    bMsgSendSuccess = SendRequest(CreateXML_ShipULStaged(strRetro_Status, strShip_Id, strULID, strSlot, strACTIV_LEVELforCurrentStagingULID,
                                                    strPAL_TYPE, strBRAND_CODE, strCODE_DATE, strSequence))
                 End If
                 If bMsgSendSuccess = True Then
@@ -4464,14 +4478,14 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select L.SHIP_ID, S.SLOT, S.RETRO_STATUS, S.LOAD_STATUS, S.SIGNON, S.DISPOSITION, S.SHIP_TYPE, " & _
-                "sum(L.QUANTITY) AS SUMofQuantity ,  " & _
-                "sum(L.STAGED) AS SUMofStaged  " & _
-                "from CUST_LINEITEM L, CUST_SHIPMENT S " & _
-                "where " & _
-                "L.SHIP_ID=S.CUST_SHIPMENT " & _
-                "and S.SHIP_TYPE in ('SR','CR') " & _
-                 "group by L.SHIP_ID, S.SLOT,S.RETRO_STATUS, S.LOAD_STATUS,S.SIGNON,S.DISPOSITION, S.SHIP_TYPE " & _
+            strSQL = "select L.SHIP_ID, S.SLOT, S.RETRO_STATUS, S.LOAD_STATUS, S.SIGNON, S.DISPOSITION, S.SHIP_TYPE, " &
+                "sum(L.QUANTITY) AS SUMofQuantity ,  " &
+                "sum(L.STAGED) AS SUMofStaged  " &
+                "from CUST_LINEITEM L, CUST_SHIPMENT S " &
+                "where " &
+                "L.SHIP_ID=S.CUST_SHIPMENT " &
+                "and S.SHIP_TYPE in ('SR','CR') " &
+                 "group by L.SHIP_ID, S.SLOT,S.RETRO_STATUS, S.LOAD_STATUS,S.SIGNON,S.DISPOSITION, S.SHIP_TYPE " &
                 "order by L.SHIP_ID  asc"
 
             ' Open the Recordset using the select string:
@@ -4487,14 +4501,14 @@ Public Class Main
 
                 With Shipment_Cust_LineItem_Aggregate(Shipment_Cust_LineItem_Aggregate_RecordCount)
                     .SHIP_ID = Convert.ToString(dbrec1.Fields("SHIP_ID").Value)
-                    .SLOT = Convert.ToString(dbrec1.Fields("SLOT").Value)
+                    .Slot = Convert.ToString(dbrec1.Fields("SLOT").Value)
                     .QUANTITY = Convert.ToString(dbrec1.Fields("SUMofQuantity").Value)
                     .STAGED = Convert.ToString(dbrec1.Fields("SUMofStaged").Value)
                     .RETRO_STATUS = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
-                    .LOAD_STATUS = Convert.ToString(dbrec1.Fields("LOAD_STATUS").Value)
-                    .SIGNON = Convert.ToString(dbrec1.Fields("SIGNON").Value)
+                    .Load_Status = Convert.ToString(dbrec1.Fields("LOAD_STATUS").Value)
+                    .Signon = Convert.ToString(dbrec1.Fields("SIGNON").Value)
                     .Disposition = Convert.ToString(dbrec1.Fields("DISPOSITION").Value)
-                    .SHIP_TYPE = Convert.ToString(dbrec1.Fields("SHIP_TYPE").Value)
+                    .Ship_type = Convert.ToString(dbrec1.Fields("SHIP_TYPE").Value)
 
                     '  .WITHDRAWAL_INTENT_CODE = Convert.ToString(dbrec1.Fields("WITHDRAWAL_INTENT_CODE").Value)
 
@@ -4601,7 +4615,7 @@ Public Class Main
                 flxGrid9.Col = 3
                 flxGrid9.CellBackColor = colorBack
                 flxGrid9.CellForeColor = colorFore
-                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).SLOT
+                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).Slot
 
                 bCompletelyStaged = False
                 If Shipment_Cust_LineItem_Aggregate(x).QUANTITY = Shipment_Cust_LineItem_Aggregate(x).STAGED Then
@@ -4637,14 +4651,14 @@ Public Class Main
                 flxGrid9.Col = 7
                 flxGrid9.CellBackColor = colorBack
                 flxGrid9.CellForeColor = colorFore
-                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).LOAD_STATUS
+                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).Load_Status
 
                 flxGrid9.Col = 8
 
                 If bCompletelyStaged = False Then
                     flxGrid9.CellBackColor = colorBack
                     flxGrid9.CellForeColor = colorFore
-                ElseIf Shipment_Cust_LineItem_Aggregate(x).SIGNON <> "Y" Then
+                ElseIf Shipment_Cust_LineItem_Aggregate(x).Signon <> "Y" Then
                     flxGrid9.CellBackColor = Color.Yellow
                     flxGrid9.CellForeColor = colorFore
                 Else
@@ -4652,16 +4666,16 @@ Public Class Main
                     flxGrid9.CellForeColor = Color.White
                 End If
 
-                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).SIGNON
+                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).Signon
 
                 flxGrid9.Col = 9
                 flxGrid9.CellBackColor = colorBack
                 flxGrid9.CellForeColor = colorFore
-                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).SHIP_TYPE
+                flxGrid9.Text = vbNullString & Shipment_Cust_LineItem_Aggregate(x).Ship_type
 
                 flxGrid9.Rows += 1
 
-           
+
 
             Next
 
@@ -4754,7 +4768,7 @@ Public Class Main
 
 
                         strMessage_type = String.Empty
-                        If strGrid_Retro_Status <> "A24" And strGrid_Retro_Status <> "D24" And _
+                        If strGrid_Retro_Status <> "A24" And strGrid_Retro_Status <> "D24" And
                                 strGrid_Retro_Status <> "A44" And strGrid_Retro_Status <> "D44" Then
                             If bAdvanceThisShipment = True Or bCompletelyStaged = True Or strLoad_Status = gcstrMsg26StopText Then
                                 If strGrid_Retro_Status = "A22" Or strGrid_Retro_Status = "21" Then
@@ -4997,12 +5011,12 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select L.LINE_ID,L.SEQUENCE,L.BRAND_CODE, L.CODE_DATE, L.PAL_TYPE, L.STAGED, L.CUST_ID, P.RETRO_LOC,P.PALLET_TYPE as CUST_PALLET_TYPE " & _
-                "from CUST_LINEITEM L, CUST_PALLET P " & _
-                "where " & _
-                "L.CUST_ID=P.CUST_ID " & _
-                "and L.cust_id is not null " & _
-                "and L.SHIP_ID= '" & strShipid & "' " & _
+            strSQL = "select L.LINE_ID,L.SEQUENCE,L.BRAND_CODE, L.CODE_DATE, L.PAL_TYPE, L.STAGED, L.CUST_ID, P.RETRO_LOC,P.PALLET_TYPE as CUST_PALLET_TYPE " &
+                "from CUST_LINEITEM L, CUST_PALLET P " &
+                "where " &
+                "L.CUST_ID=P.CUST_ID " &
+                "and L.cust_id is not null " &
+                "and L.SHIP_ID= '" & strShipid & "' " &
                 "order by L.LINE_ID, L.SEQUENCE,L.BRAND_CODE  asc"
 
             Msg15_Detail_RecordCount = 0
@@ -5016,7 +5030,7 @@ Public Class Main
             ' Open the Recordset using the select string:
             dbrec1.Open(strSQL, DBCON1)
 
-     
+
             Msg15_Detail_RecordCount = 0
             ReDim Msg15_DEtail(0)
 
@@ -5033,7 +5047,7 @@ Public Class Main
                     .PAL_TYPE = Convert.ToString(dbrec1.Fields("PAL_TYPE").Value)
                     .STAGED = Convert.ToString(dbrec1.Fields("STAGED").Value)
                     .CUST_ID = Convert.ToString(dbrec1.Fields("CUST_ID").Value)
-                    .RETRO_LOC = Convert.ToString(dbrec1.Fields("RETRO_LOC").Value)
+                    .Retro_Loc = Convert.ToString(dbrec1.Fields("RETRO_LOC").Value)
                     .StagedPalletType = Convert.ToString(dbrec1.Fields("CUST_PALLET_TYPE").Value)
                 End With
 
@@ -5161,14 +5175,14 @@ Public Class Main
                 flxGrid10.Col = 9
                 flxGrid10.CellBackColor = colorBack
                 flxGrid10.CellForeColor = colorFore
-                flxGrid10.Text = vbNullString & Msg15_DEtail(x).RETRO_LOC
+                flxGrid10.Text = vbNullString & Msg15_DEtail(x).Retro_Loc
 
                 flxGrid10.Col = 10
                 flxGrid10.CellBackColor = colorBack
                 flxGrid10.CellForeColor = colorFore
                 flxGrid10.Text = vbNullString & gcStrZero
 
-            
+
                 flxGrid10.Rows += 1
 
             Next
@@ -5244,7 +5258,7 @@ Public Class Main
 
                         If strLocation <> "SHIPPED" Then
                             iAdvances += 1
-                            If SendRequest(CreateXML_ShipULPickup(strMsgTyp, strSHIP_ID, txtShipULPickUp_Load_Flag.Text, strACTIV_OUTPUT_LOCATION, strACTIV_LEVEL_ID, _
+                            If SendRequest(CreateXML_ShipULPickup(strMsgTyp, strSHIP_ID, txtShipULPickUp_Load_Flag.Text, strACTIV_OUTPUT_LOCATION, strACTIV_LEVEL_ID,
                                         strUNIT_LOAD_ID, strPALLET_TYPE, strBRAND_CODE, strCODE_DATE, strWITHDRAWAL_OUTPUT_STATUS)) = True Then
 
                                 Update_CUST_PALLET_AfterMsg15(strUNIT_LOAD_ID, "SHIPPED", "15")
@@ -5263,7 +5277,7 @@ Public Class Main
                             End If
                             bPurgeShipments = True
 
-                            End If
+                        End If
                     Else
                         Exit For
                     End If
@@ -5295,9 +5309,9 @@ Public Class Main
 
         Try
 
-            strSql = "select NEXTLEVELID " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
+            strSql = "select NEXTLEVELID " &
+                "from CUST_SHIPMENT " &
+                "where " &
                  "CUST_SHIPMENT='" & strShipId & "' "
 
             ' Open the Recordset using the select string:
@@ -5361,10 +5375,10 @@ Public Class Main
 
         Try
 
-            strSql = "select SHIP_ID,CountLineItem,CountCustPallet,MinOfRETRO_LOC,MaxOfRETRO_LOC " & _
-                    "from ASRS_SHIPPED " & _
-                    "where " & _
-                    "CountLineItem=CountCustPallet " & _
+            strSql = "select SHIP_ID,CountLineItem,CountCustPallet,MinOfRETRO_LOC,MaxOfRETRO_LOC " &
+                    "from ASRS_SHIPPED " &
+                    "where " &
+                    "CountLineItem=CountCustPallet " &
                     "and MinOfRETRO_LOC=MaxOfRETRO_LOC"
 
             ' Open the Recordset using the select string:
@@ -5475,9 +5489,9 @@ Public Class Main
         Try
 
 
-            strSql = "delete  from cust_shipment where " & _
-                    "cust_shipment not in " & _
-                    "(select distinct ship_id from cust_lineitem where RETRO_STATUS not in ('14','14D') and cust_shipment like 'M%') " & _
+            strSql = "delete  from cust_shipment where " &
+                    "cust_shipment not in " &
+                    "(select distinct ship_id from cust_lineitem where RETRO_STATUS not in ('14','14D') and cust_shipment like 'M%') " &
                     "and cust_shipment like 'M%'"
 
             DBCON1.Execute(strSql, oRecordsAffected)
@@ -5500,10 +5514,10 @@ Public Class Main
         DeleteCompletedShipments = gcStrZero
         Try
 
-            strSql = "delete  from cust_shipment where " & _
-                    "cust_shipment not in " & _
-                    "(select distinct ship_id from cust_lineitem where staged is null and RETRO_STATUS <> 'CANCLD') " & _
-                    "and cust_shipment not in (select distinct ship_id from cust_pallet where retro_loc <> 'SHIPPED' and ship_id is not null ) " & _
+            strSql = "delete  from cust_shipment where " &
+                    "cust_shipment not in " &
+                    "(select distinct ship_id from cust_lineitem where staged is null and RETRO_STATUS <> 'CANCLD') " &
+                    "and cust_shipment not in (select distinct ship_id from cust_pallet where retro_loc <> 'SHIPPED' and ship_id is not null ) " &
                     "or RETRO_STATUS='DESTAGED' or RETRO_STATUS='CANCLD' "
 
 
@@ -5525,18 +5539,18 @@ Public Class Main
         Try
             Dim strSQL As String
 
-            strSQL = "delete  from cust_pallet where " & _
-               "ship_id <> '' and " & _
-               "ship_id not in " & _
+            strSQL = "delete  from cust_pallet where " &
+               "ship_id <> '' and " &
+               "ship_id not in " &
                "(select  cust_shipment from  cust_shipment) "
 
-            DBCON1.Execute(strSql)
+            DBCON1.Execute(strSQL)
 
-            strSql = "delete  from cust_lineitem where " & _
-                    "ship_id not in " & _
+            strSQL = "delete  from cust_lineitem where " &
+                    "ship_id not in " &
                     "(select  cust_shipment from  cust_shipment) "
 
-            DBCON1.Execute(strSql)
+            DBCON1.Execute(strSQL)
 
         Catch ex As Exception
             WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
@@ -5664,8 +5678,8 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select BRAND_CODE,HOLD_STATUS,PALLET_TYPE,ULIDCOUNT  " & _
-                "from ULIDSummary " & _
+            strSQL = "select BRAND_CODE,HOLD_STATUS,PALLET_TYPE,ULIDCOUNT  " &
+                "from ULIDSummary " &
                 "order by BRAND_CODE,PALLET_TYPE,HOLD_STATUS "
 
             ' Open the Recordset using the select string:
@@ -5711,7 +5725,7 @@ Public Class Main
     Private Sub ClearShipmentIDFromDatabase()
         Dim strUserinput As String
 
-        strUserinput = InputBox("Cust_Shipment and Cust_LineItem records will be deleted.  ULIDs associated with removed Ship Ids will have ShipId nulled and Location Set to ASRS System Location", _
+        strUserinput = InputBox("Cust_Shipment and Cust_LineItem records will be deleted.  ULIDs associated with removed Ship Ids will have ShipId nulled and Location Set to ASRS System Location",
                                 "Enter Ship ID to Clear from DB")
         If strUserinput.Length = 0 Then Exit Sub
 
@@ -5789,22 +5803,22 @@ Public Class Main
         Try
 
 
-            strSQL = "select untdtl.ulid, untdtl.itmcod, ctlgrp.ctlgrp, ctlgrp.qastat, " & _
-            "p.plcpal, unitld.locatn, ordhdr.shipid " & _
-            "from locatn, ctlgrp, ordhdr, untdtl, unitld, ulpall p " & _
-            "where " & _
-            "unitld.ulpall=p.ulpall And " & _
-            "ctlgrp.ctlgrp = untdtl.ctlgrp And " & _
-            "ctlgrp.itmcod = untdtl.itmcod And " & _
-            "ctlgrp.itmcls = untdtl.itmcls And " & _
-            "ordhdr.ordnum(+)=unitld.ordnum and " & _
-            "untdtl.ulid = unitld.ulid And " & _
-            "locatn.subsit = unitld.subsit And " & _
-            "locatn.locatn = unitld.locatn And " & _
-            "untdtl.itmcod='" & strItemCode & "' And " & _
-            "unitld.subsit='" & gstrFPDSSubsitCharacter & "' and " & _
-            "(locatn.ACTIV_LOC is not null or unitld.locatn='" & gstrRTCISASRSSystemLocationName & "' or  " & _
-            "unitld.locatn like '" & gstrManualOutputVTLPrefix & "%') " & _
+            strSQL = "select untdtl.ulid, untdtl.itmcod, ctlgrp.ctlgrp, ctlgrp.qastat, " &
+            "p.plcpal, unitld.locatn, ordhdr.shipid " &
+            "from locatn, ctlgrp, ordhdr, untdtl, unitld, ulpall p " &
+            "where " &
+            "unitld.ulpall=p.ulpall And " &
+            "ctlgrp.ctlgrp = untdtl.ctlgrp And " &
+            "ctlgrp.itmcod = untdtl.itmcod And " &
+            "ctlgrp.itmcls = untdtl.itmcls And " &
+            "ordhdr.ordnum(+)=unitld.ordnum and " &
+            "untdtl.ulid = unitld.ulid And " &
+            "locatn.subsit = unitld.subsit And " &
+            "locatn.locatn = unitld.locatn And " &
+            "untdtl.itmcod='" & strItemCode & "' And " &
+            "unitld.subsit='" & gstrFPDSSubsitCharacter & "' and " &
+            "(locatn.ACTIV_LOC is not null or unitld.locatn='" & gstrRTCISASRSSystemLocationName & "' or  " &
+            "unitld.locatn like '" & gstrManualOutputVTLPrefix & "%') " &
             "order by untdtl.ulid "
 
 
@@ -5849,9 +5863,9 @@ Public Class Main
         Try
 
 
-            strSQL = "select CUST_ID, BRAND_CODE,CODE_DATE,HOLD_STATUS,PALLET_TYPE,RETRO_LOC,SHIP_ID " & _
-                    "from CUST_PALLET " & _
-                    "where BRAND_CODE='" & strItemCode & "' " & _
+            strSQL = "select CUST_ID, BRAND_CODE,CODE_DATE,HOLD_STATUS,PALLET_TYPE,RETRO_LOC,SHIP_ID " &
+                    "from CUST_PALLET " &
+                    "where BRAND_CODE='" & strItemCode & "' " &
                     "order by CUST_ID "
 
 
@@ -6004,143 +6018,143 @@ Public Class Main
 
                 End If
 
-                    If iRTCISIndex > 0 Then
-                        flxGrid12.Row += 1
+                If iRTCISIndex > 0 Then
+                    flxGrid12.Row += 1
 
-                        flxGrid12.Col = 1
+                    flxGrid12.Col = 1
+                    flxGrid12.CellBackColor = colorBack
+                    flxGrid12.CellForeColor = colorFore
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).ULID
+
+                    '=======================================================================================
+                    flxGrid12.Col = 2
+                    If mismatch(1) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
                         flxGrid12.CellBackColor = colorBack
                         flxGrid12.CellForeColor = colorFore
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).ULID
-
-                        '=======================================================================================
-                        flxGrid12.Col = 2
-                        If mismatch(1) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).LOCATN
-
-                        flxGrid12.Col = 3
-                        If mismatch(1) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).LOCATN
-
-                        '=======================================================================================
-                        flxGrid12.Col = 4
-                        If mismatch(2) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).ITMCOD
-
-                        flxGrid12.Col = 5
-                        If mismatch(2) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).ITMCOD
-
-                        '=======================================================================================
-                        flxGrid12.Col = 6
-                        If mismatch(3) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).CTLGRP
-
-                        flxGrid12.Col = 7
-                        If mismatch(3) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).CTLGRP
-
-                        '=======================================================================================
-                        flxGrid12.Col = 8
-                        If mismatch(4) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).QASTAT
-
-                        flxGrid12.Col = 9
-                        If mismatch(4) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).QASTAT
-
-                        '=======================================================================================
-                        flxGrid12.Col = 10
-                        If mismatch(5) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).ULPALL
-
-                        flxGrid12.Col = 11
-                        If mismatch(5) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).ULPALL
-
-                        '=======================================================================================
-                        flxGrid12.Col = 12
-                        If mismatch(6) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & ASRSInventory(x).SHIPID
-
-                        flxGrid12.Col = 13
-                        If mismatch(6) = True Then
-                            flxGrid12.CellBackColor = Color.Red
-                            flxGrid12.CellForeColor = Color.White
-                        Else
-                            flxGrid12.CellBackColor = colorBack
-                            flxGrid12.CellForeColor = colorFore
-                        End If
-                        flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).SHIPID
-
-
-                        flxGrid12.Rows += 1
                     End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).LOCATN
+
+                    flxGrid12.Col = 3
+                    If mismatch(1) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).LOCATN
+
+                    '=======================================================================================
+                    flxGrid12.Col = 4
+                    If mismatch(2) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).ITMCOD
+
+                    flxGrid12.Col = 5
+                    If mismatch(2) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).ITMCOD
+
+                    '=======================================================================================
+                    flxGrid12.Col = 6
+                    If mismatch(3) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).CTLGRP
+
+                    flxGrid12.Col = 7
+                    If mismatch(3) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).CTLGRP
+
+                    '=======================================================================================
+                    flxGrid12.Col = 8
+                    If mismatch(4) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).QASTAT
+
+                    flxGrid12.Col = 9
+                    If mismatch(4) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).QASTAT
+
+                    '=======================================================================================
+                    flxGrid12.Col = 10
+                    If mismatch(5) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).ULPALL
+
+                    flxGrid12.Col = 11
+                    If mismatch(5) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).ULPALL
+
+                    '=======================================================================================
+                    flxGrid12.Col = 12
+                    If mismatch(6) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & ASRSInventory(x).SHIPID
+
+                    flxGrid12.Col = 13
+                    If mismatch(6) = True Then
+                        flxGrid12.CellBackColor = Color.Red
+                        flxGrid12.CellForeColor = Color.White
+                    Else
+                        flxGrid12.CellBackColor = colorBack
+                        flxGrid12.CellForeColor = colorFore
+                    End If
+                    flxGrid12.Text = vbNullString & RTCISInventory(iRTCISIndex).SHIPID
+
+
+                    flxGrid12.Rows += 1
+                End If
 
             Next
 
@@ -6199,7 +6213,7 @@ Public Class Main
 
         Return -1 ' search key not found
     End Function ' BinarySearch
-    Shared Function BinarySearch2(ByVal array As Integer(), _
+    Shared Function BinarySearch2(ByVal array As Integer(),
  ByVal key As Integer) As Integer
 
         Dim low As Integer = 0                 ' low index
@@ -6320,10 +6334,10 @@ Public Class Main
         Try
 
 
-            strSQL = "select ulpall, plcpal " & _
-            "from ulpall  " & _
+            strSQL = "select ulpall, plcpal " &
+            "from ulpall  " &
             "where plcpal is not null "
-           
+
 
 
             ' Open the Recordset using the select string:
@@ -6403,10 +6417,10 @@ Public Class Main
         Try
             StagedUlsforShipId = 0
 
-            strSQL = "select sum(L.STAGED) AS SUMofStaged  " & _
-                "from CUST_LINEITEM L " & _
-                "where " & _
-                "L.RETRO_STATUS in ('23','43') " & _
+            strSQL = "select sum(L.STAGED) AS SUMofStaged  " &
+                "from CUST_LINEITEM L " &
+                "where " &
+                "L.RETRO_STATUS in ('23','43') " &
                 "and L.SHIP_ID='" & strShipId & "' "
 
             ' Open the Recordset using the select string:
@@ -6500,7 +6514,7 @@ Public Class Main
             End If
         Next
     End Sub
-    
+
     Private Sub InitializeSingleSummaryLabel(ByVal oLabel As Control)
         oLabel.Tag = oLabel.Text   'store last value
         oLabel.Text = gcStrZero
@@ -6527,7 +6541,7 @@ Public Class Main
 
             With ULStatusGrouped(ULStatusGrouped_RecordCount)
 
-                .RETRO_STATUS = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
+                .Retro_Status = Convert.ToString(dbrec1.Fields("RETRO_STATUS").Value)
                 .ULCount = Convert.ToString(dbrec1.Fields("ULIDCOUNT").Value)
 
             End With
@@ -6575,7 +6589,7 @@ Public Class Main
             For x = 1 To ULStatusGrouped_RecordCount
                 With ULStatusGrouped(x)
 
-                    Select Case .RETRO_STATUS
+                    Select Case .Retro_Status
                         Case "A8"
                             UpdateULGroupedLabel(lblG01, .ULCount)
 
@@ -6644,17 +6658,17 @@ Public Class Main
 
             strULID = Strings.Left(strULID, 19)
 
-            strSQL = "select u.ulid, min(i.itmcod) itmcod,min(i.itmdsc) itmdsc, min(c.ctlgrp) ctlgrp, min(p.plcpal) plcpal,min(c.qastat) qastat, min(u.base_ulid) base_ulid " & _
-            "from itmmst i, ctlgrp c, ulpall p, untdtl d, unitld u " & _
-            "where  " & _
-            "u.ulpall = p.ulpall " & _
-            "and i.itmcod=d.itmcod " & _
-            "and i.itmcls=d.itmcls " & _
-            "and c.ctlgrp=d.ctlgrp " & _
-            "and c.itmcod=d.itmcod " & _
-            "and c.itmcls=d.itmcls " & _
-            "and d.ulid=u.ulid " & _
-            "and u.ulid='" & strULID & "' " & _
+            strSQL = "select u.ulid, min(i.itmcod) itmcod,min(i.itmdsc) itmdsc, min(c.ctlgrp) ctlgrp, min(p.plcpal) plcpal,min(c.qastat) qastat, min(u.base_ulid) base_ulid " &
+            "from itmmst i, ctlgrp c, ulpall p, untdtl d, unitld u " &
+            "where  " &
+            "u.ulpall = p.ulpall " &
+            "and i.itmcod=d.itmcod " &
+            "and i.itmcls=d.itmcls " &
+            "and c.ctlgrp=d.ctlgrp " &
+            "and c.itmcod=d.itmcod " &
+            "and c.itmcls=d.itmcls " &
+            "and d.ulid=u.ulid " &
+            "and u.ulid='" & strULID & "' " &
             "group by u.ulid"
 
 
@@ -6726,23 +6740,23 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE, LINE_COUNT,CTRL_DATE " & _
-                "from TRAILER_FPDS where message_type='A35' " & _
+            strSQL = "select MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE, LINE_COUNT,CTRL_DATE " &
+                "from TRAILER_FPDS where message_type='A35' " &
                 "order by CTRL_DATE asc"
 
             ' Open the Recordset using the select string:
             dbrec1.Open(strSQL, DBCON1)
 
-            TRAILER_HDR_FPDSRecordCount = 0
-            ReDim TRAILER_HDR_FPDS(0)
+            Trailer_Hdr_FPDSRecordCount = 0
+            ReDim Trailer_Hdr_Fpds(0)
 
             Do Until dbrec1.EOF
 
 
-                TRAILER_HDR_FPDSRecordCount += 1
-                ReDim Preserve TRAILER_HDR_FPDS(TRAILER_HDR_FPDSRecordCount)
+                Trailer_Hdr_FPDSRecordCount += 1
+                ReDim Preserve Trailer_Hdr_Fpds(Trailer_Hdr_FPDSRecordCount)
 
-                With TRAILER_HDR_FPDS(TRAILER_HDR_FPDSRecordCount)
+                With Trailer_Hdr_Fpds(Trailer_Hdr_FPDSRecordCount)
 
                     .MESSAGE_TYPE = Convert.ToString(dbrec1.Fields("MESSAGE_TYPE").Value)
                     .TRAILER_NUMBER = Convert.ToString(dbrec1.Fields("TRAILER_NUMBER").Value)
@@ -6816,29 +6830,29 @@ Public Class Main
             flxGrid13.Text = "Conveyor"
 
 
-            For x = 1 To TRAILER_HDR_FPDSRecordCount
+            For x = 1 To Trailer_Hdr_FPDSRecordCount
 
                 flxGrid13.Row += 1
 
                 flxGrid13.Col = 1
                 flxGrid13.CellBackColor = colorBack
                 flxGrid13.CellForeColor = colorFore
-                flxGrid13.Text = vbNullString & TRAILER_HDR_FPDS(x).CTRL_DATE
+                flxGrid13.Text = vbNullString & Trailer_Hdr_Fpds(x).CTRL_DATE
 
                 flxGrid13.Col = 2
                 flxGrid13.CellBackColor = colorBack
                 flxGrid13.CellForeColor = colorFore
-                flxGrid13.Text = vbNullString & TRAILER_HDR_FPDS(x).TRAILER_NUMBER
+                flxGrid13.Text = vbNullString & Trailer_Hdr_Fpds(x).TRAILER_NUMBER
 
                 flxGrid13.Col = 3
                 flxGrid13.CellBackColor = colorBack
                 flxGrid13.CellForeColor = colorFore
-                flxGrid13.Text = vbNullString & TRAILER_HDR_FPDS(x).TRUCK_LINE
+                flxGrid13.Text = vbNullString & Trailer_Hdr_Fpds(x).TRUCK_LINE
 
                 flxGrid13.Col = 4
                 flxGrid13.CellBackColor = colorBack
                 flxGrid13.CellForeColor = colorFore
-                flxGrid13.Text = vbNullString & TRAILER_HDR_FPDS(x).LINE_COUNT
+                flxGrid13.Text = vbNullString & Trailer_Hdr_Fpds(x).LINE_COUNT
 
 
                 flxGrid13.Col = 5
@@ -6867,8 +6881,8 @@ Public Class Main
         Dim strSQL As String
         Try
 
-            strSQL = "select MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE, LINE_COUNT,CTRL_DATE,ACTIV_INPUT_LOCATION " & _
-                "from TRAILER_FPDS " & _
+            strSQL = "select MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE, LINE_COUNT,CTRL_DATE,ACTIV_INPUT_LOCATION " &
+                "from TRAILER_FPDS " &
                 "order by CTRL_DATE asc"
 
             ' Open the Recordset using the select string:
@@ -7071,7 +7085,7 @@ Public Class Main
         End Try
     End Sub
 
- 
+
     Private Sub DeleteTRAILERFPDSToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteTRAILERFPDSToolStripMenuItem.Click
         DeleteAllDatafromEmulatorDBTable("TRAILER_FPDS", True)
         GetAndDisplayTrailerFPDSData()
@@ -7156,11 +7170,11 @@ Public Class Main
                         strTRAILER_NUMBER = flxGrid14.get_TextMatrix(x, 2)
                         strTRUCK_LINE = flxGrid14.get_TextMatrix(x, 3)
 
-                        lRecordsAffected = DeleteDatafromEmulatorDBTablewithWhereClause("TRAILER_FPDS", _
+                        lRecordsAffected = DeleteDatafromEmulatorDBTablewithWhereClause("TRAILER_FPDS",
                             "TRAILER_NUMBER='" & strTRAILER_NUMBER & "' and TRUCK_LINE ='" & strTRUCK_LINE & "'", False)
 
                         WriteLog(gcstrProcessed, "Removed from WCS DB " & strTRUCK_LINE & "|" & strTRAILER_NUMBER & Space(1) & RecordAffectedMessage(lRecordsAffected, gcstrDelete))
-           
+
                     Else
                         Exit For
                     End If
@@ -7183,7 +7197,7 @@ Public Class Main
 
 
 
-   
+
     Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         DisplayAvailableDatabasePatches()
     End Sub
@@ -7193,7 +7207,7 @@ Public Class Main
         DisplayAvailableDatabasePatches()
     End Sub
 
- 
+
     Private Sub CheckDBForRequiredTablesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckDBForRequiredTablesToolStripMenuItem.Click
         AnyRequiredDatabaseTablesMissing()
         RefreshLog()
@@ -7205,7 +7219,7 @@ Public Class Main
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
 
-    
+
     End Sub
     Private Sub SendKeystoPutty(ByVal strKeys As String)
 
@@ -7275,10 +7289,10 @@ Public Class Main
             End If
 
             'dave need to come back and make this a little more solid inc ase session key does not exist etc
-            strSql = "update locatn " & _
-                     "set session_sid=(select SESSION_SID from rtcis_session where session_key='" & gstrXML_WCS_ID & "') " & _
-                     "where " & _
-                     "locatn='" & gstrRTCISASRSSystemLocationName & "' " & _
+            strSql = "update locatn " &
+                     "set session_sid=(select SESSION_SID from rtcis_session where session_key='" & gstrXML_WCS_ID & "') " &
+                     "where " &
+                     "locatn='" & gstrRTCISASRSSystemLocationName & "' " &
                      "and subsit='" & gstrFPDSSubsitCharacter & "'"
 
             DBCON2.Execute(strSql)
@@ -7303,9 +7317,9 @@ Public Class Main
             End If
 
             'dave need to come back and make this a little more solid inc ase session key does not exist etc
-            strSql = "update RTCIS_SESSION " & _
-                     "set SND_HOSTNAME= '" & gstrLocalListenerIP & "' " & _
-                     "where " & _
+            strSql = "update RTCIS_SESSION " &
+                     "set SND_HOSTNAME= '" & gstrLocalListenerIP & "' " &
+                     "where " &
                     "session_key='" & gstrXML_WCS_ID & "' "
 
 
@@ -7356,7 +7370,7 @@ Public Class Main
 
     Private Sub ClearULIDFromDatabaseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearULIDFromDatabaseToolStripMenuItem.Click
         Dim strUserInput As String
-        strUserInput = InputBox("ULID: ", _
+        strUserInput = InputBox("ULID: ",
                         "ULID to Clear from RAID DB")
         If strUserInput.Length = 0 Then Exit Sub
 
@@ -7385,7 +7399,7 @@ Public Class Main
 
     End Sub
 
-  
+
     Private Sub UpdateRTCSESToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UpdateRTCSESToolStripMenuItem.Click
         UpdateWMSSessionIDtoSendToMyIp()
     End Sub
@@ -7407,7 +7421,7 @@ Public Class Main
         Next
 
         Dim strUserInput As String
-        strUserInput = Trim(InputBox("Available Patches:" & vbCrLf & vbCrLf & strText & vbCrLf & "Please Enter Patch to Apply: ", _
+        strUserInput = Trim(InputBox("Available Patches:" & vbCrLf & vbCrLf & strText & vbCrLf & "Please Enter Patch to Apply: ",
                         "Apply RAID DB Patch"))
         If strUserInput.Length = 0 Then Exit Sub
 
@@ -7419,7 +7433,7 @@ Public Class Main
         End If
     End Sub
 
-   
+
     Private Sub flxGrid1_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles flxGrid1.Enter
 
     End Sub
@@ -7432,19 +7446,397 @@ Public Class Main
         ProcessGridMouseDown(CType(sender, AxMSFlexGrid), e.button)
     End Sub
     Private Sub btnTrlCkout_Click(sender As Object, e As EventArgs) Handles btnTrlCkout.Click
-        WriteLog("Send", "Trailer Check Out ")
+        WriteLog("Send", "Trailer Check-Out ")
 
-        Dim strXMLTrlCko As String = CreateXML_TrailerCheckout(txtTrlCo_trlnum.Text,
-                                                               txtTrlCo_TrkLin.Text,
-                                                               txtTrlCo_TractorId.Text,
-                                                               txtTrlCo_DrvName.Text,
-                                                               txtTrlCo_LicPlateNum.Text,
-                                                               txtTrlCo_LicPlateState.Text,
-                                                               Format(dtpckrTrlCo_CarArrDt.Value, "yyyyMMddHHmmss")
-                                                               )
+        'Dim strXMLTrlCko As String = CreateXML_TrailerCheckout(txtTrlCo_trlnum.Text,
+        '                                                       txtTrlCo_TrkLin.Text,
+        '                                                       txtTrlCo_TractorId.Text,
+        '                                                       txtTrlCo_DrvName.Text,
+        '                                                       txtTrlCo_LicPlateNum.Text,
+        '                                                       txtTrlCo_LicPlateState.Text,
+        '                                                       Format(dtpckrTrlCo_CarArrDt.Value, "yyyyMMddHHmmss")
+        '                                                       )
 
 
-        SendRequest(strXMLTrlCko)
+        'SendRequest(strXMLTrlCko)
+
+        SendRequest(CreateXML_ForContainer(sender))
 
     End Sub
+
+
+    Private Sub btnTrlCkin_Click(sender As Object, e As EventArgs) Handles btnTCin_TrlCkin.Click
+        WriteLog("Send", "Trailer Check-In ")
+        Dim strXmlTrlCi As String = CreateXML_ForContainer(sender)
+
+        'MsgBox("XML Is:" & strXmlTrlCi)
+
+        SendRequest(strXmlTrlCi)
+
+    End Sub
+
+    Private Sub GetAndDisplayTrailerMoveData()
+        Dim sqlQry As String = "select TRUCK_LINE,TRAILER_ID,TRACTOR_ID " +
+            "from [TRAILER_MOVEMENT] " +
+            "where 1=1 " +
+            "order by CTRL_DATE asc"
+
+        Dim da As System.Data.OleDb.OleDbDataAdapter
+        Dim dt As DataTable
+        Dim ds As DataSet
+
+        Try
+            da = New System.Data.OleDb.OleDbDataAdapter()
+            dt = New DataTable()
+            ds = New DataSet
+
+            'dbrec1.Open(sqlQry, DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockReadOnly, 2)
+
+            ' ==> User Below Options:=-1 for Query 
+            'dbrec1.Open(sqlQry, DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
+
+            ' ==> User Below Options:=2 for Table 
+            dbrec1.Open("TRAILER_MOVEMENT", DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
+
+            'da.Fill(ds, dbrec1, "TRAILER_MOVEMENT")
+            da.Fill(dt, dbrec1)
+
+            'dGridTraMovData.DataSource = ds.Tables("TRAILER_MOVEMENT")
+            dGridTraMovData.DataSource = dt
+            With dGridTraMovData
+                .SelectionMode = DataGridViewSelectionMode.RowHeaderSelect
+                '.RowHeadersVisible = False
+                .Columns(0).Visible = False
+                .Columns.Item("SITNAM").Tag = CType("SITE_NAME", String)
+                .Columns.Item("SHIPID").Tag = CType("SHIPMENT_ID", String)
+                .Columns.Item("RRNUMB").Tag = CType("RR_NUMBER", String)
+                .Columns.Item("INVNUM").Tag = CType("INVOICE_NUMBER", String)
+                .Columns.Item("LIC_PLATE_NUM").Tag = CType("LICENSE_PLATE_NUMBER", String)
+                .Columns.Item("LIC_PLATE_STATE").Tag = CType("LICENSE_PLATE_STATE", String)
+                .Columns(1).HeaderCell.Value = "Truck Line"
+                'For Each col As Column In .Columns
+                '    col(""
+
+                'Next
+            End With
+
+            'Close Recordset
+            dbrec1.Close()
+
+            'dGridTraMovData.Refresh()
+            dGridTraMovData.AllowUserToAddRows = False
+            dGridTraMovData.Show()
+
+            ds.Dispose()
+            dt.Dispose()
+            da.Dispose()
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & ex.Message)
+            MsgBox("Error Loading Data Grid")
+        End Try
+
+    End Sub
+    Private Sub btnGetTrlMovData_Click(sender As Object, e As EventArgs) Handles btnGetTrlMovData.Click
+        GetAndDisplayTrailerMoveData()
+    End Sub
+
+
+
+    Private Sub dGridTraMovData_RowHeaderCellChanged(sender As Object, e As DataGridViewRowEventArgs) Handles dGridTraMovData.RowHeaderCellChanged
+        'Dim dgRow As DataGridViewRow
+
+        'Dim cell As DataGridViewCell
+        'cell = e.Row.Cells("TRAILER_ID")
+
+        'MsgBox("Row header changed - Trailer ID = " + CType(e.Row.Cells("TRAILER_ID").Value, String) +
+        '       " - Truck Line = " + CType(e.Row.Cells("Truck Line").Value, String) +
+        '       " - Tractor Id = " + CType(e.Row.Cells("TRACTOR_ID").Value, String)
+        ')
+
+    End Sub
+
+    Private Sub dGridTraMovData_RowHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dGridTraMovData.RowHeaderMouseClick
+        'Dim dgRow As DataGridViewRow
+        'dgRow = dGridTraMovData.Rows(e.RowIndex)
+
+        'MsgBox("Row header changed - Trailer ID = " + dgRow.Cells("TRAILER_ID").FormattedValue.ToString +
+        '            " - Truck Line = " + dgRow.Cells("Truck Line").Value.ToString +
+        '            " - Tractor Id = " + dgRow.Cells("TRACTOR_ID").Value.ToString
+        '        )
+        'MsgBox("Row Index changed " + e.RowIndex.ToString)
+
+        'Dim str As String
+        'str = "Trailer ID = " + dgRow.Cells(2).Value.ToString()
+
+        'MsgBox("Row Index changed " + e.RowIndex.ToString + "Trailer ID = " + dgRow.Cells(0).Value.ToString())
+        'MsgBox("Row Index changed " + e.RowIndex.ToString + "Trailer ID = " + dgRow.Cells("TRAILER_ID").FormattedValue.ToString())
+    End Sub
+    'Public Sub loadFormDataFromGrid(row As DataGridViewRow, groupCtrl As Control)
+
+    '    Dim ctrllst As List(Of Control) = getAllCtrlList(groupCtrl)
+    '    Dim rb As RadioButton
+    '    Dim cb As CheckBox
+    '    Dim ctr As Control
+
+    '    For Each cell As DataGridViewCell In row.Cells
+    '        ctr = ctrllst.Find(Function(s) CType(s.Tag, String) = cell.OwningColumn.Name.ToString)
+    '        If (IsNothing(ctr)) Then
+    '            ctr = ctrllst.Find(Function(s) CType(s.Tag, String) = CType(cell.OwningColumn.Tag, String))
+    '        End If
+    '        If (TypeOf ctr Is TextBox Or TypeOf ctr Is ComboBox) Then
+    '            ctr.Text = ""
+    '            ctr.Text = cell.Value.ToString
+    '        ElseIf (TypeOf ctr Is RadioButton) Then
+    '            rb = CType(ctr, RadioButton)
+    '            If (cell.Value.ToString = "Y") Then
+    '                rb.Checked = True
+    '            Else
+    '                rb.Checked = False
+    '            End If
+    '        ElseIf (TypeOf ctr Is CheckBox) Then
+    '            cb = CType(ctr, CheckBox)
+    '            If (cell.Value.ToString = "Y") Then
+    '                cb.Checked = True
+    '            Else
+    '                cb.Checked = False
+    '            End If
+    '        End If
+    '    Next
+
+    'End Sub
+    Private Sub dGridTraMovData_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dGridTraMovData.CellClick
+        Dim row As DataGridViewRow
+        'Dim cell As DataGridViewCell
+        'if you click on the column header 
+        If (e.RowIndex < 0) Then
+            Exit Sub
+        End If
+        row = dGridTraMovData.Rows(e.RowIndex)
+        'cell = dGridTraMovData.Rows(e.RowIndex).Cells(e.ColumnIndex)
+
+        For Each r As DataGridViewRow In dGridTraMovData.Rows
+            r.Selected = False
+        Next
+        row.Selected = True
+
+        loadFormDataFromGrid(row, gbTrailerMovMain)
+
+        '*************************
+
+        'Dim ctrllst As List(Of Control) = getAllCtrlList(gbTrailerMovMain)
+
+
+        ''for each ctrl in list. 
+        ''Clear the text value if text box and 
+        ''find the cell whose cell.owningcolumn.name = ctrl.tag
+        ''and copy the text 
+
+
+        'Dim rb As RadioButton
+        'Dim cb As CheckBox
+        'Dim ctr As Control
+
+        'For Each cell As DataGridViewCell In row.Cells
+        '    ctr = ctrllst.Find(Function(s) CType(s.Tag, String) = cell.OwningColumn.Name.ToString)
+        '    If (IsNothing(ctr)) Then
+        '        ctr = ctrllst.Find(Function(s) CType(s.Tag, String) = CType(cell.OwningColumn.Tag, String))
+        '    End If
+        '    If (TypeOf ctr Is TextBox Or TypeOf ctr Is ComboBox) Then
+        '        ctr.Text = ""
+        '        ctr.Text = cell.Value.ToString
+        '    ElseIf (TypeOf ctr Is RadioButton) Then
+        '        rb = CType(ctr, RadioButton)
+        '        If (cell.Value.ToString = "Y") Then
+        '            rb.Checked = True
+        '        Else
+        '            rb.Checked = False
+        '        End If
+        '    ElseIf (TypeOf ctr Is CheckBox) Then
+        '        cb = CType(ctr, CheckBox)
+        '        If (cell.Value.ToString = "Y") Then
+        '            cb.Checked = True
+        '        Else
+        '            cb.Checked = False
+        '        End If
+        '    End If
+        'Next
+        '*******************
+
+        'Dim ctrlTag As String
+        'For Each ctrl As Control In ctrllst
+
+        '    ctrlTag = CType(ctrl.Tag, String)
+        '    cell = dGridTraMovData.Rows.Item(e.RowIndex).Cells.Item(ctrlTag)
+        '    If (Not IsNothing(cell)) Then
+        '        If (TypeOf ctrl Is TextBox Or TypeOf ctrl Is ComboBox) Then
+        '            ctrl.Text = ""
+        '            ctrl.Text = dGridTraMovData.Rows.Item(e.RowIndex).Cells.Item(ctrlTag).Value.ToString
+        '        ElseIf (TypeOf ctrl Is RadioButton) Then
+        '            rb = CType(ctrl, RadioButton)
+        '            If (dGridTraMovData.Rows.Item(e.RowIndex).Cells.Item(ctrlTag).Value.ToString = "Y") Then
+        '                rb.Checked = True
+        '            Else
+        '                rb.Checked = False
+        '            End If
+        '        ElseIf (TypeOf ctrl Is CheckBox) Then
+        '            cb = CType(ctrl, CheckBox)
+        '            If (dGridTraMovData.Rows.Item(e.RowIndex).Cells.Item(ctrlTag).Value.ToString = "Y") Then
+        '                cb.Checked = True
+        '            Else
+        '                cb.Checked = False
+        '            End If
+        '        End If
+        '    End If
+
+        '    cell = Nothing
+        'Next
+
+        'ShowDataInForm()
+
+
+    End Sub
+
+    Private Sub ShowDataInForm()
+        Dim nvpair As New System.Collections.Specialized.NameValueCollection()
+        nvpair.Add("TRAILER_ID", "TRAILER_ID")
+        nvpair.Add("TRUCK_LINE", "TRUCK_LINE")
+        nvpair.Add("DRIVER_NAME", "DRIVER_NAME")
+        nvpair.Add("LIC_PLATE_NUM", "LICENSE_PLATE_NUMBER")
+        nvpair.Add("LIC_PLATE_STATE", "LICENSE_PLATE_STATE")
+        nvpair.Add("TRACTOR_ID", "TRACTOR_ID")
+        nvpair.Add("TRACTOR_CKIN_DT", "CARRIER_ARRIVAL_DT")
+
+
+        Dim colmap(,) As String = {{"SHIPID", "SHIPMENT_ID"}, {"RRNUMB", "RE_NUMBER"}}
+
+        'Throw New NotImplementedException()
+
+    End Sub
+
+    Private Sub tabPgTrlMovEmu_Enter(sender As Object, e As EventArgs) Handles tabPgTrlMovEmu.Enter
+        'Trailer Checkin 
+        btnTrlMovTCkin.Tag = CType({"TrailerCheckin", "TrailerData", trlCkInTagLst, gbTrailerMovMain}, Object())
+        'trailer checkout
+        btnTrlMovTCkout.Tag = CType({"TrailerCheckOut", "TrailerData", trlCkoutTagLst, gbTrailerMovMain}, Object())
+        'Tractor Checkin
+        btnTrlMovCkinTractor.Tag = CType({"TractorCheckin", "TrailerData", trlTractorCkinTagLst, gbTrailerMovMain}, Object())
+        'Assign Shipment 
+        btnTrlMovAsgnShpRcp.Tag = CType({"AssignShipment", "TrailerData", trlAsgnShpRcpTagLst, gbTrailerMovMain}, Object())
+        'Request Trailer for Tractor.
+        btnTrlMovReqTrailerForTractor.Tag = CType({"RequestTrailerForTractor", "TrailerData", trlReqForDepartTractorTagLst, gbTrailerMovMain}, Object())
+        'Request RTCIS Location For Trailer
+        btnTrlMovTLocAsgn.Tag = CType({"RequestTrailerLocation", "TrailerData", trlLocAsgnmtTagLst, gbTrailerMovMain}, Object())
+        'Request Trailer Move
+        btnTrlMovReqTrlMov.Tag = CType({"RequestTrailerMove", "TrailerData", trlMoveReqTagLst, gbTrailerMovMain}, Object())
+        'Cancel Trailer Move
+        btnTrlMovTCancelTrlMov.Tag = CType({"CancelTrailerMove", "TrailerData", trlCancelReqTagLst, gbTrailerMovMain}, Object())
+        'Change Move Priority 
+        btnTrlMovTChgMovPriority.Tag = CType({"ChangeMovePriority", "TrailerData", trlCancelReqTagLst, gbTrailerMovMain}, Object())
+
+
+        TabPageSelected(CType(sender, TabPage))
+    End Sub
+
+    Private Sub btnTrlMovTAnyButton_Click(sender As Object, e As EventArgs) _
+        Handles btnTrlMovTCkin.Click,
+                btnTrlMovTCkout.Click,
+                btnTrlMovCkinTractor.Click,
+                btnTrlMovAsgnShpRcp.Click,
+                btnTrlMovReqTrailerForTractor.Click,
+                btnTrlMovTLocAsgn.Click,
+                btnTrlMovReqTrlMov.Click,
+                btnTrlMovTCancelTrlMov.Click,
+                btnTrlMovTChgMovPriority.Click
+
+        'This is a generic click event for all the button click events for the buttons it handles .
+        WriteLog("Send", "Event for - " + CType(sender, Button).Text)
+
+        SendRequest(CreateXML_ForAction(sender))
+    End Sub
+    'Private Sub btnTrlMovTCkout_Click(sender As Object, e As EventArgs) Handles btnTrlMovTCkout.Click
+    '    WriteLog("Send", "Trailer Check-Out ")
+    '    'SendRequest(CreateXML_ForAction(sender, "TrailerCheckout", gbTrailerMovMain, trlCkoutTagLst))
+    '    SendRequest(CreateXML_ForAction(sender))
+    'End Sub
+
+    'Private Sub btnTrlMovTCkout_MouseHover(sender As Object, e As EventArgs) Handles btnTrlMovTCkout.MouseHover, btnTrlMovTCkout.GotFocus
+    '    highlightTaggedControls(trlCkoutTagLst, gbTrailerMovMain, HIGHLIGHT_FIELD_COLOR)
+    'End Sub
+
+    'Private Sub btnTrlMovTCkout_MouseLeave(sender As Object, e As EventArgs) Handles btnTrlMovTCkout.MouseLeave, btnTrlMovTCkout.LostFocus
+    '    highlightTaggedControls(trlCkoutTagLst, gbTrailerMovMain, Color.White)
+    'End Sub
+
+    'Private Sub btnTrlMovTCkin_Click(sender As Object, e As EventArgs) Handles btnTrlMovTCkin.Click
+    '    WriteLog("Send", "Trailer Check-In ")
+    '    SendRequest(CreateXML_ForAction(sender, "TrailerCheckIn", gbTrailerMovMain, trlCkInTagLst))
+    'End Sub
+
+    'Private Sub btnTrlMovTCkin_MouseHover(sender As Object, e As EventArgs) Handles btnTrlMovTCkin.MouseHover, btnTrlMovTCkin.GotFocus
+    '    highlightTaggedControls(trlCkInTagLst, gbTrailerMovMain, HIGHLIGHT_FIELD_COLOR)
+    'End Sub
+
+    'Private Sub btnTrlMovTCkin_MouseLeave(sender As Object, e As EventArgs) Handles btnTrlMovTCkin.MouseLeave, btnTrlMovTCkin.LostFocus
+    '    highlightTaggedControls(trlCkInTagLst, gbTrailerMovMain, Color.White)
+    'End Sub
+
+    'Private Sub btnTrlMovTLocAsgn_Click(sender As Object, e As EventArgs) Handles btnTrlMovTLocAsgn.Click
+    '    WriteLog("Send", "Trailer Location Assignment ")
+    '    SendRequest(CreateXML_ForAction(sender, "TrailerLocAssignment", gbTrailerMovMain, trlLocAsgnmtTagLst))
+    'End Sub
+
+    'Private Sub btnTrlMovTLocAsgn_MouseHover(sender As Object, e As EventArgs) Handles btnTrlMovTLocAsgn.MouseHover, btnTrlMovTLocAsgn.GotFocus
+    '    highlightTaggedControls(trlLocAsgnmtTagLst, gbTrailerMovMain, HIGHLIGHT_FIELD_COLOR)
+    'End Sub
+
+    'Private Sub btnTrlMovTLocAsgn_MouseLeave(sender As Object, e As EventArgs) Handles btnTrlMovTLocAsgn.MouseLeave, btnTrlMovTLocAsgn.LostFocus
+    '    highlightTaggedControls(trlLocAsgnmtTagLst, gbTrailerMovMain, Color.White)
+    'End Sub
+
+    'Private Sub btnTrlMovAsgnShpRcp_Click(sender As Object, e As EventArgs) Handles 
+    '    WriteLog("Send", "Trailer Assignment")
+    '    SendRequest(CreateXML_ForAction(sender, "AssignShipment", gbTrailerMovMain, trlAsgnShpRcpTagLst))
+    'End Sub
+
+    'Private Sub btnTrlMovAsgnShpRcp_MouseHover(sender As Object, e As EventArgs) Handles btnTrlMovAsgnShpRcp.MouseHover
+    '    highlightTaggedControls(trlLocAsgnmtTagLst, gbTrailerMovMain, HIGHLIGHT_FIELD_COLOR)
+    'End Sub
+
+    'Private Sub btnTrlMovAsgnShpRcp_MouseLeave(sender As Object, e As EventArgs) Handles btnTrlMovAsgnShpRcp.MouseLeave
+    '    highlightTaggedControls(trlLocAsgnmtTagLst, gbTrailerMovMain, Color.White)
+    'End Sub
+
+    Private Sub highlightOnHoverOverButton_MouseHover(sender As Object, e As EventArgs) _
+        Handles btnTrlMovTCkin.MouseHover, btnTrlMovTCkin.GotFocus,
+                btnTrlMovTCkout.MouseHover, btnTrlMovTCkout.GotFocus,
+                btnTrlMovCkinTractor.MouseHover, btnTrlMovCkinTractor.GotFocus,
+                btnTrlMovAsgnShpRcp.MouseHover, btnTrlMovAsgnShpRcp.GotFocus,
+                btnTrlMovReqTrailerForTractor.MouseHover, btnTrlMovReqTrailerForTractor.GotFocus,
+                btnTrlMovTLocAsgn.MouseHover, btnTrlMovTLocAsgn.GotFocus,
+                btnTrlMovReqTrlMov.MouseHover, btnTrlMovReqTrlMov.GotFocus,
+                btnTrlMovTCancelTrlMov.MouseHover, btnTrlMovTCancelTrlMov.GotFocus,
+                btnTrlMovTChgMovPriority.MouseHover, btnTrlMovTChgMovPriority.GotFocus
+
+
+        highlightTaggedControls(sender, HIGHLIGHT_FIELD_COLOR)
+
+    End Sub
+
+    Private Sub highlightOnHoverOverButton_MouseLeave(sender As Object, e As EventArgs) _
+    Handles btnTrlMovTCkin.MouseLeave, btnTrlMovTCkin.LostFocus,
+            btnTrlMovTCkout.MouseLeave, btnTrlMovTCkout.LostFocus,
+            btnTrlMovCkinTractor.MouseLeave, btnTrlMovCkinTractor.LostFocus,
+            btnTrlMovAsgnShpRcp.MouseLeave, btnTrlMovAsgnShpRcp.LostFocus,
+            btnTrlMovReqTrailerForTractor.MouseLeave, btnTrlMovReqTrailerForTractor.LostFocus,
+            btnTrlMovTLocAsgn.MouseLeave, btnTrlMovTLocAsgn.LostFocus,
+            btnTrlMovReqTrlMov.MouseLeave, btnTrlMovReqTrlMov.LostFocus,
+            btnTrlMovTCancelTrlMov.MouseLeave, btnTrlMovTCancelTrlMov.LostFocus,
+            btnTrlMovTChgMovPriority.MouseLeave, btnTrlMovTChgMovPriority.LostFocus
+
+
+        highlightTaggedControls(sender, HIGHLIGHT_FIELD_RESET_COLOR)
+
+    End Sub
+
 End Class
