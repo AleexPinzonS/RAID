@@ -81,7 +81,8 @@ Module modMsgInbound
 
         Dim MESSAGE_TYPE As String
         Dim HOST_CONTROL_NUMBER As String
-        Dim WITHDRAW_SELECT_FLAG As String
+        'Dim WITHDRAW_SELECT_FLAG As String
+        Dim WITHDRAWAL_SELECT_FLAG As String
         Dim SCHEDULED_SHIP_DATE As String
         Dim SCHEDULED_SHIP_TIME As String
         Dim TIMESTAMP As String
@@ -206,8 +207,50 @@ Module modMsgInbound
                         Dim structXML As Confirm_Heartbeat
                         structXML = ReadXML_ConfirmHeartbeat(document)
 
-
                         WriteLog(gcstrProcessed, "Heartbeat Message = " & structXML.strText)
+                    Case TRL_CKIN_CONF_TAG.ToUpper
+                        Dim structXML As TrailerCheckinConfirm
+                        structXML = ReadXML_TrailerCheckinConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Check-In Message-[" &
+                                                    structXML.strTRUCK_LINE & "]-[" &
+                                                    structXML.strTRAILER_NUMBER & "]-[" &
+                                                    structXML.strTRACTOR_ID & "]-Status[" &
+                                                    structXML.strERROR_CODE & "]-Error Msg[" &
+                                                    structXML.strERROR_MSG & "]")
+                    Case TRL_LOC_ASSG_CONF_TAG.ToUpper
+                        Dim structXML As TrailerLocAsgnmtConfirm
+                        structXML = ReadXML_TrailerLocAsgnmtConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Trailer Location Assignment [" &
+                                                    structXML.strTRUCK_LINE & "]-[" &
+                                                    structXML.strTRAILER_NUMBER & "]-[" &
+                                                    structXML.strSITE_NAME & "]-[" &
+                                                    structXML.strLOCATION & "]-Status[" &
+                                                    structXML.strERROR_CODE & "]-Error Msg[" &
+                                                    structXML.strERROR_MSG & "]")
+
+                    Case TRL_SHPRCP_ASG_CONF_TAG.ToUpper
+                        Dim structXML As TrailerShpRcpAsgnmtConfirm
+                        structXML = ReadXML_TrailerShpRcpAsgnmtConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Trailer Shipment/Receipt Assignment[" &
+                                                    structXML.strTRUCK_LINE & "]-[" &
+                                                    structXML.strTRAILER_NUMBER & "]-" &
+                                                    structXML.strTRACTOR_ID & "]-Status[" &
+                                                    structXML.strERROR_CODE & "]-Error Msg[" &
+                                                    structXML.strERROR_MSG & "]")
+
+                    Case TRL_CKOUT_CONF_TAG.ToUpper
+                        Dim structXML As TrailerCheckOutConfirm
+                        structXML = ReadXML_TrailerCheckOutConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Trailer Check-Out Message [" &
+                                                    structXML.strTRUCK_LINE & "]-[" &
+                                                    structXML.strTRAILER_NUMBER & "]-[" &
+                                                    structXML.strTRACTOR_ID & "]- Status[" &
+                                                    structXML.strERROR_CODE & "]-Error Msg[" &
+                                                    structXML.strERROR_MSG & "]")
 
                     Case "MSG6".ToUpper
                         Dim structXML As Msg6
@@ -370,8 +413,10 @@ Module modMsgInbound
                             If Left(structXML(0).HOST_CONTROL_NUMBER, 1) = "M" And structXML(0).HOST_CONTROL_NUMBER.Length = 5 Then
                                 'this is a batched manual withdrawal and will have no line items listed as all items are identical
                                 For x = 1 To structXML(0).LINE_QTY
-                                    InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML(0).BRAND_CODE, _
-                                       structXML(0).CODE_DATE, structXML(0).PALLET_TYPE, "1", structXML(0).WITHDRAW_SELECT_FLAG, "21", String.Empty)
+                                    'InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML(0).BRAND_CODE, _
+                                    '   structXML(0).CODE_DATE, structXML(0).PALLET_TYPE, "1", structXML(0).WITHDRAW_SELECT_FLAG, "21", String.Empty)
+                                    InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML(0).BRAND_CODE,
+                                       structXML(0).CODE_DATE, structXML(0).PALLET_TYPE, "1", structXML(0).WITHDRAWAL_SELECT_FLAG, "21", String.Empty)
 
                                 Next
 
@@ -381,8 +426,10 @@ Module modMsgInbound
                                 iNumberifLineItems = structXML.GetUpperBound(0)
                                 'create a lineitem record for each UL needed
                                 For x = 0 To structXML.GetUpperBound(0)
-                                    InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, (x + 1).ToString, structXML(x).SEQUENCE, structXML(x).BRAND_CODE, _
-                                            structXML(x).CODE_DATE, structXML(x).PALLET_TYPE, "1", structXML(0).WITHDRAW_SELECT_FLAG, "21", String.Empty)
+                                    'InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, (x + 1).ToString, structXML(x).SEQUENCE, structXML(x).BRAND_CODE,
+                                    '        structXML(x).CODE_DATE, structXML(x).PALLET_TYPE, "1", structXML(0).WITHDRAW_SELECT_FLAG, "21", String.Empty)
+                                    InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, (x + 1).ToString, structXML(x).SEQUENCE, structXML(x).BRAND_CODE,
+                                            structXML(x).CODE_DATE, structXML(x).PALLET_TYPE, "1", structXML(0).WITHDRAWAL_SELECT_FLAG, "21", String.Empty)
                                 Next
 
                                 strULIDs = (structXML.GetUpperBound(0) + 1).ToString
@@ -1525,20 +1572,22 @@ Module modMsgInbound
 
             'ignorign message_type
 
-            Dim HeaderItems As Object = From Msg21_Data In document.Descendants("ShipHeader") _
-                     Select New With _
-                     { _
-                        .HOST_CONTROL_NUMBER = Msg21_Data.Element("HOST_CONTROL_NUMBER").Value, _
-                        .WITHDRAW_SELECT_FLAG = Msg21_Data.Element("WITHDRAW_SELECT_FLAG").Value, _
-                        .SCHEDULED_SHIP_DATE = Msg21_Data.Element("SCHEDULED_SHIP_DATE").Value, _
-                        .SCHEDULED_SHIP_TIME = Msg21_Data.Element("SCHEDULED_SHIP_TIME").Value, _
-                        .ORDER_DISPOSITION = Msg21_Data.Element("ORDER_DISPOSITION").Value, _
-                        .LINE_COUNT = Msg21_Data.Element("LINE_COUNT").Value _
+            '.WITHDRAW_SELECT_FLAG = Msg21_Data.Element("WITHDRAW_SELECT_FLAG").Value,
+            Dim HeaderItems As Object = From Msg21_Data In document.Descendants("ShipHeader")
+                                        Select New With
+                     {
+                        .HOST_CONTROL_NUMBER = Msg21_Data.Element("HOST_CONTROL_NUMBER").Value,
+                        .WITHDRAWAL_SELECT_FLAG = Msg21_Data.Element("WITHDRAWAL_SELECT_FLAG").Value,
+                        .SCHEDULED_SHIP_DATE = Msg21_Data.Element("SCHEDULED_SHIP_DATE").Value,
+                        .SCHEDULED_SHIP_TIME = Msg21_Data.Element("SCHEDULED_SHIP_TIME").Value,
+                        .ORDER_DISPOSITION = Msg21_Data.Element("ORDER_DISPOSITION").Value,
+                        .LINE_COUNT = Msg21_Data.Element("LINE_COUNT").Value
                      }
 
             For Each Msg21_Data In HeaderItems
                 struct(0).HOST_CONTROL_NUMBER = Msg21_Data.HOST_CONTROL_NUMBER
-                struct(0).WITHDRAW_SELECT_FLAG = Msg21_Data.WITHDRAW_SELECT_FLAG
+                'struct(0).WITHDRAW_SELECT_FLAG = Msg21_Data.WITHDRAW_SELECT_FLAG
+                struct(0).WITHDRAWAL_SELECT_FLAG = Msg21_Data.WITHDRAWAL_SELECT_FLAG
                 struct(0).SCHEDULED_SHIP_DATE = Msg21_Data.SCHEDULED_SHIP_DATE
                 struct(0).SCHEDULED_SHIP_TIME = Msg21_Data.SCHEDULED_SHIP_TIME
                 struct(0).ORDER_DISPOSITION = Msg21_Data.ORDER_DISPOSITION
@@ -1882,6 +1931,196 @@ Module modMsgInbound
         Catch ex As Exception
             WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
 
+        End Try
+    End Function
+
+    Public Function ReadXML_TrailerCheckinConfirm(ByVal document As XDocument) As TrailerCheckinConfirm
+        Dim struct As New TrailerCheckinConfirm
+
+        Try
+            'Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKIN_CONF_DATA_TAG)
+            '                            Select New With
+            '                            {
+            '                               .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
+            '                               .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
+            '                               .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
+            '                               .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
+            '                               .RR_NUMBER = Msg_Data.Element("RR_NUMBER").Value,
+            '                               .SITE_NAME = Msg_Data.Element("SITE_NAME").Value,
+            '                               .BUILDING = Msg_Data.Element("BUILDING").Value,
+            '                               .LOCATION = Msg_Data.Element("LOCATION").Value,
+            '                               .INVOICE_NUMBER = Msg_Data.Element("INVOICE_NUMBER").Value,
+            '                               .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
+            '                               .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
+            '                            }
+
+            'Dim dataDict As Dictionary(Of String, String) = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).ToDictionary(Of String, String)(XElement.Name.ToString(), elem.Value)
+            '                                                            Select New Dictionary(elem.Name.ToString(), elem.Value)
+
+            'Dim dic As Object = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).ToDictionary(Of String, String)(Function(p) p.Name.ToString, Function(p) p.Value)
+
+            'Select Case New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)
+
+            'Dim dataDict As KeyValuePair(Of String, String) = CType(dic, KeyValuePair(Of String, String))
+
+            Dim dataDict As Dictionary(Of String, String) = (From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
+                                                             Select New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            'gives exception
+            'Dim dataDict As Dictionary(Of String, String) = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
+            '                                                Select New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)
+
+
+
+
+
+            'Dim val As String = ""
+
+
+            'For Each elem As String In trlCkInConfTagLst
+            '    val += elem + "=" + dataDict.Item(elem) + " - " + vbCrLf
+
+            'Next
+            Dim updateStatus As Boolean = updateTCS_TRAILER_EMU(trlCkInConfTagLst, dataDict)
+            'If (updateStatus = False) Then
+            '    WriteLog(gcstrError, GetCurrentMethod.Name() & val)
+            'End If
+
+            ''''For Each Msg_Data In HeaderItems
+            ''''    struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
+            ''''    struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
+            ''''    struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
+            ''''    struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
+            ''''    struct.strRR_NUMBER = Msg_Data.RR_NUMBER
+            ''''    struct.strBUILDING = Msg_Data.BUILDING
+            ''''    struct.strLOCATION = Msg_Data.LOCATION
+            ''''    struct.strINVOICE_NUMBER = Msg_Data.INVOICE_NUMBER
+            ''''    struct.strERROR_CODE = Msg_Data.ERROR_CODE
+            ''''    struct.strERROR_MSG = Msg_Data.ERROR_MSG
+            ''''Next
+
+            'Dim nvp As New System.Collections.Specialized.NameValueCollection
+
+            'nvp.Add("TRAILER_NUMBER", Msg_Data.Element("TRAILER_NUMBER").Value)
+
+            'process the confirmation message in RAID db
+            'ckeck if record exists 
+            'if tractor id exist 
+            'If (Len(struct.strTRACTOR_ID) > 0 And
+            ' checkTCS_TRAILER_EMU(struct.strTRUCK_LINE, struct.strTRAILER_NUMBER, struct.strTRACTOR_ID) = True) Then
+
+            'ElseIf (checkTCS_TRAILER_EMU(struct.strTRUCK_LINE, struct.strTRAILER_NUMBER, "")) Then
+            '    updateTCS_TRAILER_EMU(st)
+
+            'End If
+
+            Return struct
+        Catch
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
+            Return struct
+        End Try
+    End Function
+
+    Public Function ReadXML_TrailerCheckOutConfirm(ByVal document As XDocument) As TrailerCheckOutConfirm
+        Dim struct As New TrailerCheckOutConfirm
+
+        Try
+
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKOUT_CONF_DATA_TAG)
+                                        Select New With
+                                        {
+                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
+                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
+                                           .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
+                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
+                                           .RR_NUMBER = Msg_Data.Element("PO_NUMBER").Value,
+                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
+                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
+                                        }
+
+            For Each Msg_Data In HeaderItems
+                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
+                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
+                struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
+                struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
+                struct.strPO_NUMBER = Msg_Data.RR_NUMBER
+                struct.strERROR_CODE = Msg_Data.ERROR_CODE
+                struct.strERROR_MSG = Msg_Data.ERROR_MSG
+            Next
+            Return struct
+        Catch
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
+            Return struct
+        End Try
+    End Function
+
+    Public Function ReadXML_TrailerLocAsgnmtConfirm(ByVal document As XDocument) As TrailerLocAsgnmtConfirm
+        Dim struct As New TrailerLocAsgnmtConfirm
+
+        Try
+
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_LOC_ASSG_CONF_DATA_TAG)
+                                        Select New With
+                                        {
+                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
+                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
+                                           .SITE_NAME = Msg_Data.Element("SITE_NAME").Value,
+                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
+                                           .BUILDING = Msg_Data.Element("BUILDING").Value,
+                                           .LOCATION = Msg_Data.Element("LOCATION").Value,
+                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
+                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
+                                        }
+
+            For Each Msg_Data In HeaderItems
+                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
+                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
+                struct.strSITE_NAME = Msg_Data.SITE_NAME
+                struct.strBUILDING = Msg_Data.BUILDING
+                struct.strLOCATION = Msg_Data.LOCATION
+                struct.strERROR_CODE = Msg_Data.ERROR_CODE
+                struct.strERROR_MSG = Msg_Data.ERROR_MSG
+            Next
+            Return struct
+        Catch
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
+            Return struct
+        End Try
+    End Function
+    Public Function ReadXML_TrailerShpRcpAsgnmtConfirm(ByVal document As XDocument) As TrailerShpRcpAsgnmtConfirm
+        Dim struct As New TrailerShpRcpAsgnmtConfirm
+
+        Try
+
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKOUT_CONF_DATA_TAG)
+                                        Select New With
+                                        {
+                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
+                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
+                                           .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
+                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
+                                           .RR_NUMBER = Msg_Data.Element("RR_NUMBER").Value,
+                                           .INVOICE_NUMBER = Msg_Data.Element("INVOICE_NUMBER").Value,
+                                           .BOL_NUMBER = Msg_Data.Element("BOL_NUMBER").Value,
+                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
+                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
+                                        }
+
+            For Each Msg_Data In HeaderItems
+                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
+                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
+                struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
+                struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
+                struct.strRR_NUMBER = Msg_Data.RR_NUMBER
+                struct.strINVOICE_NUMBER = Msg_Data.INVOICE_NUMBER
+                struct.strBOL_NUMBER = Msg_Data.BOL_NUMBER
+                struct.strERROR_CODE = Msg_Data.ERROR_CODE
+                struct.strERROR_MSG = Msg_Data.ERROR_MSG
+            Next
+            Return struct
+        Catch
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
+            Return struct
         End Try
     End Function
 
