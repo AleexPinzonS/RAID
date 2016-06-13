@@ -209,48 +209,50 @@ Module modMsgInbound
 
                         WriteLog(gcstrProcessed, "Heartbeat Message = " & structXML.strText)
                     Case TRL_CKIN_CONF_TAG.ToUpper
-                        Dim structXML As TrailerCheckinConfirm
-                        structXML = ReadXML_TrailerCheckinConfirm(document)
+                        'Dim structXML As TrailerCheckinConfirm
+                        Dim dictInbXMLData As Dictionary(Of String, String)
 
-                        WriteLog(gcstrProcessed, "Processed Trailer Check-In Message-[" &
-                                                    structXML.strTRUCK_LINE & "]-[" &
-                                                    structXML.strTRAILER_NUMBER & "]-[" &
-                                                    structXML.strTRACTOR_ID & "]-Status[" &
-                                                    structXML.strERROR_CODE & "]-Error Msg[" &
-                                                    structXML.strERROR_MSG & "]")
+                        dictInbXMLData = ReadXML_TrailerCheckinConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Check-In Confirmation Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
                     Case TRL_LOC_ASSG_CONF_TAG.ToUpper
-                        Dim structXML As TrailerLocAsgnmtConfirm
-                        structXML = ReadXML_TrailerLocAsgnmtConfirm(document)
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+                        dictInbXMLData = ReadXML_TrailerLocAsgnmtConfirm(document)
 
-                        WriteLog(gcstrProcessed, "Trailer Location Assignment [" &
-                                                    structXML.strTRUCK_LINE & "]-[" &
-                                                    structXML.strTRAILER_NUMBER & "]-[" &
-                                                    structXML.strSITE_NAME & "]-[" &
-                                                    structXML.strLOCATION & "]-Status[" &
-                                                    structXML.strERROR_CODE & "]-Error Msg[" &
-                                                    structXML.strERROR_MSG & "]")
+                        WriteLog(gcstrProcessed, "Processed Trailer Location Assigmnet Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
 
                     Case TRL_SHPRCP_ASG_CONF_TAG.ToUpper
-                        Dim structXML As TrailerShpRcpAsgnmtConfirm
-                        structXML = ReadXML_TrailerShpRcpAsgnmtConfirm(document)
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+                        dictInbXMLData = ReadXML_TrailerShpRcpAsgnmtConfirm(document)
 
-                        WriteLog(gcstrProcessed, "Trailer Shipment/Receipt Assignment[" &
-                                                    structXML.strTRUCK_LINE & "]-[" &
-                                                    structXML.strTRAILER_NUMBER & "]-" &
-                                                    structXML.strTRACTOR_ID & "]-Status[" &
-                                                    structXML.strERROR_CODE & "]-Error Msg[" &
-                                                    structXML.strERROR_MSG & "]")
+                        WriteLog(gcstrProcessed, "Processed Trailer Shipment/Receipt Assignment Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
 
                     Case TRL_CKOUT_CONF_TAG.ToUpper
-                        Dim structXML As TrailerCheckOutConfirm
-                        structXML = ReadXML_TrailerCheckOutConfirm(document)
+                        Dim dictInbXMLData As Dictionary(Of String, String)
 
-                        WriteLog(gcstrProcessed, "Trailer Check-Out Message [" &
-                                                    structXML.strTRUCK_LINE & "]-[" &
-                                                    structXML.strTRAILER_NUMBER & "]-[" &
-                                                    structXML.strTRACTOR_ID & "]- Status[" &
-                                                    structXML.strERROR_CODE & "]-Error Msg[" &
-                                                    structXML.strERROR_MSG & "]")
+                        dictInbXMLData = ReadXML_TrailerCheckOutConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Check-Out Confirmation Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
 
                     Case "MSG6".ToUpper
                         Dim structXML As Msg6
@@ -1934,194 +1936,114 @@ Module modMsgInbound
         End Try
     End Function
 
-    Public Function ReadXML_TrailerCheckinConfirm(ByVal document As XDocument) As TrailerCheckinConfirm
-        Dim struct As New TrailerCheckinConfirm
+    Public Function ReadXML_TrailerCheckinConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        'Dim struct As New TrailerCheckinConfirm
+        Dim dataDict As Dictionary(Of String, String) = Nothing
 
         Try
-            'Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKIN_CONF_DATA_TAG)
-            '                            Select New With
-            '                            {
-            '                               .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
-            '                               .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
-            '                               .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
-            '                               .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
-            '                               .RR_NUMBER = Msg_Data.Element("RR_NUMBER").Value,
-            '                               .SITE_NAME = Msg_Data.Element("SITE_NAME").Value,
-            '                               .BUILDING = Msg_Data.Element("BUILDING").Value,
-            '                               .LOCATION = Msg_Data.Element("LOCATION").Value,
-            '                               .INVOICE_NUMBER = Msg_Data.Element("INVOICE_NUMBER").Value,
-            '                               .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
-            '                               .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
-            '                            }
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
 
-            'Dim dataDict As Dictionary(Of String, String) = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).ToDictionary(Of String, String)(XElement.Name.ToString(), elem.Value)
-            '                                                            Select New Dictionary(elem.Name.ToString(), elem.Value)
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKIN_CONF_DATA_TAG)
+            Else
+                'Update the database
+                updateTCS_TRAILER_EMU(TRL_CKIN_CONF_DATA_ELEMENTS, dataDict)
+            End If
 
-            'Dim dic As Object = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).ToDictionary(Of String, String)(Function(p) p.Name.ToString, Function(p) p.Value)
-
-            'Select Case New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)
-
-            'Dim dataDict As KeyValuePair(Of String, String) = CType(dic, KeyValuePair(Of String, String))
-
-            Dim dataDict As Dictionary(Of String, String) = (From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
-                                                             Select New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
-
-            'gives exception
-            'Dim dataDict As Dictionary(Of String, String) = From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
-            '                                                Select New KeyValuePair(Of String, String)(elem.Name.ToString(), elem.Value)
-
-
-
-
-
-            'Dim val As String = ""
-
-
-            'For Each elem As String In trlCkInConfTagLst
-            '    val += elem + "=" + dataDict.Item(elem) + " - " + vbCrLf
-
-            'Next
-            Dim updateStatus As Boolean = updateTCS_TRAILER_EMU(trlCkInConfTagLst, dataDict)
-            'If (updateStatus = False) Then
-            '    WriteLog(gcstrError, GetCurrentMethod.Name() & val)
-            'End If
-
-            ''''For Each Msg_Data In HeaderItems
-            ''''    struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
-            ''''    struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
-            ''''    struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
-            ''''    struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
-            ''''    struct.strRR_NUMBER = Msg_Data.RR_NUMBER
-            ''''    struct.strBUILDING = Msg_Data.BUILDING
-            ''''    struct.strLOCATION = Msg_Data.LOCATION
-            ''''    struct.strINVOICE_NUMBER = Msg_Data.INVOICE_NUMBER
-            ''''    struct.strERROR_CODE = Msg_Data.ERROR_CODE
-            ''''    struct.strERROR_MSG = Msg_Data.ERROR_MSG
-            ''''Next
-
-            'Dim nvp As New System.Collections.Specialized.NameValueCollection
-
-            'nvp.Add("TRAILER_NUMBER", Msg_Data.Element("TRAILER_NUMBER").Value)
-
-            'process the confirmation message in RAID db
-            'ckeck if record exists 
-            'if tractor id exist 
-            'If (Len(struct.strTRACTOR_ID) > 0 And
-            ' checkTCS_TRAILER_EMU(struct.strTRUCK_LINE, struct.strTRAILER_NUMBER, struct.strTRACTOR_ID) = True) Then
-
-            'ElseIf (checkTCS_TRAILER_EMU(struct.strTRUCK_LINE, struct.strTRAILER_NUMBER, "")) Then
-            '    updateTCS_TRAILER_EMU(st)
-
-            'End If
-
-            Return struct
-        Catch
-            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
-            Return struct
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
         End Try
+
+        Return dataDict
+
+    End Function
+    'Public Function ReadXML_TrailerCheckinConfirm(ByVal document As XDocument) As TrailerCheckinConfirm
+    '    Dim struct As New TrailerCheckinConfirm
+
+    '    Try
+    '        Dim dataDict As Dictionary(Of String, String) = (From elem In document.Descendants(TRL_CKIN_CONF_DATA_TAG).Elements()
+    '                                                         Select New KeyValuePair(Of String, String) _
+    '                                                             (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+    '        Dim updateStatus As Boolean = updateTCS_TRAILER_EMU(TRL_CKIN_CONF_DATA_ELEMENTS, dataDict)
+
+    '        Return struct
+    '    Catch
+    '        WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
+    '        Return struct
+    '    End Try
+    'End Function
+
+    Public Function ReadXML_TrailerCheckOutConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_CKOUT_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKOUT_CONF_DATA_TAG)
+            Else
+                'Update the database
+                updateTCS_TRAILER_EMU(TRL_CKOUT_CONF_DATA_ELEMENTS, dataDict)
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
     End Function
 
-    Public Function ReadXML_TrailerCheckOutConfirm(ByVal document As XDocument) As TrailerCheckOutConfirm
-        Dim struct As New TrailerCheckOutConfirm
+    Public Function ReadXML_TrailerLocAsgnmtConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
 
         Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_LOC_ASSG_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKOUT_CONF_DATA_TAG)
-                                        Select New With
-                                        {
-                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
-                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
-                                           .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
-                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
-                                           .RR_NUMBER = Msg_Data.Element("PO_NUMBER").Value,
-                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
-                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
-                                        }
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_LOC_ASSG_CONF_DATA_TAG)
+            Else
+                'Update the database
+                updateTCS_TRAILER_EMU(TRL_LOC_ASSG_CONF_DATA_ELEMENTS, dataDict)
+            End If
 
-            For Each Msg_Data In HeaderItems
-                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
-                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
-                struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
-                struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
-                struct.strPO_NUMBER = Msg_Data.RR_NUMBER
-                struct.strERROR_CODE = Msg_Data.ERROR_CODE
-                struct.strERROR_MSG = Msg_Data.ERROR_MSG
-            Next
-            Return struct
-        Catch
-            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
-            Return struct
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
         End Try
+
+        Return dataDict
     End Function
-
-    Public Function ReadXML_TrailerLocAsgnmtConfirm(ByVal document As XDocument) As TrailerLocAsgnmtConfirm
-        Dim struct As New TrailerLocAsgnmtConfirm
-
-        Try
-
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_LOC_ASSG_CONF_DATA_TAG)
-                                        Select New With
-                                        {
-                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
-                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
-                                           .SITE_NAME = Msg_Data.Element("SITE_NAME").Value,
-                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
-                                           .BUILDING = Msg_Data.Element("BUILDING").Value,
-                                           .LOCATION = Msg_Data.Element("LOCATION").Value,
-                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
-                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
-                                        }
-
-            For Each Msg_Data In HeaderItems
-                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
-                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
-                struct.strSITE_NAME = Msg_Data.SITE_NAME
-                struct.strBUILDING = Msg_Data.BUILDING
-                struct.strLOCATION = Msg_Data.LOCATION
-                struct.strERROR_CODE = Msg_Data.ERROR_CODE
-                struct.strERROR_MSG = Msg_Data.ERROR_MSG
-            Next
-            Return struct
-        Catch
-            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
-            Return struct
-        End Try
-    End Function
-    Public Function ReadXML_TrailerShpRcpAsgnmtConfirm(ByVal document As XDocument) As TrailerShpRcpAsgnmtConfirm
-        Dim struct As New TrailerShpRcpAsgnmtConfirm
+    Public Function ReadXML_TrailerShpRcpAsgnmtConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
 
         Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_SHPRCP_ASG_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants(TRL_CKOUT_CONF_DATA_TAG)
-                                        Select New With
-                                        {
-                                           .TRAILER_NUMBER = Msg_Data.Element("TRAILER_NUMBER").Value,
-                                           .TRUCK_LINE = Msg_Data.Element("TRUCK_LINE").Value,
-                                           .TRACTOR_ID = Msg_Data.Element("TRACTOR_ID").Value,
-                                           .SHIPMENT_ID = Msg_Data.Element("SHIPMENT_ID").Value,
-                                           .RR_NUMBER = Msg_Data.Element("RR_NUMBER").Value,
-                                           .INVOICE_NUMBER = Msg_Data.Element("INVOICE_NUMBER").Value,
-                                           .BOL_NUMBER = Msg_Data.Element("BOL_NUMBER").Value,
-                                           .ERROR_CODE = Msg_Data.Element("ERROR_CODE").Value,
-                                           .ERROR_MSG = Msg_Data.Element("ERROR_MSG").Value
-                                        }
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_SHPRCP_ASG_CONF_DATA_TAG)
+            Else
+                'Update the database
+                updateTCS_TRAILER_EMU(TRL_SHPRCP_ASG_CONF_DATA_ELEMENTS, dataDict)
+            End If
 
-            For Each Msg_Data In HeaderItems
-                struct.strTRAILER_NUMBER = Msg_Data.TRAILER_NUMBER
-                struct.strTRUCK_LINE = Msg_Data.TRUCK_LINE
-                struct.strTRACTOR_ID = Msg_Data.TRACTOR_ID
-                struct.strSHIPMENT_ID = Msg_Data.SHIPMENT_ID
-                struct.strRR_NUMBER = Msg_Data.RR_NUMBER
-                struct.strINVOICE_NUMBER = Msg_Data.INVOICE_NUMBER
-                struct.strBOL_NUMBER = Msg_Data.BOL_NUMBER
-                struct.strERROR_CODE = Msg_Data.ERROR_CODE
-                struct.strERROR_MSG = Msg_Data.ERROR_MSG
-            Next
-            Return struct
-        Catch
-            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description)
-            Return struct
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
         End Try
+
+        Return dataDict
     End Function
 
 End Module
