@@ -1645,6 +1645,10 @@ Module modMsgOutbound
         CreateXML_SlotSignOnConfirmation = strTextXMl
     End Function
 
+
+
+
+
     Public Function CreateXML_TrailerCheckout(ByVal strTrailerID As String,
                                               ByVal strTruckLine As String,
                                               ByVal strTractorId As String,
