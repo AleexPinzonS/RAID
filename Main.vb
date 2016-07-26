@@ -112,16 +112,34 @@ Public Class Main
         Dim strVersion As String
         Dim strSocket As String
         Dim bRetry As Boolean
+        Dim instancePrefix As String = ""
+
+        gstrProgramDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) & "\" & Application.ProductName & "\"
+
+        If (My.Computer.FileSystem.GetFiles(gstrProgramDataPath, FileIO.SearchOption.SearchTopLevelOnly, "*.ini").Count > 1) Then
+
+            Dim frmGetPrefix As New frmInstancePreFix
+
+            frmGetPrefix.ShowDialog()
+            'instancePrefix = frmGetPrefix.txtInstancePrefix.Text
+            instancePrefix = gInstancePrefix
+            'instancePrefix = frmGetPrefix.cboInstances.Text
+            If (instancePrefix = "Default") Then
+                instancePrefix = ""
+            End If
+        End If
+
+
+        If (Len(instancePrefix) > 0) Then
+            gApplication_ProductName = instancePrefix + "_" + Application.ProductName
+        Else
+            gApplication_ProductName = Application.ProductName
+        End If
+        cstrLogFilePrefix = gApplication_ProductName
 
         'Set the variables for color
         colorFore = System.Drawing.Color.Black
         colorBack = System.Drawing.Color.White
-
-        strVersion = "v" & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart
-
-        Me.Text = Application.ProductName & Space(1) & strVersion & Space(2) & "(ASRS Emulator)"
-
-        gstrProgramDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) & "\" & Application.ProductName & "\"
 
         PositionFormatStartup()
 
@@ -130,13 +148,15 @@ Public Class Main
         'use the configuration settings
         Ini_Main()
 
+        strVersion = "v" & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMajorPart & "." & System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileMinorPart
+
+        'Me.Text = Application.ProductName & Space(1) & strVersion & Space(2) & "(ASRS Emulator)"
+        Me.Text = gApplication_ProductName & Space(1) & strVersion & Space(2) & "(ASRS Emulator)" & "-  [" & gstrXML_WCS_ID & "]"
+
         'fix the tab page colors - issue with settign this on the page properties always revert to white  arrghh
         For Each tPage As TabPage In TabControl1.TabPages
             tPage.BackColor = Color.FromKnownColor(KnownColor.Control)
         Next
-
-
-
 
         'set initial state of various buttons
         btnInfeedAutoScanOff.BackColor = Color.Red
@@ -147,6 +167,7 @@ Public Class Main
         butMsg24AutoSendOff.BackColor = Color.Red
         btnFPDSAutoScanOff.BackColor = Color.Red
 
+        ConnectToRAIDDatabase()
 
         'give user 3 chances to login into WCS database
         'SAJJAD UNCOMMENT THIS
@@ -165,9 +186,6 @@ Public Class Main
         'Write the version and settings to the log file
         WriteLog("START", Strings.StrDup(60, "-"))
         WriteLog("Version ", String.Format("Version {0}", My.Application.Info.Version.ToString))
-
-        ConnectToRAIDDatabase()
-
 
         'start socket listener(s)
         For x = 1 To gstrSocketPort.GetUpperBound(0)
@@ -199,7 +217,7 @@ Public Class Main
         'SetupGraphicalSummary()
         TabControl1.Controls.Remove(TabPage10)
 
-        TabControl1.Controls.Remove(TabPage14)
+
 
         'Display the first tab
         piTabSelected = 1
@@ -363,6 +381,7 @@ Public Class Main
     Private Function ConnectToRAIDDatabase() As Boolean
 
         Dim strDatabase As String = Application.ProductName & ".mdb"
+
         ConnectToRAIDDatabase = False
 
         Try
@@ -372,7 +391,12 @@ Public Class Main
 
                 oDataBaseConnection = New DatabaseConnections
 
-                strDatabase = Application.ProductName & ".mdb"
+                'strDatabase = Application.ProductName & ".mdb"
+                strDatabase = gApplication_ProductName & ".mdb"
+
+                gMdbFileName = gstrProgramDataPath & strDatabase
+
+                WriteLog("Initialize ", "Using mdb file ... " + gstrProgramDataPath & strDatabase)
 
                 dbConStatus = oDataBaseConnection.ConnectToAccessDB(
                                          gstrProgramDataPath & strDatabase)
@@ -472,6 +496,7 @@ Public Class Main
             gbNewInboundData = False
             gbNewOutboundData = False
 
+            'Load_TCS_TRAILER_EMU(dgvTrlActivityData)
 
         Catch
             WriteLog(gcstrError, GetCurrentMethod.Name() & Err.Description)
@@ -7452,47 +7477,47 @@ Public Class Main
     Private Sub flxGrid12_MouseDownEvent(ByVal sender As Object, ByVal e As AxMSFlexGridLib.DMSFlexGridEvents_MouseDownEvent) Handles flxGrid12.MouseDownEvent
         ProcessGridMouseDown(CType(sender, AxMSFlexGrid), e.button)
     End Sub
-    Private Sub btnTrlCkout_Click(sender As Object, e As EventArgs) Handles btnTrlCkout.Click
-        WriteLog("Send", "Trailer Check-Out ")
-
-        'Dim strXMLTrlCko As String = CreateXML_TrailerCheckout(txtTrlCo_trlnum.Text,
-        '                                                       txtTrlCo_TrkLin.Text,
-        '                                                       txtTrlCo_TractorId.Text,
-        '                                                       txtTrlCo_DrvName.Text,
-        '                                                       txtTrlCo_LicPlateNum.Text,
-        '                                                       txtTrlCo_LicPlateState.Text,
-        '                                                       Format(dtpckrTrlCo_CarArrDt.Value, "yyyyMMddHHmmss")
-        '                                                       )
+    'Private Sub btnTrlCkout_Click(sender As Object, e As EventArgs) Handles btnTrlCkout.Click
+    '    WriteLog("Send", "Trailer Check-Out ")
+    '    SendRequest(CreateXML_ForContainer(sender))
+    'End Sub
 
 
-        'SendRequest(strXMLTrlCko)
+    'Private Sub btnTrlCkin_Click(sender As Object, e As EventArgs) Handles btnTCin_TrlCkin.Click
+    '    WriteLog("Send", "Trailer Check-In ")
+    '    Dim strXmlTrlCi As String = CreateXML_ForContainer(sender)
+    '    SendRequest(strXmlTrlCi)
+    'End Sub
 
-        SendRequest(CreateXML_ForContainer(sender))
-
-    End Sub
-
-
-    Private Sub btnTrlCkin_Click(sender As Object, e As EventArgs) Handles btnTCin_TrlCkin.Click
-        WriteLog("Send", "Trailer Check-In ")
-        Dim strXmlTrlCi As String = CreateXML_ForContainer(sender)
-
-        'MsgBox("XML Is:" & strXmlTrlCi)
-
-        SendRequest(strXmlTrlCi)
-
-    End Sub
-
-    Private Sub GetAndDisplayTrailerMoveData()
+    Public Sub GetAndDisplayTrailerMoveData()
 
         'Attach the DataGridView Column Selector to the grid
         'so the user can hide/show the db columns.
 
         Dim dgvcs As DataGridViewColumnSelector = New DataGridViewColumnSelector(dGridTraMovData)
+        'Dim dgvaf As DataGridVie
 
-        Dim sqlQry As String = "select TRUCK_LINE,TRAILER_NUMBER,TRACTOR_ID " +
-            "from [TCS_TRAILER_EMU] " +
-            "where 1=1 " +
-            "order by CTRL_DATE asc"
+
+        Dim sqlQry As String
+
+        'sqlQry = "SELECT    TCS_TRAILER_EMU.TCS_TRANSIT_NUM, TCS_TRAILER_EMU.TRUCK_LINE, TCS_TRAILER_EMU.TRAILER_NUMBER, TCS_TRAILER_EMU.TRACTOR_ID, 
+        '                    TCS_TRAILER_EMU.TRAILER_TYPE, TCS_TRAILER_EMU.DRIVER_NAME, TCS_TRAILER_EMU.USABLE, TCS_TRAILER_EMU.UNUSABLE_REASON, 
+        '                    TCS_TRAILER_EMU.EMPTY, TCS_TRAILER_EMU.SHIPMENT_ID, TCS_TRAILER_EMU.RR_NUMBER, TCS_TRAILER_EMU.INVOICE_NUMBER, 
+        '                    TCS_TRAILER_EMU.BOL_NUMBER, TCS_TRAILER_EMU.SITE_NAME, TCS_TRAILER_EMU.LOCATION 
+        '        FROM TCS_TRAILER_EMU  
+        '        where 1=1  
+        '        order by CTRL_DATE asc"
+
+
+
+        sqlQry = "Select * FROM TCS_TRAILER_EMU  where 1=1 and ckin_stat = '0'"
+
+        If chkBxTcsEmuEMUSessionOnly.Checked = True Then
+            sqlQry += "and TCS_TRANSIT_NUM = '" + gstrXML_WCS_ID + "' "
+        End If
+
+        sqlQry += "order by CTRL_DATE asc"
+
 
         Dim da As System.Data.OleDb.OleDbDataAdapter
         Dim dt As DataTable
@@ -7506,10 +7531,10 @@ Public Class Main
             'dbrec1.Open(sqlQry, DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockReadOnly, 2)
 
             ' ==> User Below Options:=-1 for Query 
-            'dbrec1.Open(sqlQry, DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
+            dbrec1.Open(sqlQry, DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
 
             ' ==> User Below Options:=2 for Table 
-            dbrec1.Open("TCS_TRAILER_EMU", DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
+            'dbrec1.Open("TCS_TRAILER_EMU", DBCON1, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
 
             'da.Fill(ds, dbrec1, "TCS_TRAILER_EMU")
             da.Fill(dt, dbrec1)
@@ -7547,44 +7572,121 @@ Public Class Main
         Catch ex As Exception
             WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & ex.Message)
             MsgBox("Error Loading Data Grid")
+
+            dbrec1.Close()
         End Try
 
+        'Hide the following columns on initial load, 
+        'User can view the colum(s) data by selecting from the selector 
+
+        dgvcs.DataGridView.Columns("LENGTH").Visible = False
+        dgvcs.DataGridView.Columns("WIDTH").Visible = False
+        dgvcs.DataGridView.Columns("HEIGHT").Visible = False
+        dgvcs.DataGridView.Columns("EMPTY_WEIGHT").Visible = False
+        dgvcs.DataGridView.Columns("FULL_WEIGHT").Visible = False
+        dgvcs.DataGridView.Columns("EST_WEIGHT").Visible = False
+        dgvcs.DataGridView.Columns("TEMP_CODE").Visible = False
+        dgvcs.DataGridView.Columns("LICENSE_NUM").Visible = False
+        dgvcs.DataGridView.Columns("LICENSE_STATE").Visible = False
+        dgvcs.DataGridView.Columns("UNUSABLE_REASON").Visible = False
+        dgvcs.DataGridView.Columns("ORIGIN").Visible = False
+        dgvcs.DataGridView.Columns("CONTENTS").Visible = False
+        dgvcs.DataGridView.Columns("FREIGHT_AMOUNT").Visible = False
+        dgvcs.DataGridView.Columns("FREIGHT_CURRENCY").Visible = False
+        dgvcs.DataGridView.Columns("CTRL_DATE").Visible = False
+        dgvcs.DataGridView.Columns("CKIN_DATE").Visible = False
+        dgvcs.DataGridView.Columns("CKOUT_DATE").Visible = False
+        dgvcs.DataGridView.Columns("TRACTOR_CKIN_DATE").Visible = False
+        dgvcs.DataGridView.Columns("CARRIER_ARRIVAL_DT").Visible = False
+        dgvcs.DataGridView.Columns("SOURCE_SITE_NAME").Visible = False
+        dgvcs.DataGridView.Columns("SOURCE_LOCATION").Visible = False
+        dgvcs.DataGridView.Columns("DEST_SITE_NAME").Visible = False
+        dgvcs.DataGridView.Columns("DEST_LOCATION").Visible = False
+        dgvcs.DataGridView.Columns("REQUEST_ID").Visible = False
+        dgvcs.DataGridView.Columns("DEVICE_ID").Visible = False
+        dgvcs.DataGridView.Columns("USER_ID").Visible = False
+        dgvcs.DataGridView.Columns("QUEUE_FLAG").Visible = False
+
     End Sub
-    Private Sub GetAndDisplayTCSTrailerViewData()
+    Private Sub GetAndDisplayTCSTrailerViewData(dgv As DataGridView, chkbbySession As CheckBox, chkbEmpty As CheckBox, chkbReadytoshp As CheckBox)
+        Dim dgvcs As DataGridViewColumnSelector = New DataGridViewColumnSelector(dgv)
 
-        '
-        Dim dgvcs As DataGridViewColumnSelector = New DataGridViewColumnSelector(dGridTCSTrlViewData)
+        Dim sqlQry As String
+        '"Select TRKLIN,TRLNUM,TRACTOR_ID " +
+        '    "from [TCS_TRAILER] " +
+        '    "where 1=1 " +
+        '    "order by TRKLIN,TRLNUM"
+        sqlQry = "Select * FROM TCS_TRAILER where 1=1 "
 
-        Dim sqlQry As String = "select TRKLIN,TRLNUM,TRACTOR_ID " +
-            "from [TCS_TRAILER] " +
-            "where 1=1 " +
-            "order by TRKLIN,TRLNUM"
+        If (Not IsNothing(chkbbySession) And chkbbySession.Checked = True) Then
+            sqlQry += " and TCS_SESSION_KEY ='" + gstrXML_WCS_ID + "' "
+        End If
 
+        If (Not IsNothing(chkbEmpty) And chkbEmpty.Checked = True) Then
+            sqlQry += " and EMPTY='Y' "
+        End If
+        If (Not IsNothing(chkbReadytoshp) And chkbReadytoshp.Checked = True) Then
+            sqlQry += " and READY_TO_SHIP = 'Y' "
+        End If
+
+        sqlQry += " order by TCS_SESSION_KEY, TRKLIN, TRLNUM, TRACTOR_ID"
         Dim da As System.Data.OleDb.OleDbDataAdapter
         Dim dt As DataTable
         Dim ds As DataSet
-
         Try
             da = New System.Data.OleDb.OleDbDataAdapter()
             dt = New DataTable()
             ds = New DataSet
 
+            ' ==> User Below Options:=-1 for Query 
+            dbrec2.Open(sqlQry, DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
             ' ==> User Below Options:=2 for Table 
 
-            dbrec2.Open("TCS_TRAILER", DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
-
+            'dbrec2.Open("TCS_TRAILER", DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
 
             da.Fill(dt, dbrec2)
 
             'show number of rows.
             'lblWMSTCSTrlData.Text += "  (" + dbrec2.RecordCount.ToString + " rows )"
 
-            dGridTCSTrlViewData.DataSource = dt
-            With dGridTCSTrlViewData
+            dgv.DataSource = dt
+            With dgv
                 .SelectionMode = DataGridViewSelectionMode.RowHeaderSelect
                 '.RowHeadersVisible = False
                 '.Columns(0).Visible = False
-                '.Columns.Item("SITNAM").Tag = CType("SITE_NAME", String)
+                .Columns.Item("TRKLIN").Tag = CType("TRUCK_LINE", String)
+                .Columns.Item("TRLNUM").Tag = CType("TRAILER_NUMBER", String)
+                .Columns.Item("EMPTY").Tag = CType("EMPTY", String)
+                .Columns.Item("TRLTYP").Tag = CType("TRAILER_TYPE", String)
+                .Columns.Item("ORIGIN").Tag = CType("ORIGIN", String)
+                .Columns.Item("CONTNT").Tag = CType("CONTENTS", String)
+                .Columns.Item("LENGTH").Tag = CType("LENGTH", String)
+                .Columns.Item("WIDTH").Tag = CType("WIDTH", String)
+                .Columns.Item("HEIGHT").Tag = CType("HEIGHT", String)
+                .Columns.Item("EMPWGT").Tag = CType("EMPTY_WEIGHT", String)
+                .Columns.Item("FULWGT").Tag = CType("FULL_WEIGHT", String)
+                .Columns.Item("USABLE").Tag = CType("USABLE", String)
+                .Columns.Item("REASON").Tag = CType("UNUSABLE_REASON", String)
+
+                .Columns.Item("SHIPMENT_NUMBER").Tag = CType("SHIPMENT_ID", String)
+                .Columns.Item("RRNUMB").Tag = CType("RR_NUMBER", String)
+                .Columns.Item("INVNUM").Tag = CType("INVOICE_NUMBER", String)
+
+                .Columns.Item("SITNAM").Tag = CType("SITE_NAME", String)
+                .Columns.Item("LOCATN").Tag = CType("LOCATION", String)
+                .Columns.Item("BLDING").Tag = CType("BUILDING", String)
+
+                .Columns.Item("TRACTOR_ID").Tag = CType("TRACTOR_ID", String)
+                .Columns.Item("CHKOUT_LIC_NO").Tag = CType("LICENSE_NUM", String)
+                .Columns.Item("CHKOUT_LIC_ST").Tag = CType("LICENSE_STATE", String)
+                .Columns.Item("CHKOUT_DRVNAM").Tag = CType("DRIVER_NAME", String)
+
+                .Columns.Item("FREIGHT").Tag = CType("FREIGHT_AMOUNT", String)
+                .Columns.Item("CURRENCY").Tag = CType("FREIGHT_CURRENCY", String)
+                '.Columns.Item("TCS_TRANSIT_NUM").Tag = CType("TCS_TRAILER_TAG", String)
+                .Columns.Item("TCS_TRANSIT_NUM").Tag = CType("TCS_TRANSIT_NUM", String)
+
+
                 '.Columns(1).HeaderCell.Value = "Truck Line"
             End With
 
@@ -7592,8 +7694,8 @@ Public Class Main
             dbrec2.Close()
 
             'dGridTraMovData.Refresh()
-            dGridTCSTrlViewData.AllowUserToAddRows = False
-            dGridTCSTrlViewData.Show()
+            dgv.AllowUserToAddRows = False
+            dgv.Show()
 
             ds.Dispose()
             dt.Dispose()
@@ -7602,17 +7704,324 @@ Public Class Main
         Catch ex As Exception
             WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & ex.Message)
             MsgBox("Error Loading Data TCS_TRAILER View Grid")
+            dbrec2.Close()
         End Try
 
+        dgvcs.DataGridView.Columns("TCS_SESSION_SID").Visible = False
+        dgvcs.DataGridView.Columns("SUBSIT").Visible = False
+        dgvcs.DataGridView.Columns("PNDSIT").Visible = False
+        dgvcs.DataGridView.Columns("LENGTH").Visible = False
+        dgvcs.DataGridView.Columns("WIDTH").Visible = False
+        dgvcs.DataGridView.Columns("HEIGHT").Visible = False
+        dgvcs.DataGridView.Columns("EMPWGT").Visible = False
+        dgvcs.DataGridView.Columns("FULWGT").Visible = False
+        dgvcs.DataGridView.Columns("CHKIN_DATE").Visible = False
+        dgvcs.DataGridView.Columns("CHKIN_LIC_NO").Visible = False
+        dgvcs.DataGridView.Columns("CHKIN_LIC_ST").Visible = False
+        dgvcs.DataGridView.Columns("CHKIN_DRVNAM").Visible = False
+        dgvcs.DataGridView.Columns("CHKIN_TRACTOR_ID").Visible = False
+        dgvcs.DataGridView.Columns("LEGAL_ENTITY").Visible = False
+        dgvcs.DataGridView.Columns("PONUMB").Visible = False
+        dgvcs.DataGridView.Columns("SHPWGT").Visible = False
+        dgvcs.DataGridView.Columns("PLN_NUMBER").Visible = False
+        dgvcs.DataGridView.Columns("CSTNUM").Visible = False
+        dgvcs.DataGridView.Columns("CSTNAM").Visible = False
+        dgvcs.DataGridView.Columns("STREET").Visible = False
+        dgvcs.DataGridView.Columns("CITY").Visible = False
+        dgvcs.DataGridView.Columns("STATE").Visible = False
+        dgvcs.DataGridView.Columns("LRDATE").Visible = False
+        dgvcs.DataGridView.Columns("APPT_DATE").Visible = False
+        dgvcs.DataGridView.Columns("APPT_NUMBER").Visible = False
+        dgvcs.DataGridView.Columns("PARSNO").Visible = False
+        dgvcs.DataGridView.Columns("SHIP_SEAL1").Visible = False
+        dgvcs.DataGridView.Columns("SHIP_SEAL2").Visible = False
+        dgvcs.DataGridView.Columns("RCP_SEAL1").Visible = False
+        dgvcs.DataGridView.Columns("RCP_SEAL2").Visible = False
+
     End Sub
-    Private Sub btnGetTrlMovData_Click(sender As Object, e As EventArgs) Handles btnGetTrlMovData.Click
-        'Load TCS_TRAILER_EMU Data
+
+    Private Sub GetTCSLocationViewData()
+        Dim dgvcs As DataGridViewColumnSelector = New DataGridViewColumnSelector(dgvTcsLocation)
+
+        Dim sqlQry As String
+
+        sqlQry = "Select * FROM TCS_LOCATION where 1=1 "
+        sqlQry += " order by SITNAM, LOCATN, TRKLIN, TRLNUM"
+
+        Dim da As System.Data.OleDb.OleDbDataAdapter
+        Dim dt As DataTable
+        Dim ds As DataSet
+        Try
+            da = New System.Data.OleDb.OleDbDataAdapter()
+            dt = New DataTable()
+            ds = New DataSet
+
+            ' ==> User Below Options:=-1 for Query 
+            'dbrec2.Open(sqlQry, DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
+            ' ==> User Below Options:=2 for Table 
+
+            dbrec2.Open("TCS_LOCATION", DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
+
+            da.Fill(dt, dbrec2)
+
+            dgvTcsLocation.DataSource = dt
+            With dgvTcsLocation
+                .SelectionMode = DataGridViewSelectionMode.RowHeaderSelect
+                '.RowHeadersVisible = False
+                '.Columns(0).Visible = False
+                .Columns.Item("SITNAM").Tag = CType("SITE_NAME", String)
+                .Columns.Item("BLDING").Tag = CType("BUILDING", String)
+                .Columns.Item("LOCATN").Tag = CType("LOCATION", String)
+                .Columns.Item("TRKLIN").Tag = CType("TRUCK_LINE", String)
+                .Columns.Item("TRLNUM").Tag = CType("TRAILER_NUMBER", String)
+                '.Columns(1).HeaderCell.Value = "Truck Line"
+            End With
+
+            'Close Recordset
+            dbrec2.Close()
+
+            'dgvTcsLocation.Refresh()
+            dgvTcsLocation.AllowUserToAddRows = False
+            dgvTcsLocation.Show()
+
+            ds.Dispose()
+            dt.Dispose()
+            da.Dispose()
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & ex.Message)
+            MsgBox("Error Loading Data TCS_LOCATION View Grid")
+            dbrec2.Close()
+        End Try
+        dgvcs.DataGridView.Columns("SUBSIT").Visible = False
+        dgvcs.DataGridView.Columns("SERFLG").Visible = False
+        dgvcs.DataGridView.Columns("PND_TRLCNT").Visible = False
+
+
+    End Sub
+
+    Private Sub GetTCSTrailerReqViewData(dgv As DataGridView, chkb As CheckBox)
+        Dim dgvcs As DataGridViewColumnSelector = New DataGridViewColumnSelector(dgv)
+
+        Dim sqlQry As String
+
+        sqlQry = "Select * FROM TCS_TRAILER_REQ where 1=1 "
+
+        If (chkb.Checked = True) Then
+            sqlQry += " and TCS_SESSION_KEY ='" + gstrXML_WCS_ID + "' "
+        End If
+
+        sqlQry += " order by TCS_SESSION_KEY, TRKLIN, TRLNUM"
+
+        Dim da As System.Data.OleDb.OleDbDataAdapter
+        Dim dt As DataTable
+        Dim ds As DataSet
+        Try
+            da = New System.Data.OleDb.OleDbDataAdapter()
+            dt = New DataTable()
+            ds = New DataSet
+
+            ' ==> User Below Options:=-1 for Query 
+            dbrec2.Open(sqlQry, DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, Options:=-1)
+            ' ==> User Below Options:=2 for Table 
+
+            'dbrec2.Open("TCS_TRAILER", DBCON2, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic, 2)
+
+            da.Fill(dt, dbrec2)
+
+            dgv.DataSource = dt
+            With dgv
+                .SelectionMode = DataGridViewSelectionMode.RowHeaderSelect
+                '.RowHeadersVisible = False
+                '.Columns(0).Visible = False
+                .Columns.Item("TRLREQ").Tag = CType("REQUEST_ID", String)
+                .Columns.Item("TRKLIN").Tag = CType("TRUCK_LINE", String)
+                .Columns.Item("TRLNUM").Tag = CType("TRAILER_NUMBER", String)
+                .Columns.Item("SITNAM").Tag = CType("SITE_NAME", String)
+                .Columns.Item("BLDING").Tag = CType("BUILDING", String)
+                .Columns.Item("LOCATN").Tag = CType("LOCATION", String)
+                .Columns.Item("PND_SITNAM").Tag = CType("DEST_SITE_NAME", String)
+                .Columns.Item("PNDLOC").Tag = CType("DEST_LOCATION", String)
+                .Columns.Item("PRIORITY").Tag = CType("PRIORITY", String)
+                '.Columns(1).HeaderCell.Value = "Truck Line"
+            End With
+
+            'Close Recordset
+            dbrec2.Close()
+
+            'dgvTcsLocation.Refresh()
+            dgv.AllowUserToAddRows = False
+            dgv.Show()
+
+            ds.Dispose()
+            dt.Dispose()
+            da.Dispose()
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & ex.Message)
+            MsgBox("Error Loading Data TCS_TRAILER_REQ View Grid")
+            dbrec2.Close()
+        End Try
+        dgvcs.DataGridView.Columns("SUBSIT").Visible = False
+        dgvcs.DataGridView.Columns("PNDSIT").Visible = False
+        dgvcs.DataGridView.Columns("TCS_SESSION_SID").Visible = False
+
+    End Sub
+
+
+
+    Private Sub tabPgTrlMovEmu_Enter(sender As Object, e As EventArgs) Handles tabPgTrlMovEmu.Enter
+
+
+        'TRAILER CHECKIN/CHECKOUT PAGE
+        'Trailer Checkin 
+        btnTrlMovTCkin.Tag = CType(TRAILER_CKIN_BUTTON_TAG_ARRAY, Object())
+
+        'trailer checkout
+        btnTrlMovTCkout.Tag = CType(TRAILER_CKOUT_BUTTON_TAG_ARRAY, Object())
+
+        'Assign Shipment 
+        btnTrlMovAsgnShpRcp.Tag = CType(TRAILER_SHP_RCP_ASGNMT_BTN_TAG_ARRAY, Object())
+
+        'Trailer Location Request
+        btnTrlMovTLocAsgn.Tag = CType(TRAILER_LOCATION_REQUEST_BUTTON_TAG_ARRAY, Object())
+
+        'TRAILER MOVEMENT PAGE
+
+        'Trailer Location Request 
+        btnTrlMovTrlLocReq.Tag = CType(TRAILER_LOCATION_REQUEST_ON_MOVEMNT_BUTTON_TAG_ARRAY, Object())
+        'Trailer Location Update
+        btnTrlMovTrlLocUpd.Tag = CType(TRAILER_LOC_UPDATE_BUTTON_TAG_ARRAY, Object())
+        'Trailer Move Cancel
+        btnTrlMovTrlMovCancel.Tag = CType(TRAILER_MOVE_CANCEL_BUTTON_TAG_ARRAY, Object())
+        'Trailer Change Priority
+        btnTrlMovTrlChgPriority.Tag = CType(TRAILER_MOVE_CHANGE_PRIORITY_BUTTON_TAG_ARRAY, Object())
+
+        'Trailer Move Execution 
+
+        'Trailer Mover Pickup / Hook 
+        btnTrlMovTrlMovPickup.Tag = CType(TRAILER_MOVE_PICKUP_BUTTON_TAG_ARRAY, Object())
+        'Trailer Move Complete / Unhook
+        btnTrlMovTrlMovComp.Tag = CType(TRAILER_MOVE_COMPL_BUTTON_TAG_ARRAY, Object())
+        'Trailer Move Cancel
+        btnTrlMovExecTrlMovCancel.Tag = CType(TRAILER_MOVE_CANCEL_EXEC_BUTTON_TAG_ARRAY, Object())
+        'Trailer Change Priority 
+        btnTrlMovExecTrlChgPriority.Tag = CType(TRAILER_MOVE_EXEC_CHANGE_PRIORITY_BUTTON_TAG_ARRAY, Object())
+
+
+
+
+        TabPageSelected(CType(sender, TabPage))
+
+        'EMULATOR DATA 
+        chkBxTcsEmuEMUSessionOnly.Text = gstrXML_WCS_ID + " Session data only"
+
+        'TRAILER CHECKIN/CHECKOUT TAB
+        chkBxTcsEmuWMSSessOnly.Text = gstrXML_WCS_ID + " Session data only"
+        'TRAILER MOVEMENT TAB
+        chkBxTcsEmuTrlMovWMSSessOnly.Text = gstrXML_WCS_ID + " Session data only"
+        chkbTrlMvmtThisSessionOnly.Text = gstrXML_WCS_ID + " Session data only"
+
+        'TRAILER MOVE EXECUTION TAB
+        chkbTCSTrlExecCurSessOnly.Text = gstrXML_WCS_ID + " Session data only"
+
+        ' Load the Activity Grid
+        Load_TCS_TRAILER_EMU(dgvTrlActivityData)
+
+
+        'Dim tcsTransDict As New Dictionary(Of String, Object())
+        'tcsTransDict.Add(TRL_CKIN_TAG, TRAILER_CKIN_BUTTON_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_CKIN_CONF_TAG, TRL_CKIN_INB_CONF_MSG_ARRAY)
+
+        'tcsTransDict.Add(TRL_LOC_REQUEST_TAG, TRAILER_LOCATION_REQUEST_BUTTON_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_LOC_ASSG_CONF_TAG, TRL_LOC_ASSG_CONF_MSG_ARRAY)
+
+        'tcsTransDict.Add(TRL_SHPRCP_REQUEST_TAG, TRAILER_SHP_RCP_ASGNMT_BTN_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_SHPRCP_ASG_CONF_TAG, TRL_SHPRCP_ASG_CONF_TAG_ARRAY)
+
+        'tcsTransDict.Add(TRL_CKOUT_TAG, TRAILER_CKOUT_BUTTON_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_CKOUT_CONF_TAG, TRL_CKOUT_CONF_TAG_ARRAY)
+
+        'tcsTransDict.Add(TRL_SHPRCP_REQUEST_TAG, TRAILER_SHP_RCP_ASGNMT_BTN_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_SHPRCP_ASG_CONF_TAG, TRL_SHPRCP_ASG_CONF_TAG_ARRAY)
+
+        'tcsTransDict.Add(TRL_LOC_UPDATE_TAG, TRAILER_LOC_UPDATE_BUTTON_TAG_ARRAY)
+        'tcsTransDict.Add(TRL_LOC_UPDATE_CONF_TAG, TRL_LOC_UPDATE_CONF_TAG_ARRAY)
+
+
+
+        'tabPgTrlMovEmu.Tag = CType(tcsTransDict, Dictionary(Of String, Object()))
+
+    End Sub
+
+    Private Sub btnTrlMovTAnyButton_Click(sender As Object, e As EventArgs) _
+        Handles btnTrlMovTCkin.Click,   'Trailer Checkin/Checkout Tab
+                btnTrlMovTCkout.Click,
+                btnTrlMovAsgnShpRcp.Click,
+                btnTrlMovTLocAsgn.Click,
+                btnTrlMovTrlLocReq.Click,   'Trailer Movement Tab
+                btnTrlMovTrlLocUpd.Click,
+                btnTrlMovTrlMovCancel.Click,
+                btnTrlMovTrlChgPriority.Click,
+                btnTrlMovTrlMovPickup.Click,    'Trailer Move Execution
+                btnTrlMovTrlMovComp.Click,
+                btnTrlMovExecTrlMovCancel.Click,
+                btnTrlMovExecTrlChgPriority.Click
+
+
+        'This is a generic click event for all the button click events for the buttons it handles .
+        WriteLog("Send", "Event For - " + CType(sender, Button).Text)
+
+        'SendRequest(CreateXML_ForAction(sender))
+        CreateXML_ForAction(sender)
+
+    End Sub
+
+
+    Private Sub highlightOnHoverOverButton_MouseHover(sender As Object, e As EventArgs) _
+        Handles btnTrlMovTCkin.MouseHover, btnTrlMovTCkin.GotFocus,     'Trailer Checkin/Checkout 
+                btnTrlMovTCkout.MouseHover, btnTrlMovTCkout.GotFocus,
+                btnTrlMovAsgnShpRcp.MouseHover, btnTrlMovAsgnShpRcp.GotFocus,
+                btnTrlMovTLocAsgn.MouseHover, btnTrlMovTLocAsgn.GotFocus,
+                btnTrlMovTrlLocReq.MouseHover, btnTrlMovTrlLocReq.GotFocus,     'Trailer Movement 
+                btnTrlMovTrlLocUpd.MouseHover, btnTrlMovTrlLocUpd.GotFocus,
+                btnTrlMovTrlMovCancel.MouseHover, btnTrlMovTrlMovCancel.GotFocus,
+                btnTrlMovTrlChgPriority.MouseHover, btnTrlMovTrlChgPriority.GotFocus,
+                btnTrlMovTrlMovPickup.MouseHover, btnTrlMovTrlMovPickup.GotFocus,     'Trailer Move Execution
+                btnTrlMovTrlMovComp.MouseHover, btnTrlMovTrlMovComp.GotFocus,
+                btnTrlMovExecTrlMovCancel.MouseHover, btnTrlMovExecTrlMovCancel.GotFocus,
+                btnTrlMovExecTrlChgPriority.MouseHover, btnTrlMovExecTrlChgPriority.GotFocus
+
+        highlightTaggedControls(sender, HIGHLIGHT_FIELD_COLOR)
+
+    End Sub
+
+    Private Sub highlightOnHoverOverButton_MouseLeave(sender As Object, e As EventArgs) _
+    Handles btnTrlMovTCkin.MouseLeave, btnTrlMovTCkin.LostFocus,
+            btnTrlMovTCkout.MouseLeave, btnTrlMovTCkout.LostFocus,
+            btnTrlMovAsgnShpRcp.MouseLeave, btnTrlMovAsgnShpRcp.LostFocus,
+            btnTrlMovTLocAsgn.MouseLeave, btnTrlMovTLocAsgn.LostFocus,
+            btnTrlMovTrlLocReq.MouseLeave, btnTrlMovTrlLocReq.LostFocus,     'Trailer Movement 
+            btnTrlMovTrlLocUpd.MouseLeave, btnTrlMovTrlLocUpd.LostFocus,
+            btnTrlMovTrlMovCancel.MouseLeave, btnTrlMovTrlMovCancel.LostFocus,
+            btnTrlMovTrlChgPriority.MouseLeave, btnTrlMovTrlChgPriority.LostFocus,
+            btnTrlMovTrlMovPickup.MouseLeave, btnTrlMovTrlMovPickup.LostFocus,     'Trailer Move Execution
+            btnTrlMovTrlMovComp.MouseLeave, btnTrlMovTrlMovComp.LostFocus,
+            btnTrlMovExecTrlMovCancel.MouseLeave, btnTrlMovExecTrlMovCancel.LostFocus,
+            btnTrlMovExecTrlChgPriority.MouseLeave, btnTrlMovExecTrlChgPriority.LostFocus
+
+
+        highlightTaggedControls(sender, HIGHLIGHT_FIELD_RESET_COLOR)
+
+    End Sub
+    Private Sub DeleteTCSTRAILERToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteTCSTRAILERToolStripMenuItem.Click
+        DeleteAllDatafromEmulatorDBTable("TCS_TRAILER_EMU", True)
         GetAndDisplayTrailerMoveData()
-        'Load TCS_TRAILER View Data
-        GetAndDisplayTCSTrailerViewData()
-
     End Sub
 
+    Private Sub chkBxTcsEmuEMUSessionOnly_CheckedChanged(sender As Object, e As EventArgs) Handles chkBxTcsEmuEMUSessionOnly.CheckedChanged
+        GetAndDisplayTrailerMoveData()
+    End Sub
     Private Sub dGridTraMovData_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dGridTraMovData.CellClick
         Dim row As DataGridViewRow
         'Dim cell As DataGridViewCell
@@ -7621,7 +8030,7 @@ Public Class Main
             Exit Sub
         End If
         row = dGridTraMovData.Rows(e.RowIndex)
-        'cell = dGridTraMovData.Rows(e.RowIndex).Cells(e.ColumnIndex)
+
 
         For Each r As DataGridViewRow In dGridTraMovData.Rows
             r.Selected = False
@@ -7632,97 +8041,109 @@ Public Class Main
 
     End Sub
 
-
-    Private Sub tabPgTrlMovEmu_Enter(sender As Object, e As EventArgs) Handles tabPgTrlMovEmu.Enter
-        'Trailer Checkin 
-        btnTrlMovTCkin.Tag = CType(TRAILER_CKIN_BUTTON_TAG_ARRAY, Object())
-
-        'trailer checkout
-        btnTrlMovTCkout.Tag = CType(TRAILER_CKOUT_BUTTON_TAG_ARRAY, Object())
-
-        'Assign Shipment 
-        btnTrlMovAsgnShpRcp.Tag = CType(TRAILER_SHP_RCP_ASGNMT_BTN_TAG_ARRAY, Object())
-
-        'Request RTCIS Location For Trailer
-        btnTrlMovTLocAsgn.Tag = CType(TRAILER_LOCATION_ASGMNT_BUTTON_TAG_ARRAY, Object())
-
-        'Trailer Location Update
-        btnTrlMovTrlLocUpd.Tag = CType(TRAILER_LOC_UPDATE_BUTTON_TAG_ARRAY, Object())
-
-        'Trailer Mover Pickup / Hook 
-        btnTrlMovTrlMovPickup.Tag = CType(TRAILER_MOVE_PICKUP_BUTTON_TAG_ARRAY, Object())
-
-        'Trailer Move Complete / Unhook
-        btnTrlMovTrlMovComp.Tag = CType(TRAILER_MOVE_COMPL_BUTTON_TAG_ARRAY, Object())
-        'Trailer Move Cancel
-        btnTrlMovTrlMovCancel.Tag = CType(TRAILER_MOVE_CANCEL_BUTTON_TAG_ARRAY, Object())
-
-
-        'Request Trailer for Tractor.
-        btnTrlMovReqTrailerForTractor.Tag = CType({"RequestTrailerForTractor", "TrailerData", trlReqForDepartTractorTagLst, gbTrailerMovMain}, Object())
-
-        TabPageSelected(CType(sender, TabPage))
-    End Sub
-
-    Private Sub btnTrlMovTAnyButton_Click(sender As Object, e As EventArgs) _
-        Handles btnTrlMovTCkin.Click,
-                btnTrlMovTCkout.Click,
-                btnTrlMovTrlLocUpd.Click,
-                btnTrlMovAsgnShpRcp.Click,
-                btnTrlMovReqTrailerForTractor.Click,
-                btnTrlMovTLocAsgn.Click,
-                btnTrlMovTrlMovComp.Click,
-                btnTrlMovTrlMovCancel.Click,
-                btnTrlMovTrlMovPickup.Click
-
-        'This is a generic click event for all the button click events for the buttons it handles .
-        WriteLog("Send", "Event for - " + CType(sender, Button).Text)
-
-        SendRequest(CreateXML_ForAction(sender))
-    End Sub
-
-
-    Private Sub highlightOnHoverOverButton_MouseHover(sender As Object, e As EventArgs) _
-        Handles btnTrlMovTCkin.MouseHover, btnTrlMovTCkin.GotFocus,
-                btnTrlMovTCkout.MouseHover, btnTrlMovTCkout.GotFocus,
-                btnTrlMovTrlLocUpd.MouseHover, btnTrlMovTrlLocUpd.GotFocus,
-                btnTrlMovAsgnShpRcp.MouseHover, btnTrlMovAsgnShpRcp.GotFocus,
-                btnTrlMovReqTrailerForTractor.MouseHover, btnTrlMovReqTrailerForTractor.GotFocus,
-                btnTrlMovTLocAsgn.MouseHover, btnTrlMovTLocAsgn.GotFocus,
-                btnTrlMovTrlMovComp.MouseHover, btnTrlMovTrlMovComp.GotFocus,
-                btnTrlMovTrlMovCancel.MouseHover, btnTrlMovTrlMovCancel.GotFocus,
-                btnTrlMovTrlMovPickup.MouseHover, btnTrlMovTrlMovPickup.GotFocus
-
-
-        highlightTaggedControls(sender, HIGHLIGHT_FIELD_COLOR)
+    'TCS EMULATRO -- TRAILER CHECKIN/CHECKOUT TAB HANDLERS
+    Private Sub btnGetTrlMovData_Click(sender As Object, e As EventArgs) Handles btnGetTrlMovData.Click
+        'Load TCS_TRAILER_EMU Data
+        'GetAndDisplayTrailerMoveData()
+        'Load TCS_TRAILER View Data
+        GetAndDisplayTCSTrailerViewData(dGridTCSTrlViewData, chkBxTcsEmuWMSSessOnly, chkBxTcsEmuWMSEmpty, chkBxTcsEmuWMSReadyToShip)
 
     End Sub
 
-    Private Sub highlightOnHoverOverButton_MouseLeave(sender As Object, e As EventArgs) _
-    Handles btnTrlMovTCkin.MouseLeave, btnTrlMovTCkin.LostFocus,
-            btnTrlMovTCkout.MouseLeave, btnTrlMovTCkout.LostFocus,
-            btnTrlMovTrlLocUpd.MouseLeave, btnTrlMovTrlLocUpd.LostFocus,
-            btnTrlMovAsgnShpRcp.MouseLeave, btnTrlMovAsgnShpRcp.LostFocus,
-            btnTrlMovReqTrailerForTractor.MouseLeave, btnTrlMovReqTrailerForTractor.LostFocus,
-            btnTrlMovTLocAsgn.MouseLeave, btnTrlMovTLocAsgn.LostFocus,
-            btnTrlMovTrlMovComp.MouseLeave, btnTrlMovTrlMovComp.LostFocus,
-            btnTrlMovTrlMovCancel.MouseLeave, btnTrlMovTrlMovCancel.LostFocus,
-            btnTrlMovTrlMovPickup.MouseLeave, btnTrlMovTrlMovPickup.LostFocus
-
-
-        highlightTaggedControls(sender, HIGHLIGHT_FIELD_RESET_COLOR)
-
+    Private Sub dGridTCSTrlViewData_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dGridTCSTrlViewData.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+        loadFormDataFromGrid(CType(sender, DataGridView).Rows(e.RowIndex), gbTrailerMovMain)
     End Sub
-
+    Private Sub dGridTCSTrlViewData_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dGridTCSTrlViewData.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
     Private Sub btnTrlMovReset_Click(sender As Object, e As EventArgs) Handles btnTrlMovReset.Click
         'Dim ctrllst As List(Of Control) = getAllCtrlList(gbTrailerMovMain)
         clearAllControls(CType(sender, Button), getAllCtrlList(gbTrailerMovMain))
     End Sub
 
-    Private Sub DeleteTCSTRAILERToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteTCSTRAILERToolStripMenuItem.Click
-        DeleteAllDatafromEmulatorDBTable("TCS_TRAILER_EMU", True)
-        GetAndDisplayTrailerMoveData()
+    'TCS EMULATRO -- TRAILER MOVEMENT TAB HANDLERS
+    Private Sub btnLoadTrailerMovData_Click(sender As Object, e As EventArgs) Handles btnLoadTrailerMovData.Click
+        GetAndDisplayTCSTrailerViewData(dgvTrlMvmtTCSTrailerView, chkbTrlMvmtThisSessionOnly, chkbTrlMvmtShowEmpty, chkbTrlMvmtReadyToShip)
+        GetTCSTrailerReqViewData(dgvTcsTrailerReq, chkBxTcsEmuTrlMovWMSSessOnly)
+    End Sub
+
+    Private Sub dgvTrlMvmtTCSTrailerView_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTrlMvmtTCSTrailerView.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+        loadFormDataFromGrid(CType(sender, DataGridView).Rows(e.RowIndex), gbxTrailerMovement)
+    End Sub
+
+    Private Sub dgvTrlMvmtTCSTrailerView_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTrlMvmtTCSTrailerView.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
+    Private Sub dgvTcsTrailerReq_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTcsTrailerReq.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+        loadFormDataFromGrid(CType(sender, DataGridView).Rows(e.RowIndex), gbxTrailerMovement)
+    End Sub
+
+    Private Sub dgvTcsTrailerReq_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTcsTrailerReq.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
 
 
+    Private Sub btnTrlMovementReset_Click(sender As Object, e As EventArgs) Handles btnTrlMovementReset.Click
+        clearAllControls(CType(sender, Button), getAllCtrlList(gbxTrailerMovement))
+    End Sub
+
+    'TCS EMULATRO -- TRAILER MOVE EXECUTION TAB HANDLERS
+    Private Sub btnLoadTrlExecTrlReqData_Click(sender As Object, e As EventArgs) Handles btnLoadTrlExecTrlReqData.Click
+        GetTCSLocationViewData()
+        GetTCSTrailerReqViewData(dgTCSTrlReqbySessionViewData, chkbTCSTrlExecCurSessOnly)
+    End Sub
+
+    Private Sub btnTrlMovExecReset_Click(sender As Object, e As EventArgs) Handles btnTrlMovExecReset.Click
+        clearAllControls(CType(sender, Button), getAllCtrlList(gbxTrailerMoveExec))
+    End Sub
+
+    Private Sub dgvTcsLocation_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTcsLocation.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+        loadFormDataFromGrid(CType(sender, DataGridView).Rows(e.RowIndex), gbxTrailerMoveExec)
+    End Sub
+    Private Sub dgvTcsLocation_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTcsLocation.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
+
+    Private Sub dgTCSTrlReqbySessionViewData_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgTCSTrlReqbySessionViewData.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+        loadFormDataFromGrid(CType(sender, DataGridView).Rows(e.RowIndex), gbxTrailerMoveExec)
+    End Sub
+
+    Private Sub dgTCSTrlReqbySessionViewData_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dgTCSTrlReqbySessionViewData.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
+
+    Private Sub dgvTrlActivityData_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTrlActivityData.CellContentClick
+        'Load_TCS_TRAILER_EMU(dgvTrlActivityData)
+    End Sub
+
+    Private Sub btnTCSEmuViewData_Click(sender As Object, e As EventArgs) Handles btnTCSEmuViewData.Click
+        Dim row As DataGridViewRow = dgvTrlActivityData.CurrentRow
+        Dim xmlStr As String = getXmlOfRow(row, CType(tabPgTrlMovEmu.Tag, Dictionary(Of String, Object())))
+        gstrLastXMLSent = xmlStr
+        Dim formXMLEditor As New frmXMLEditor
+        formXMLEditor.ProcessData = True
+        formXMLEditor.DataGridRow = row
+        formXMLEditor.ShowDialog()
+    End Sub
+
+    Private Sub dgvTrlActivityData_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTrlActivityData.RowEnter
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = True
+    End Sub
+
+    Private Sub dgvTrlActivityData_RowLeave(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTrlActivityData.RowLeave
+        CType(sender, DataGridView).Rows(e.RowIndex).Selected = False
+    End Sub
+
+    Private Sub TCSConfigToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TCSConfigToolStripMenuItem.Click
+        ShowIniForm("TCSConfig")
+    End Sub
+
+    Private Sub btnLoadActivityData_Click(sender As Object, e As EventArgs) Handles btnLoadActivityData.Click
+        Load_TCS_TRAILER_EMU(dgvTrlActivityData)
     End Sub
 End Class

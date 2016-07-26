@@ -21,6 +21,12 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.tmrRefreshLog = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ConfigurationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -32,6 +38,7 @@ Partial Class Main
         Me.OutboundStagingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SocketCommunicationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SocketListeningPortsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TCSConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ControlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AllProcessesInAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetMessageCountersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -98,10 +105,11 @@ Partial Class Main
         Me.butMsg21_Header_SelectAll = New System.Windows.Forms.Button()
         Me.butMsg21_Header_DeSelectAll = New System.Windows.Forms.Button()
         Me.linMain = New System.Windows.Forms.Panel()
-        Me.btnTrlMovTrlMovPickup = New System.Windows.Forms.Button()
         Me.btnTrlMovAsgnShpRcp = New System.Windows.Forms.Button()
-        Me.btnTrlMovTrlMovComp = New System.Windows.Forms.Button()
         Me.btnTrlMovTLocAsgn = New System.Windows.Forms.Button()
+        Me.btnTrlMovTrlLocReq = New System.Windows.Forms.Button()
+        Me.btnTrlMovTrlMovPickup = New System.Windows.Forms.Button()
+        Me.btnTrlMovTrlMovComp = New System.Windows.Forms.Button()
         Me.tmrHeartbeat = New System.Windows.Forms.Timer(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -340,122 +348,31 @@ Partial Class Main
         Me.Label30 = New System.Windows.Forms.Label()
         Me.txtMsg7ULID = New System.Windows.Forms.TextBox()
         Me.butMsg7 = New System.Windows.Forms.Button()
-        Me.TabPage14 = New System.Windows.Forms.TabPage()
-        Me.tabCtlTrailer = New System.Windows.Forms.TabControl()
-        Me.tabPgTCin = New System.Windows.Forms.TabPage()
-        Me.grpBxTrailerCkin = New System.Windows.Forms.GroupBox()
-        Me.cboTCITrlnum = New System.Windows.Forms.ComboBox()
-        Me.cboTCITrklin = New System.Windows.Forms.ComboBox()
-        Me.GroupBox24 = New System.Windows.Forms.GroupBox()
-        Me.lblTCI_len = New System.Windows.Forms.Label()
-        Me.txtTCILen = New System.Windows.Forms.TextBox()
-        Me.txtTCIWidth = New System.Windows.Forms.TextBox()
-        Me.txtTCIHeight = New System.Windows.Forms.TextBox()
-        Me.lblTCIEmptyWgt = New System.Windows.Forms.Label()
-        Me.cboTCITrkLIne = New System.Windows.Forms.ComboBox()
-        Me.txtTCIEmptyWeight = New System.Windows.Forms.TextBox()
-        Me.txtTCIFullWgt = New System.Windows.Forms.TextBox()
-        Me.lblTCITempCode = New System.Windows.Forms.Label()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.txtTCIFreightCurrency = New System.Windows.Forms.TextBox()
-        Me.txtTCIType = New System.Windows.Forms.TextBox()
-        Me.lblTCI_type = New System.Windows.Forms.Label()
-        Me.lblTCIOrigin = New System.Windows.Forms.Label()
-        Me.txtTCIOrigin = New System.Windows.Forms.TextBox()
-        Me.txtTCIFreightAmt = New System.Windows.Forms.TextBox()
-        Me.lblTCIContents = New System.Windows.Forms.Label()
-        Me.lblTCIFreightAmount = New System.Windows.Forms.Label()
-        Me.txtTCIContents = New System.Windows.Forms.TextBox()
-        Me.GroupBox23 = New System.Windows.Forms.GroupBox()
-        Me.chkBTCIUsabel = New System.Windows.Forms.CheckBox()
-        Me.txtTCIUnUsableReason = New System.Windows.Forms.TextBox()
-        Me.GroupBox22 = New System.Windows.Forms.GroupBox()
-        Me.txtTCISitNam = New System.Windows.Forms.TextBox()
-        Me.lblTCISitNam = New System.Windows.Forms.Label()
-        Me.txtTCIBlding = New System.Windows.Forms.TextBox()
-        Me.lblTCIBlding = New System.Windows.Forms.Label()
-        Me.txtTCILocatn = New System.Windows.Forms.TextBox()
-        Me.lblBldingLst = New System.Windows.Forms.Label()
-        Me.txtTCIBldingLst = New System.Windows.Forms.TextBox()
-        Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.txtTCIDrvName = New System.Windows.Forms.TextBox()
-        Me.lblTCIDrvName = New System.Windows.Forms.Label()
-        Me.txtTCILicPlateNum = New System.Windows.Forms.TextBox()
-        Me.lblTCILicPlateNum = New System.Windows.Forms.Label()
-        Me.txtTCILicPlateSt = New System.Windows.Forms.TextBox()
-        Me.lblTCILicPlateSt = New System.Windows.Forms.Label()
-        Me.grpBxTCIShpRcpID = New System.Windows.Forms.GroupBox()
-        Me.chkBTCIEMpty = New System.Windows.Forms.CheckBox()
-        Me.txtTCIRrNumber = New System.Windows.Forms.TextBox()
-        Me.lblTCIRrnumb = New System.Windows.Forms.Label()
-        Me.txtTCIShipid = New System.Windows.Forms.TextBox()
-        Me.lblTCIShipid = New System.Windows.Forms.Label()
-        Me.txtTCIInvoiceNumber = New System.Windows.Forms.TextBox()
-        Me.lblTCIInvoiceNumber = New System.Windows.Forms.Label()
-        Me.txtTCIWcsTransitNum = New System.Windows.Forms.TextBox()
-        Me.lblTCIWcsTransitNum = New System.Windows.Forms.Label()
-        Me.lblTCITrklin = New System.Windows.Forms.Label()
-        Me.lblTCITrlnum = New System.Windows.Forms.Label()
-        Me.btnTCin_TrlCkin = New System.Windows.Forms.Button()
-        Me.tabPgTrlCo = New System.Windows.Forms.TabPage()
-        Me.grpBxTrlCkout = New System.Windows.Forms.GroupBox()
-        Me.txtTrlCo_LicPlateState = New System.Windows.Forms.TextBox()
-        Me.lblLicPlateState = New System.Windows.Forms.Label()
-        Me.txtTrlCo_LicPlateNum = New System.Windows.Forms.TextBox()
-        Me.lblLicPlateNum = New System.Windows.Forms.Label()
-        Me.txtTrlCo_DrvName = New System.Windows.Forms.TextBox()
-        Me.lblDrvNam = New System.Windows.Forms.Label()
-        Me.dtpckrTrlCo_CarArrDt = New System.Windows.Forms.DateTimePicker()
-        Me.lblCarArrDt = New System.Windows.Forms.Label()
-        Me.txtTrlCo_TractorId = New System.Windows.Forms.TextBox()
-        Me.lbltrlCoTractorId = New System.Windows.Forms.Label()
-        Me.txtTrlCo_TrkLin = New System.Windows.Forms.TextBox()
-        Me.lblTrlCoTrlkin = New System.Windows.Forms.Label()
-        Me.txtTrlCo_trlnum = New System.Windows.Forms.TextBox()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.btnTrlCkout = New System.Windows.Forms.Button()
-        Me.tabPgTrlLocAsg = New System.Windows.Forms.TabPage()
-        Me.grpBxTrlLocAsg = New System.Windows.Forms.GroupBox()
-        Me.GroupBox25 = New System.Windows.Forms.GroupBox()
-        Me.TextBox12 = New System.Windows.Forms.TextBox()
-        Me.Label37 = New System.Windows.Forms.Label()
-        Me.TextBox13 = New System.Windows.Forms.TextBox()
-        Me.Label38 = New System.Windows.Forms.Label()
-        Me.TextBox14 = New System.Windows.Forms.TextBox()
-        Me.Label39 = New System.Windows.Forms.Label()
-        Me.TextBox15 = New System.Windows.Forms.TextBox()
-        Me.TextBox10 = New System.Windows.Forms.TextBox()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.TextBox11 = New System.Windows.Forms.TextBox()
-        Me.Label36 = New System.Windows.Forms.Label()
-        Me.TabPage15 = New System.Windows.Forms.TabPage()
         Me.tabPgTrlMovEmu = New System.Windows.Forms.TabPage()
-        Me.Label78 = New System.Windows.Forms.Label()
-        Me.lblWMSTCSTrlData = New System.Windows.Forms.Label()
+        Me.Panel14 = New System.Windows.Forms.Panel()
+        Me.btnTCSEmuViewData = New System.Windows.Forms.Button()
+        Me.dgvTrlActivityData = New System.Windows.Forms.DataGridView()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.pnlTCSEmuData = New System.Windows.Forms.Panel()
+        Me.dGridTraMovData = New System.Windows.Forms.DataGridView()
+        Me.chkBxTcsEmuEMUSessionOnly = New System.Windows.Forms.CheckBox()
         Me.lblTrlEMUData = New System.Windows.Forms.Label()
+        Me.TabControl2 = New System.Windows.Forms.TabControl()
+        Me.TabPage16 = New System.Windows.Forms.TabPage()
+        Me.chkBxTcsEmuWMSEmpty = New System.Windows.Forms.CheckBox()
+        Me.chkBxTcsEmuWMSReadyToShip = New System.Windows.Forms.CheckBox()
+        Me.chkBxTcsEmuWMSSessOnly = New System.Windows.Forms.CheckBox()
         Me.dGridTCSTrlViewData = New System.Windows.Forms.DataGridView()
-        Me.btnGetTrlMovData = New System.Windows.Forms.Button()
         Me.gbTrailerMovMain = New System.Windows.Forms.GroupBox()
-        Me.TextBox44 = New System.Windows.Forms.TextBox()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.btnTrlMovTrlLocUpd = New System.Windows.Forms.Button()
-        Me.btnTrlMovTrlMovCancel = New System.Windows.Forms.Button()
-        Me.btnTrlMovReqTrailerForTractor = New System.Windows.Forms.Button()
-        Me.TextBox46 = New System.Windows.Forms.TextBox()
-        Me.Label70 = New System.Windows.Forms.Label()
-        Me.btnTrlMovReset = New System.Windows.Forms.Button()
-        Me.Label64 = New System.Windows.Forms.Label()
-        Me.TextBox39 = New System.Windows.Forms.TextBox()
-        Me.GroupBox30 = New System.Windows.Forms.GroupBox()
-        Me.TextBox42 = New System.Windows.Forms.TextBox()
+        Me.Label96 = New System.Windows.Forms.Label()
+        Me.TextBox58 = New System.Windows.Forms.TextBox()
+        Me.Label66 = New System.Windows.Forms.Label()
         Me.Label65 = New System.Windows.Forms.Label()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+        Me.GroupBox30 = New System.Windows.Forms.GroupBox()
         Me.Label61 = New System.Windows.Forms.Label()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Label69 = New System.Windows.Forms.Label()
-        Me.TextBox43 = New System.Windows.Forms.TextBox()
-        Me.Label66 = New System.Windows.Forms.Label()
         Me.TextBox32 = New System.Windows.Forms.TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
         Me.TextBox33 = New System.Windows.Forms.TextBox()
@@ -467,45 +384,8 @@ Partial Class Main
         Me.TextBox25 = New System.Windows.Forms.TextBox()
         Me.Label46 = New System.Windows.Forms.Label()
         Me.TextBox22 = New System.Windows.Forms.TextBox()
-        Me.btnTrlMovTCkout = New System.Windows.Forms.Button()
-        Me.TextBox41 = New System.Windows.Forms.TextBox()
-        Me.TextBox40 = New System.Windows.Forms.TextBox()
-        Me.GroupBox27 = New System.Windows.Forms.GroupBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.TextBox27 = New System.Windows.Forms.TextBox()
-        Me.Label40 = New System.Windows.Forms.Label()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.Label60 = New System.Windows.Forms.Label()
-        Me.TextBox16 = New System.Windows.Forms.TextBox()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.TextBox17 = New System.Windows.Forms.TextBox()
-        Me.TextBox18 = New System.Windows.Forms.TextBox()
-        Me.Label41 = New System.Windows.Forms.Label()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
-        Me.ComboBox3 = New System.Windows.Forms.ComboBox()
-        Me.TextBox19 = New System.Windows.Forms.TextBox()
-        Me.TextBox20 = New System.Windows.Forms.TextBox()
-        Me.Label42 = New System.Windows.Forms.Label()
-        Me.TextBox21 = New System.Windows.Forms.TextBox()
-        Me.TextBox23 = New System.Windows.Forms.TextBox()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.Label59 = New System.Windows.Forms.Label()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.Label58 = New System.Windows.Forms.Label()
-        Me.TextBox24 = New System.Windows.Forms.TextBox()
-        Me.Label45 = New System.Windows.Forms.Label()
-        Me.TextBox26 = New System.Windows.Forms.TextBox()
-        Me.Label62 = New System.Windows.Forms.Label()
+        Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.GroupBox29 = New System.Windows.Forms.GroupBox()
-        Me.TextBox49 = New System.Windows.Forms.TextBox()
-        Me.Label74 = New System.Windows.Forms.Label()
-        Me.TextBox50 = New System.Windows.Forms.TextBox()
-        Me.Label75 = New System.Windows.Forms.Label()
-        Me.TextBox47 = New System.Windows.Forms.TextBox()
-        Me.Label72 = New System.Windows.Forms.Label()
-        Me.TextBox48 = New System.Windows.Forms.TextBox()
-        Me.Label73 = New System.Windows.Forms.Label()
         Me.TextBox38 = New System.Windows.Forms.TextBox()
         Me.Label56 = New System.Windows.Forms.Label()
         Me.TextBox45 = New System.Windows.Forms.TextBox()
@@ -523,9 +403,119 @@ Partial Class Main
         Me.TextBox37 = New System.Windows.Forms.TextBox()
         Me.Label49 = New System.Windows.Forms.Label()
         Me.Label55 = New System.Windows.Forms.Label()
+        Me.Label70 = New System.Windows.Forms.Label()
+        Me.btnTrlMovReset = New System.Windows.Forms.Button()
+        Me.TextBox39 = New System.Windows.Forms.TextBox()
+        Me.btnTrlMovTCkout = New System.Windows.Forms.Button()
+        Me.GroupBox27 = New System.Windows.Forms.GroupBox()
+        Me.TextBox10 = New System.Windows.Forms.TextBox()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.Label71 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.TextBox27 = New System.Windows.Forms.TextBox()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.Label60 = New System.Windows.Forms.Label()
+        Me.TextBox16 = New System.Windows.Forms.TextBox()
+        Me.TextBox17 = New System.Windows.Forms.TextBox()
+        Me.TextBox18 = New System.Windows.Forms.TextBox()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.TextBox19 = New System.Windows.Forms.TextBox()
+        Me.TextBox20 = New System.Windows.Forms.TextBox()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.TextBox21 = New System.Windows.Forms.TextBox()
+        Me.TextBox23 = New System.Windows.Forms.TextBox()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.Label59 = New System.Windows.Forms.Label()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.Label58 = New System.Windows.Forms.Label()
+        Me.TextBox24 = New System.Windows.Forms.TextBox()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.TextBox26 = New System.Windows.Forms.TextBox()
         Me.Label57 = New System.Windows.Forms.Label()
         Me.btnTrlMovTCkin = New System.Windows.Forms.Button()
-        Me.dGridTraMovData = New System.Windows.Forms.DataGridView()
+        Me.lblWMSTCSTrlData = New System.Windows.Forms.Label()
+        Me.btnGetTrlMovData = New System.Windows.Forms.Button()
+        Me.TabPage17 = New System.Windows.Forms.TabPage()
+        Me.chkbTrlMvmtShowEmpty = New System.Windows.Forms.CheckBox()
+        Me.chkbTrlMvmtReadyToShip = New System.Windows.Forms.CheckBox()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.chkbTrlMvmtThisSessionOnly = New System.Windows.Forms.CheckBox()
+        Me.dgvTrlMvmtTCSTrailerView = New System.Windows.Forms.DataGridView()
+        Me.Label86 = New System.Windows.Forms.Label()
+        Me.chkBxTcsEmuTrlMovWMSSessOnly = New System.Windows.Forms.CheckBox()
+        Me.dgvTcsTrailerReq = New System.Windows.Forms.DataGridView()
+        Me.btnLoadTrailerMovData = New System.Windows.Forms.Button()
+        Me.gbxTrailerMovement = New System.Windows.Forms.GroupBox()
+        Me.btnTrlMovementReset = New System.Windows.Forms.Button()
+        Me.btnTrlMovTrlChgPriority = New System.Windows.Forms.Button()
+        Me.Label97 = New System.Windows.Forms.Label()
+        Me.TextBox60 = New System.Windows.Forms.TextBox()
+        Me.Label95 = New System.Windows.Forms.Label()
+        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
+        Me.TextBox43 = New System.Windows.Forms.TextBox()
+        Me.TextBox42 = New System.Windows.Forms.TextBox()
+        Me.btnTrlMovTrlLocUpd = New System.Windows.Forms.Button()
+        Me.btnTrlMovTrlMovCancel = New System.Windows.Forms.Button()
+        Me.TextBox57 = New System.Windows.Forms.TextBox()
+        Me.Label85 = New System.Windows.Forms.Label()
+        Me.TextBox56 = New System.Windows.Forms.TextBox()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.Label83 = New System.Windows.Forms.Label()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.TextBox55 = New System.Windows.Forms.TextBox()
+        Me.Label79 = New System.Windows.Forms.Label()
+        Me.TextBox51 = New System.Windows.Forms.TextBox()
+        Me.TextBox52 = New System.Windows.Forms.TextBox()
+        Me.TextBox53 = New System.Windows.Forms.TextBox()
+        Me.Label80 = New System.Windows.Forms.Label()
+        Me.Label81 = New System.Windows.Forms.Label()
+        Me.TextBox54 = New System.Windows.Forms.TextBox()
+        Me.Label82 = New System.Windows.Forms.Label()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.Label77 = New System.Windows.Forms.Label()
+        Me.TabPage18 = New System.Windows.Forms.TabPage()
+        Me.Label88 = New System.Windows.Forms.Label()
+        Me.dgvTcsLocation = New System.Windows.Forms.DataGridView()
+        Me.Label98 = New System.Windows.Forms.Label()
+        Me.chkbTCSTrlExecCurSessOnly = New System.Windows.Forms.CheckBox()
+        Me.btnLoadTrlExecTrlReqData = New System.Windows.Forms.Button()
+        Me.dgTCSTrlReqbySessionViewData = New System.Windows.Forms.DataGridView()
+        Me.gbxTrailerMoveExec = New System.Windows.Forms.GroupBox()
+        Me.TextBox12 = New System.Windows.Forms.TextBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.btnTrlMovExecReset = New System.Windows.Forms.Button()
+        Me.btnTrlMovExecTrlChgPriority = New System.Windows.Forms.Button()
+        Me.TextBox65 = New System.Windows.Forms.TextBox()
+        Me.TextBox66 = New System.Windows.Forms.TextBox()
+        Me.TextBox44 = New System.Windows.Forms.TextBox()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.Label64 = New System.Windows.Forms.Label()
+        Me.TextBox41 = New System.Windows.Forms.TextBox()
+        Me.TextBox40 = New System.Windows.Forms.TextBox()
+        Me.Label62 = New System.Windows.Forms.Label()
+        Me.Label75 = New System.Windows.Forms.Label()
+        Me.TextBox49 = New System.Windows.Forms.TextBox()
+        Me.Label74 = New System.Windows.Forms.Label()
+        Me.TextBox50 = New System.Windows.Forms.TextBox()
+        Me.TextBox47 = New System.Windows.Forms.TextBox()
+        Me.Label72 = New System.Windows.Forms.Label()
+        Me.TextBox48 = New System.Windows.Forms.TextBox()
+        Me.Label73 = New System.Windows.Forms.Label()
+        Me.btnTrlMovExecTrlMovCancel = New System.Windows.Forms.Button()
+        Me.TextBox59 = New System.Windows.Forms.TextBox()
+        Me.Label87 = New System.Windows.Forms.Label()
+        Me.Label89 = New System.Windows.Forms.Label()
+        Me.TextBox61 = New System.Windows.Forms.TextBox()
+        Me.TextBox62 = New System.Windows.Forms.TextBox()
+        Me.TextBox63 = New System.Windows.Forms.TextBox()
+        Me.Label90 = New System.Windows.Forms.Label()
+        Me.Label91 = New System.Windows.Forms.Label()
+        Me.TextBox64 = New System.Windows.Forms.TextBox()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.Label93 = New System.Windows.Forms.Label()
+        Me.Label94 = New System.Windows.Forms.Label()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.chkAutoDataRefresh = New System.Windows.Forms.CheckBox()
@@ -545,6 +535,7 @@ Partial Class Main
         Me.tmrAutoScan = New System.Windows.Forms.Timer(Me.components)
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.btnLoadActivityData = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.GroupBox9.SuspendLayout()
@@ -614,27 +605,26 @@ Partial Class Main
         Me.TabPage12.SuspendLayout()
         CType(Me.flxGrid15, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage13.SuspendLayout()
-        Me.TabPage14.SuspendLayout()
-        Me.tabCtlTrailer.SuspendLayout()
-        Me.tabPgTCin.SuspendLayout()
-        Me.grpBxTrailerCkin.SuspendLayout()
-        Me.GroupBox24.SuspendLayout()
-        Me.GroupBox23.SuspendLayout()
-        Me.GroupBox22.SuspendLayout()
-        Me.GroupBox21.SuspendLayout()
-        Me.grpBxTCIShpRcpID.SuspendLayout()
-        Me.tabPgTrlCo.SuspendLayout()
-        Me.grpBxTrlCkout.SuspendLayout()
-        Me.tabPgTrlLocAsg.SuspendLayout()
-        Me.grpBxTrlLocAsg.SuspendLayout()
-        Me.GroupBox25.SuspendLayout()
         Me.tabPgTrlMovEmu.SuspendLayout()
+        Me.Panel14.SuspendLayout()
+        CType(Me.dgvTrlActivityData, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlTCSEmuData.SuspendLayout()
+        CType(Me.dGridTraMovData, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControl2.SuspendLayout()
+        Me.TabPage16.SuspendLayout()
         CType(Me.dGridTCSTrlViewData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTrailerMovMain.SuspendLayout()
         Me.GroupBox30.SuspendLayout()
-        Me.GroupBox27.SuspendLayout()
         Me.GroupBox29.SuspendLayout()
-        CType(Me.dGridTraMovData, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox27.SuspendLayout()
+        Me.TabPage17.SuspendLayout()
+        CType(Me.dgvTrlMvmtTCSTrailerView, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvTcsTrailerReq, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbxTrailerMovement.SuspendLayout()
+        Me.TabPage18.SuspendLayout()
+        CType(Me.dgvTcsLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgTCSTrlReqbySessionViewData, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbxTrailerMoveExec.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -651,13 +641,13 @@ Partial Class Main
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigurationToolStripMenuItem, Me.ControlToolStripMenuItem, Me.DatabaseUpdatesToolStripMenuItem, Me.LogsToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.WMSToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1314, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1779, 24)
         Me.MenuStrip1.TabIndex = 31
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ConfigurationToolStripMenuItem
         '
-        Me.ConfigurationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem, Me.DTLDriverSendToolStripMenuItem, Me.HostInboundToolStripMenuItem, Me.InfeedToolStripMenuItem, Me.ManualOutputRequestsToolStripMenuItem, Me.OutboundStagingToolStripMenuItem, Me.SocketCommunicationToolStripMenuItem, Me.SocketListeningPortsToolStripMenuItem})
+        Me.ConfigurationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainToolStripMenuItem, Me.DTLDriverSendToolStripMenuItem, Me.HostInboundToolStripMenuItem, Me.InfeedToolStripMenuItem, Me.ManualOutputRequestsToolStripMenuItem, Me.OutboundStagingToolStripMenuItem, Me.SocketCommunicationToolStripMenuItem, Me.SocketListeningPortsToolStripMenuItem, Me.TCSConfigToolStripMenuItem})
         Me.ConfigurationToolStripMenuItem.Name = "ConfigurationToolStripMenuItem"
         Me.ConfigurationToolStripMenuItem.Size = New System.Drawing.Size(93, 20)
         Me.ConfigurationToolStripMenuItem.Text = "Configuration"
@@ -709,6 +699,12 @@ Partial Class Main
         Me.SocketListeningPortsToolStripMenuItem.Name = "SocketListeningPortsToolStripMenuItem"
         Me.SocketListeningPortsToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
         Me.SocketListeningPortsToolStripMenuItem.Text = "Socket Listening Ports"
+        '
+        'TCSConfigToolStripMenuItem
+        '
+        Me.TCSConfigToolStripMenuItem.Name = "TCSConfigToolStripMenuItem"
+        Me.TCSConfigToolStripMenuItem.Size = New System.Drawing.Size(205, 22)
+        Me.TCSConfigToolStripMenuItem.Text = "TCS Config"
         '
         'ControlToolStripMenuItem
         '
@@ -947,9 +943,9 @@ Partial Class Main
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabelRefresh, Me.lblWait, Me.ToolStripStatusLabelHeartBeatOn, Me.ToolStripStatusSpacer, Me.lblToolStripWorking, Me.ToolStripStatusLblConnections})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 699)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 739)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1314, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1779, 22)
         Me.StatusStrip1.TabIndex = 62
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -981,7 +977,7 @@ Partial Class Main
         'ToolStripStatusSpacer
         '
         Me.ToolStripStatusSpacer.Name = "ToolStripStatusSpacer"
-        Me.ToolStripStatusSpacer.Size = New System.Drawing.Size(649, 17)
+        Me.ToolStripStatusSpacer.Size = New System.Drawing.Size(882, 17)
         Me.ToolStripStatusSpacer.Spring = True
         '
         'lblToolStripWorking
@@ -996,7 +992,7 @@ Partial Class Main
         'ToolStripStatusLblConnections
         '
         Me.ToolStripStatusLblConnections.Name = "ToolStripStatusLblConnections"
-        Me.ToolStripStatusLblConnections.Size = New System.Drawing.Size(649, 17)
+        Me.ToolStripStatusLblConnections.Size = New System.Drawing.Size(882, 17)
         Me.ToolStripStatusLblConnections.Spring = True
         Me.ToolStripStatusLblConnections.Text = "IP etc"
         Me.ToolStripStatusLblConnections.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1185,51 +1181,63 @@ Partial Class Main
         Me.linMain.TabIndex = 85
         Me.ToolTip1.SetToolTip(Me.linMain, "Click On Error Path to Force SSCC Error")
         '
-        'btnTrlMovTrlMovPickup
-        '
-        Me.btnTrlMovTrlMovPickup.AccessibleName = ""
-        Me.btnTrlMovTrlMovPickup.Location = New System.Drawing.Point(591, 233)
-        Me.btnTrlMovTrlMovPickup.Name = "btnTrlMovTrlMovPickup"
-        Me.btnTrlMovTrlMovPickup.Size = New System.Drawing.Size(111, 23)
-        Me.btnTrlMovTrlMovPickup.TabIndex = 17
-        Me.btnTrlMovTrlMovPickup.Tag = ""
-        Me.btnTrlMovTrlMovPickup.Text = "Trl. Move Pickup"
-        Me.ToolTip1.SetToolTip(Me.btnTrlMovTrlMovPickup, "Trailer Move Pickup or Hook")
-        Me.btnTrlMovTrlMovPickup.UseVisualStyleBackColor = True
-        '
         'btnTrlMovAsgnShpRcp
         '
-        Me.btnTrlMovAsgnShpRcp.Location = New System.Drawing.Point(209, 233)
+        Me.btnTrlMovAsgnShpRcp.Location = New System.Drawing.Point(213, 209)
         Me.btnTrlMovAsgnShpRcp.Name = "btnTrlMovAsgnShpRcp"
         Me.btnTrlMovAsgnShpRcp.Size = New System.Drawing.Size(112, 23)
-        Me.btnTrlMovAsgnShpRcp.TabIndex = 14
+        Me.btnTrlMovAsgnShpRcp.TabIndex = 2
         Me.btnTrlMovAsgnShpRcp.TabStop = False
         Me.btnTrlMovAsgnShpRcp.Text = "Assign Shipment"
         Me.ToolTip1.SetToolTip(Me.btnTrlMovAsgnShpRcp, "Assign Shipment Or Receipt")
         Me.btnTrlMovAsgnShpRcp.UseVisualStyleBackColor = True
         '
+        'btnTrlMovTLocAsgn
+        '
+        Me.btnTrlMovTLocAsgn.Location = New System.Drawing.Point(331, 209)
+        Me.btnTrlMovTLocAsgn.Name = "btnTrlMovTLocAsgn"
+        Me.btnTrlMovTLocAsgn.Size = New System.Drawing.Size(129, 23)
+        Me.btnTrlMovTLocAsgn.TabIndex = 3
+        Me.btnTrlMovTLocAsgn.TabStop = False
+        Me.btnTrlMovTLocAsgn.Tag = "TrailerLocAssignmentData"
+        Me.btnTrlMovTLocAsgn.Text = "Location Request"
+        Me.ToolTip1.SetToolTip(Me.btnTrlMovTLocAsgn, "Trailer Location Assignment")
+        Me.btnTrlMovTLocAsgn.UseVisualStyleBackColor = True
+        '
+        'btnTrlMovTrlLocReq
+        '
+        Me.btnTrlMovTrlLocReq.Location = New System.Drawing.Point(-1, 125)
+        Me.btnTrlMovTrlLocReq.Name = "btnTrlMovTrlLocReq"
+        Me.btnTrlMovTrlLocReq.Size = New System.Drawing.Size(119, 23)
+        Me.btnTrlMovTrlLocReq.TabIndex = 79
+        Me.btnTrlMovTrlLocReq.TabStop = False
+        Me.btnTrlMovTrlLocReq.Tag = "TrailerLocAssignmentData"
+        Me.btnTrlMovTrlLocReq.Text = "Trl. Loc Request"
+        Me.ToolTip1.SetToolTip(Me.btnTrlMovTrlLocReq, "Trailer Location Assignment")
+        Me.btnTrlMovTrlLocReq.UseVisualStyleBackColor = True
+        '
+        'btnTrlMovTrlMovPickup
+        '
+        Me.btnTrlMovTrlMovPickup.AccessibleName = ""
+        Me.btnTrlMovTrlMovPickup.Location = New System.Drawing.Point(11, 148)
+        Me.btnTrlMovTrlMovPickup.Name = "btnTrlMovTrlMovPickup"
+        Me.btnTrlMovTrlMovPickup.Size = New System.Drawing.Size(111, 23)
+        Me.btnTrlMovTrlMovPickup.TabIndex = 82
+        Me.btnTrlMovTrlMovPickup.Tag = ""
+        Me.btnTrlMovTrlMovPickup.Text = "Trl. Move Pickup"
+        Me.ToolTip1.SetToolTip(Me.btnTrlMovTrlMovPickup, "Trailer Move Pickup or Hook")
+        Me.btnTrlMovTrlMovPickup.UseVisualStyleBackColor = True
+        '
         'btnTrlMovTrlMovComp
         '
-        Me.btnTrlMovTrlMovComp.Location = New System.Drawing.Point(708, 232)
+        Me.btnTrlMovTrlMovComp.Location = New System.Drawing.Point(128, 147)
         Me.btnTrlMovTrlMovComp.Name = "btnTrlMovTrlMovComp"
         Me.btnTrlMovTrlMovComp.Size = New System.Drawing.Size(108, 23)
-        Me.btnTrlMovTrlMovComp.TabIndex = 18
+        Me.btnTrlMovTrlMovComp.TabIndex = 83
         Me.btnTrlMovTrlMovComp.TabStop = False
         Me.btnTrlMovTrlMovComp.Text = "Trl. Move Complete"
         Me.ToolTip1.SetToolTip(Me.btnTrlMovTrlMovComp, "Trailer Move Complete or Unhook")
         Me.btnTrlMovTrlMovComp.UseVisualStyleBackColor = True
-        '
-        'btnTrlMovTLocAsgn
-        '
-        Me.btnTrlMovTLocAsgn.Location = New System.Drawing.Point(327, 233)
-        Me.btnTrlMovTLocAsgn.Name = "btnTrlMovTLocAsgn"
-        Me.btnTrlMovTLocAsgn.Size = New System.Drawing.Size(129, 23)
-        Me.btnTrlMovTLocAsgn.TabIndex = 15
-        Me.btnTrlMovTLocAsgn.TabStop = False
-        Me.btnTrlMovTLocAsgn.Tag = "TrailerLocAssignmentData"
-        Me.btnTrlMovTLocAsgn.Text = "Trailer Location Assign"
-        Me.ToolTip1.SetToolTip(Me.btnTrlMovTLocAsgn, "Trailer Location Assignment")
-        Me.btnTrlMovTLocAsgn.UseVisualStyleBackColor = True
         '
         'tmrHeartbeat
         '
@@ -1257,8 +1265,8 @@ Partial Class Main
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
         Me.SplitContainer1.Panel2MinSize = 75
-        Me.SplitContainer1.Size = New System.Drawing.Size(1287, 670)
-        Me.SplitContainer1.SplitterDistance = 439
+        Me.SplitContainer1.Size = New System.Drawing.Size(1752, 710)
+        Me.SplitContainer1.SplitterDistance = 465
         Me.SplitContainer1.TabIndex = 63
         '
         'TabControl1
@@ -1278,12 +1286,11 @@ Partial Class Main
         Me.TabControl1.Controls.Add(Me.TabPage11)
         Me.TabControl1.Controls.Add(Me.TabPage12)
         Me.TabControl1.Controls.Add(Me.TabPage13)
-        Me.TabControl1.Controls.Add(Me.TabPage14)
         Me.TabControl1.Controls.Add(Me.tabPgTrlMovEmu)
         Me.TabControl1.Location = New System.Drawing.Point(3, 3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1316, 439)
+        Me.TabControl1.Size = New System.Drawing.Size(1781, 459)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage1
@@ -1298,7 +1305,7 @@ Partial Class Main
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage1.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "RTCIS Infeed"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -1388,8 +1395,8 @@ Partial Class Main
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
         Me.TableLayoutPanel3.RowCount = 1
         Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 327.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(835, 327)
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 347.0!))
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(1300, 347)
         Me.TableLayoutPanel3.TabIndex = 61
         '
         'flxGrid1
@@ -1398,7 +1405,7 @@ Partial Class Main
         Me.flxGrid1.Location = New System.Drawing.Point(3, 3)
         Me.flxGrid1.Name = "flxGrid1"
         Me.flxGrid1.OcxState = CType(resources.GetObject("flxGrid1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.flxGrid1.Size = New System.Drawing.Size(829, 321)
+        Me.flxGrid1.Size = New System.Drawing.Size(1420, 341)
         Me.flxGrid1.TabIndex = 0
         '
         'GroupBox3
@@ -1481,7 +1488,7 @@ Partial Class Main
         Me.TabPage2.Controls.Add(Me.TableLayoutPanel1)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage2.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage2.TabIndex = 4
         Me.TabPage2.Text = "ASRS Infeed"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -1494,7 +1501,7 @@ Partial Class Main
         Me.TableLayoutPanel1.ColumnCount = 3
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.41291!))
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.58709!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 292.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 332.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.grpCartonControl, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.GroupBox15, 2, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.flxGrid2, 0, 1)
@@ -1506,7 +1513,7 @@ Partial Class Main
         Me.TableLayoutPanel1.RowCount = 2
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 331.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1258, 397)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(1723, 417)
         Me.TableLayoutPanel1.TabIndex = 69
         '
         'grpCartonControl
@@ -1519,7 +1526,7 @@ Partial Class Main
         Me.grpCartonControl.Dock = System.Windows.Forms.DockStyle.Top
         Me.grpCartonControl.Location = New System.Drawing.Point(3, 3)
         Me.grpCartonControl.Name = "grpCartonControl"
-        Me.grpCartonControl.Size = New System.Drawing.Size(471, 60)
+        Me.grpCartonControl.Size = New System.Drawing.Size(681, 60)
         Me.grpCartonControl.TabIndex = 0
         Me.grpCartonControl.TabStop = False
         Me.grpCartonControl.Text = "ASRS Input Location Control"
@@ -1591,9 +1598,9 @@ Partial Class Main
         '
         Me.GroupBox15.Controls.Add(Me.butRereshAsrsInventorySummary)
         Me.GroupBox15.Dock = System.Windows.Forms.DockStyle.Top
-        Me.GroupBox15.Location = New System.Drawing.Point(968, 3)
+        Me.GroupBox15.Location = New System.Drawing.Point(1393, 3)
         Me.GroupBox15.Name = "GroupBox15"
-        Me.GroupBox15.Size = New System.Drawing.Size(287, 60)
+        Me.GroupBox15.Size = New System.Drawing.Size(327, 60)
         Me.GroupBox15.TabIndex = 63
         Me.GroupBox15.TabStop = False
         Me.GroupBox15.Text = "ASRS Inventory Summary"
@@ -1610,20 +1617,20 @@ Partial Class Main
         'flxGrid2
         '
         Me.flxGrid2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.flxGrid2.Location = New System.Drawing.Point(3, 69)
+        Me.flxGrid2.Location = New System.Drawing.Point(3, 89)
         Me.flxGrid2.Name = "flxGrid2"
         Me.flxGrid2.OcxState = CType(resources.GetObject("flxGrid2.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.flxGrid2.Size = New System.Drawing.Size(471, 325)
+        Me.flxGrid2.Size = New System.Drawing.Size(681, 325)
         Me.flxGrid2.TabIndex = 0
         Me.flxGrid2.TabStop = False
         '
         'flxGrid3
         '
         Me.flxGrid3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.flxGrid3.Location = New System.Drawing.Point(480, 69)
+        Me.flxGrid3.Location = New System.Drawing.Point(690, 89)
         Me.flxGrid3.Name = "flxGrid3"
         Me.flxGrid3.OcxState = CType(resources.GetObject("flxGrid3.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.flxGrid3.Size = New System.Drawing.Size(482, 325)
+        Me.flxGrid3.Size = New System.Drawing.Size(697, 325)
         Me.flxGrid3.TabIndex = 0
         '
         'grpPickControl
@@ -1633,9 +1640,9 @@ Partial Class Main
         Me.grpPickControl.Controls.Add(Me.butMsg7SelectAll)
         Me.grpPickControl.Controls.Add(Me.butMsg7DeSelectAll)
         Me.grpPickControl.Dock = System.Windows.Forms.DockStyle.Top
-        Me.grpPickControl.Location = New System.Drawing.Point(480, 3)
+        Me.grpPickControl.Location = New System.Drawing.Point(690, 3)
         Me.grpPickControl.Name = "grpPickControl"
-        Me.grpPickControl.Size = New System.Drawing.Size(482, 60)
+        Me.grpPickControl.Size = New System.Drawing.Size(697, 60)
         Me.grpPickControl.TabIndex = 2
         Me.grpPickControl.TabStop = False
         Me.grpPickControl.Text = "Final Destination Msg7 Control        (9=Reject)"
@@ -1679,10 +1686,10 @@ Partial Class Main
         'flxGrid11
         '
         Me.flxGrid11.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.flxGrid11.Location = New System.Drawing.Point(968, 69)
+        Me.flxGrid11.Location = New System.Drawing.Point(1393, 89)
         Me.flxGrid11.Name = "flxGrid11"
         Me.flxGrid11.OcxState = CType(resources.GetObject("flxGrid11.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.flxGrid11.Size = New System.Drawing.Size(287, 325)
+        Me.flxGrid11.Size = New System.Drawing.Size(327, 325)
         Me.flxGrid11.TabIndex = 64
         '
         'TabPage7
@@ -1691,7 +1698,7 @@ Partial Class Main
         Me.TabPage7.Controls.Add(Me.GroupBox8)
         Me.TabPage7.Location = New System.Drawing.Point(4, 22)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage7.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage7.TabIndex = 8
         Me.TabPage7.Text = "Request Order"
         Me.TabPage7.UseVisualStyleBackColor = True
@@ -1807,7 +1814,7 @@ Partial Class Main
         Me.TabPage4.Controls.Add(Me.butMsg21_GetData)
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage4.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage4.TabIndex = 5
         Me.TabPage4.Text = "Order Stage/De-Stage"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -2037,7 +2044,7 @@ Partial Class Main
         Me.TabPage8.Controls.Add(Me.GroupBox12)
         Me.TabPage8.Location = New System.Drawing.Point(4, 22)
         Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage8.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage8.TabIndex = 9
         Me.TabPage8.Text = "Order Compl"
         Me.TabPage8.UseVisualStyleBackColor = True
@@ -2284,7 +2291,7 @@ Partial Class Main
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage5.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage5.TabIndex = 6
         Me.TabPage5.Text = "QaChg History"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -2319,7 +2326,7 @@ Partial Class Main
         Me.TabPage6.Controls.Add(Me.txtMsg11_RDT_Message)
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage6.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage6.TabIndex = 7
         Me.TabPage6.Text = "RF Broadcast"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -2403,7 +2410,7 @@ Partial Class Main
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage3.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage3.TabIndex = 3
         Me.TabPage3.Text = "Manual Output Req"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -2621,7 +2628,7 @@ Partial Class Main
         Me.TabPage9.Controls.Add(Me.txtReconcileItmCod)
         Me.TabPage9.Location = New System.Drawing.Point(4, 22)
         Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage9.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage9.TabIndex = 10
         Me.TabPage9.Text = "Reconcile"
         Me.TabPage9.UseVisualStyleBackColor = True
@@ -2725,7 +2732,7 @@ Partial Class Main
         Me.TabPage10.Controls.Add(Me.lblG01)
         Me.TabPage10.Location = New System.Drawing.Point(4, 22)
         Me.TabPage10.Name = "TabPage10"
-        Me.TabPage10.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage10.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage10.TabIndex = 11
         Me.TabPage10.Text = "UL GUI"
         Me.TabPage10.UseVisualStyleBackColor = True
@@ -3444,7 +3451,7 @@ Partial Class Main
         Me.TabPage11.Controls.Add(Me.TableLayoutPanel6)
         Me.TabPage11.Location = New System.Drawing.Point(4, 22)
         Me.TabPage11.Name = "TabPage11"
-        Me.TabPage11.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage11.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage11.TabIndex = 12
         Me.TabPage11.Text = "FPDS Request"
         Me.TabPage11.UseVisualStyleBackColor = True
@@ -3466,7 +3473,7 @@ Partial Class Main
         Me.TableLayoutPanel6.RowCount = 2
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.3727!))
         Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.6273!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1258, 381)
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(1723, 401)
         Me.TableLayoutPanel6.TabIndex = 2
         '
         'grpFPDSControl
@@ -3479,7 +3486,7 @@ Partial Class Main
         Me.grpFPDSControl.Dock = System.Windows.Forms.DockStyle.Top
         Me.grpFPDSControl.Location = New System.Drawing.Point(3, 3)
         Me.grpFPDSControl.Name = "grpFPDSControl"
-        Me.grpFPDSControl.Size = New System.Drawing.Size(517, 60)
+        Me.grpFPDSControl.Size = New System.Drawing.Size(711, 60)
         Me.grpFPDSControl.TabIndex = 1
         Me.grpFPDSControl.TabStop = False
         Me.grpFPDSControl.Text = "Conveyor Input Location Control"
@@ -3549,7 +3556,7 @@ Partial Class Main
         '
         'flxGrid13
         '
-        Me.flxGrid13.Location = New System.Drawing.Point(3, 72)
+        Me.flxGrid13.Location = New System.Drawing.Point(3, 76)
         Me.flxGrid13.Name = "flxGrid13"
         Me.flxGrid13.OcxState = CType(resources.GetObject("flxGrid13.OcxState"), System.Windows.Forms.AxHost.State)
         Me.flxGrid13.Size = New System.Drawing.Size(505, 292)
@@ -3561,7 +3568,7 @@ Partial Class Main
         Me.GroupBox17.Controls.Add(Me.butConveyorInputSelectAll)
         Me.GroupBox17.Controls.Add(Me.butConveyorInputDeselectAll)
         Me.GroupBox17.Controls.Add(Me.butRefreshConveyorInput)
-        Me.GroupBox17.Location = New System.Drawing.Point(526, 3)
+        Me.GroupBox17.Location = New System.Drawing.Point(720, 3)
         Me.GroupBox17.Name = "GroupBox17"
         Me.GroupBox17.Size = New System.Drawing.Size(517, 60)
         Me.GroupBox17.TabIndex = 3
@@ -3606,7 +3613,7 @@ Partial Class Main
         '
         'flxGrid14
         '
-        Me.flxGrid14.Location = New System.Drawing.Point(526, 72)
+        Me.flxGrid14.Location = New System.Drawing.Point(720, 76)
         Me.flxGrid14.Name = "flxGrid14"
         Me.flxGrid14.OcxState = CType(resources.GetObject("flxGrid14.OcxState"), System.Windows.Forms.AxHost.State)
         Me.flxGrid14.Size = New System.Drawing.Size(577, 293)
@@ -3618,7 +3625,7 @@ Partial Class Main
         Me.TabPage12.Controls.Add(Me.flxGrid15)
         Me.TabPage12.Location = New System.Drawing.Point(4, 22)
         Me.TabPage12.Name = "TabPage12"
-        Me.TabPage12.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage12.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage12.TabIndex = 13
         Me.TabPage12.Text = "WMS Staging"
         Me.TabPage12.UseVisualStyleBackColor = True
@@ -3649,7 +3656,7 @@ Partial Class Main
         Me.TabPage13.Controls.Add(Me.butMsg7)
         Me.TabPage13.Location = New System.Drawing.Point(4, 22)
         Me.TabPage13.Name = "TabPage13"
-        Me.TabPage13.Size = New System.Drawing.Size(1308, 413)
+        Me.TabPage13.Size = New System.Drawing.Size(1773, 433)
         Me.TabPage13.TabIndex = 14
         Me.TabPage13.Text = "Utilities"
         Me.TabPage13.UseVisualStyleBackColor = True
@@ -3695,1154 +3702,301 @@ Partial Class Main
         Me.butMsg7.Text = "Send Msg7"
         Me.butMsg7.UseVisualStyleBackColor = True
         '
-        'TabPage14
-        '
-        Me.TabPage14.Controls.Add(Me.tabCtlTrailer)
-        Me.TabPage14.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage14.Name = "TabPage14"
-        Me.TabPage14.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage14.Size = New System.Drawing.Size(1308, 413)
-        Me.TabPage14.TabIndex = 15
-        Me.TabPage14.Text = "Trailer Movements"
-        Me.TabPage14.UseVisualStyleBackColor = True
-        '
-        'tabCtlTrailer
-        '
-        Me.tabCtlTrailer.Controls.Add(Me.tabPgTCin)
-        Me.tabCtlTrailer.Controls.Add(Me.tabPgTrlCo)
-        Me.tabCtlTrailer.Controls.Add(Me.tabPgTrlLocAsg)
-        Me.tabCtlTrailer.Controls.Add(Me.TabPage15)
-        Me.tabCtlTrailer.Location = New System.Drawing.Point(6, 21)
-        Me.tabCtlTrailer.Name = "tabCtlTrailer"
-        Me.tabCtlTrailer.SelectedIndex = 0
-        Me.tabCtlTrailer.Size = New System.Drawing.Size(670, 386)
-        Me.tabCtlTrailer.TabIndex = 1
-        '
-        'tabPgTCin
-        '
-        Me.tabPgTCin.AccessibleName = "TrailerCheckin"
-        Me.tabPgTCin.Controls.Add(Me.grpBxTrailerCkin)
-        Me.tabPgTCin.Location = New System.Drawing.Point(4, 22)
-        Me.tabPgTCin.Name = "tabPgTCin"
-        Me.tabPgTCin.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPgTCin.Size = New System.Drawing.Size(662, 360)
-        Me.tabPgTCin.TabIndex = 0
-        Me.tabPgTCin.Tag = "TrailerCheckin"
-        Me.tabPgTCin.Text = "Trailer Check-In"
-        Me.tabPgTCin.UseVisualStyleBackColor = True
-        '
-        'grpBxTrailerCkin
-        '
-        Me.grpBxTrailerCkin.Controls.Add(Me.cboTCITrlnum)
-        Me.grpBxTrailerCkin.Controls.Add(Me.cboTCITrklin)
-        Me.grpBxTrailerCkin.Controls.Add(Me.GroupBox24)
-        Me.grpBxTrailerCkin.Controls.Add(Me.GroupBox23)
-        Me.grpBxTrailerCkin.Controls.Add(Me.GroupBox22)
-        Me.grpBxTrailerCkin.Controls.Add(Me.GroupBox21)
-        Me.grpBxTrailerCkin.Controls.Add(Me.grpBxTCIShpRcpID)
-        Me.grpBxTrailerCkin.Controls.Add(Me.txtTCIWcsTransitNum)
-        Me.grpBxTrailerCkin.Controls.Add(Me.lblTCIWcsTransitNum)
-        Me.grpBxTrailerCkin.Controls.Add(Me.lblTCITrklin)
-        Me.grpBxTrailerCkin.Controls.Add(Me.lblTCITrlnum)
-        Me.grpBxTrailerCkin.Controls.Add(Me.btnTCin_TrlCkin)
-        Me.grpBxTrailerCkin.Location = New System.Drawing.Point(6, 6)
-        Me.grpBxTrailerCkin.Name = "grpBxTrailerCkin"
-        Me.grpBxTrailerCkin.Size = New System.Drawing.Size(638, 348)
-        Me.grpBxTrailerCkin.TabIndex = 0
-        Me.grpBxTrailerCkin.TabStop = False
-        Me.grpBxTrailerCkin.Tag = "TrailerCheckinData"
-        Me.grpBxTrailerCkin.Text = "Trailer Check-In Details"
-        '
-        'cboTCITrlnum
-        '
-        Me.cboTCITrlnum.AccessibleName = "TRAILER_ID"
-        Me.cboTCITrlnum.FormattingEnabled = True
-        Me.cboTCITrlnum.Location = New System.Drawing.Point(235, 16)
-        Me.cboTCITrlnum.Name = "cboTCITrlnum"
-        Me.cboTCITrlnum.Size = New System.Drawing.Size(122, 21)
-        Me.cboTCITrlnum.TabIndex = 5
-        Me.cboTCITrlnum.Tag = "TRAILER_ID"
-        '
-        'cboTCITrklin
-        '
-        Me.cboTCITrklin.AccessibleName = "TRUCK_LINE"
-        Me.cboTCITrklin.FormattingEnabled = True
-        Me.cboTCITrklin.Location = New System.Drawing.Point(68, 18)
-        Me.cboTCITrklin.Name = "cboTCITrklin"
-        Me.cboTCITrklin.Size = New System.Drawing.Size(100, 21)
-        Me.cboTCITrklin.TabIndex = 3
-        Me.cboTCITrklin.Tag = "TRUCK_LINE"
-        '
-        'GroupBox24
-        '
-        Me.GroupBox24.Controls.Add(Me.lblTCI_len)
-        Me.GroupBox24.Controls.Add(Me.txtTCILen)
-        Me.GroupBox24.Controls.Add(Me.txtTCIWidth)
-        Me.GroupBox24.Controls.Add(Me.txtTCIHeight)
-        Me.GroupBox24.Controls.Add(Me.lblTCIEmptyWgt)
-        Me.GroupBox24.Controls.Add(Me.cboTCITrkLIne)
-        Me.GroupBox24.Controls.Add(Me.txtTCIEmptyWeight)
-        Me.GroupBox24.Controls.Add(Me.txtTCIFullWgt)
-        Me.GroupBox24.Controls.Add(Me.lblTCITempCode)
-        Me.GroupBox24.Controls.Add(Me.TextBox9)
-        Me.GroupBox24.Controls.Add(Me.txtTCIFreightCurrency)
-        Me.GroupBox24.Controls.Add(Me.txtTCIType)
-        Me.GroupBox24.Controls.Add(Me.lblTCI_type)
-        Me.GroupBox24.Controls.Add(Me.lblTCIOrigin)
-        Me.GroupBox24.Controls.Add(Me.txtTCIOrigin)
-        Me.GroupBox24.Controls.Add(Me.txtTCIFreightAmt)
-        Me.GroupBox24.Controls.Add(Me.lblTCIContents)
-        Me.GroupBox24.Controls.Add(Me.lblTCIFreightAmount)
-        Me.GroupBox24.Controls.Add(Me.txtTCIContents)
-        Me.GroupBox24.Location = New System.Drawing.Point(10, 45)
-        Me.GroupBox24.Name = "GroupBox24"
-        Me.GroupBox24.Size = New System.Drawing.Size(336, 129)
-        Me.GroupBox24.TabIndex = 6
-        Me.GroupBox24.TabStop = False
-        Me.GroupBox24.Text = "Misc. Data"
-        '
-        'lblTCI_len
-        '
-        Me.lblTCI_len.AutoSize = True
-        Me.lblTCI_len.Location = New System.Drawing.Point(7, 60)
-        Me.lblTCI_len.Name = "lblTCI_len"
-        Me.lblTCI_len.Size = New System.Drawing.Size(105, 13)
-        Me.lblTCI_len.TabIndex = 15
-        Me.lblTCI_len.Text = "Dimensions (L/W/H)"
-        '
-        'txtTCILen
-        '
-        Me.txtTCILen.AccessibleName = "LENGTH"
-        Me.txtTCILen.Location = New System.Drawing.Point(118, 60)
-        Me.txtTCILen.Name = "txtTCILen"
-        Me.txtTCILen.Size = New System.Drawing.Size(40, 20)
-        Me.txtTCILen.TabIndex = 16
-        Me.txtTCILen.Tag = "LENGHT"
-        '
-        'txtTCIWidth
-        '
-        Me.txtTCIWidth.AccessibleName = "WIDTH"
-        Me.txtTCIWidth.Location = New System.Drawing.Point(164, 60)
-        Me.txtTCIWidth.Name = "txtTCIWidth"
-        Me.txtTCIWidth.Size = New System.Drawing.Size(41, 20)
-        Me.txtTCIWidth.TabIndex = 17
-        Me.txtTCIWidth.Tag = "WIDTH"
-        '
-        'txtTCIHeight
-        '
-        Me.txtTCIHeight.AccessibleName = "HEIGHT"
-        Me.txtTCIHeight.Location = New System.Drawing.Point(211, 60)
-        Me.txtTCIHeight.Name = "txtTCIHeight"
-        Me.txtTCIHeight.Size = New System.Drawing.Size(40, 20)
-        Me.txtTCIHeight.TabIndex = 18
-        Me.txtTCIHeight.Tag = "HEIGHT"
-        '
-        'lblTCIEmptyWgt
-        '
-        Me.lblTCIEmptyWgt.AutoSize = True
-        Me.lblTCIEmptyWgt.Location = New System.Drawing.Point(7, 81)
-        Me.lblTCIEmptyWgt.Name = "lblTCIEmptyWgt"
-        Me.lblTCIEmptyWgt.Size = New System.Drawing.Size(112, 13)
-        Me.lblTCIEmptyWgt.TabIndex = 19
-        Me.lblTCIEmptyWgt.Text = "Weight(Emp/Full/Est.)"
-        '
-        'cboTCITrkLIne
-        '
-        Me.cboTCITrkLIne.AccessibleName = "CBO_TEMP_CODE"
-        Me.cboTCITrkLIne.FormattingEnabled = True
-        Me.cboTCITrkLIne.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.cboTCITrkLIne.Items.AddRange(New Object() {"Cold", "Hot"})
-        Me.cboTCITrkLIne.Location = New System.Drawing.Point(223, 9)
-        Me.cboTCITrkLIne.Name = "cboTCITrkLIne"
-        Me.cboTCITrkLIne.Size = New System.Drawing.Size(100, 21)
-        Me.cboTCITrkLIne.TabIndex = 10
-        Me.cboTCITrkLIne.Tag = "CBO_TEMP_CODE"
-        '
-        'txtTCIEmptyWeight
-        '
-        Me.txtTCIEmptyWeight.AccessibleName = "EMPTY_WEIGHT"
-        Me.txtTCIEmptyWeight.Location = New System.Drawing.Point(118, 81)
-        Me.txtTCIEmptyWeight.Name = "txtTCIEmptyWeight"
-        Me.txtTCIEmptyWeight.Size = New System.Drawing.Size(40, 20)
-        Me.txtTCIEmptyWeight.TabIndex = 20
-        Me.txtTCIEmptyWeight.Tag = "EMPTY_WEIGHT"
-        '
-        'txtTCIFullWgt
-        '
-        Me.txtTCIFullWgt.AccessibleName = "FULL_WEIGHT"
-        Me.txtTCIFullWgt.Location = New System.Drawing.Point(164, 81)
-        Me.txtTCIFullWgt.Name = "txtTCIFullWgt"
-        Me.txtTCIFullWgt.Size = New System.Drawing.Size(41, 20)
-        Me.txtTCIFullWgt.TabIndex = 21
-        Me.txtTCIFullWgt.Tag = "FULL_WEIGHT"
-        '
-        'lblTCITempCode
-        '
-        Me.lblTCITempCode.AutoSize = True
-        Me.lblTCITempCode.Location = New System.Drawing.Point(161, 14)
-        Me.lblTCITempCode.Name = "lblTCITempCode"
-        Me.lblTCITempCode.Size = New System.Drawing.Size(62, 13)
-        Me.lblTCITempCode.TabIndex = 9
-        Me.lblTCITempCode.Text = "Temp Code"
-        '
-        'TextBox9
-        '
-        Me.TextBox9.AccessibleName = "HEIGHT"
-        Me.TextBox9.Location = New System.Drawing.Point(210, 81)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(41, 20)
-        Me.TextBox9.TabIndex = 22
-        Me.TextBox9.Tag = "HEIGHT"
-        '
-        'txtTCIFreightCurrency
-        '
-        Me.txtTCIFreightCurrency.AccessibleName = "FREIGHT_CURRENCY"
-        Me.txtTCIFreightCurrency.Location = New System.Drawing.Point(195, 107)
-        Me.txtTCIFreightCurrency.Name = "txtTCIFreightCurrency"
-        Me.txtTCIFreightCurrency.Size = New System.Drawing.Size(56, 20)
-        Me.txtTCIFreightCurrency.TabIndex = 25
-        Me.txtTCIFreightCurrency.Tag = "FREIGHT_CURRENCY"
-        '
-        'txtTCIType
-        '
-        Me.txtTCIType.AccessibleName = "TYPE"
-        Me.txtTCIType.Location = New System.Drawing.Point(47, 14)
-        Me.txtTCIType.Name = "txtTCIType"
-        Me.txtTCIType.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCIType.TabIndex = 8
-        Me.txtTCIType.Tag = "TYPE"
-        '
-        'lblTCI_type
-        '
-        Me.lblTCI_type.AutoSize = True
-        Me.lblTCI_type.Location = New System.Drawing.Point(3, 14)
-        Me.lblTCI_type.Name = "lblTCI_type"
-        Me.lblTCI_type.Size = New System.Drawing.Size(31, 13)
-        Me.lblTCI_type.TabIndex = 7
-        Me.lblTCI_type.Text = "Type"
-        '
-        'lblTCIOrigin
-        '
-        Me.lblTCIOrigin.AutoSize = True
-        Me.lblTCIOrigin.Location = New System.Drawing.Point(7, 37)
-        Me.lblTCIOrigin.Name = "lblTCIOrigin"
-        Me.lblTCIOrigin.Size = New System.Drawing.Size(34, 13)
-        Me.lblTCIOrigin.TabIndex = 11
-        Me.lblTCIOrigin.Text = "Origin"
-        '
-        'txtTCIOrigin
-        '
-        Me.txtTCIOrigin.AccessibleName = "ORIGIN"
-        Me.txtTCIOrigin.Location = New System.Drawing.Point(47, 37)
-        Me.txtTCIOrigin.Name = "txtTCIOrigin"
-        Me.txtTCIOrigin.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCIOrigin.TabIndex = 12
-        Me.txtTCIOrigin.Tag = "ORIGIN"
-        '
-        'txtTCIFreightAmt
-        '
-        Me.txtTCIFreightAmt.AccessibleName = "FREIGHT_AMOUNT"
-        Me.txtTCIFreightAmt.Location = New System.Drawing.Point(138, 106)
-        Me.txtTCIFreightAmt.Name = "txtTCIFreightAmt"
-        Me.txtTCIFreightAmt.Size = New System.Drawing.Size(51, 20)
-        Me.txtTCIFreightAmt.TabIndex = 24
-        Me.txtTCIFreightAmt.Tag = "HEIGHT"
-        '
-        'lblTCIContents
-        '
-        Me.lblTCIContents.AutoSize = True
-        Me.lblTCIContents.Location = New System.Drawing.Point(170, 38)
-        Me.lblTCIContents.Name = "lblTCIContents"
-        Me.lblTCIContents.Size = New System.Drawing.Size(49, 13)
-        Me.lblTCIContents.TabIndex = 13
-        Me.lblTCIContents.Text = "Contents"
-        '
-        'lblTCIFreightAmount
-        '
-        Me.lblTCIFreightAmount.AutoSize = True
-        Me.lblTCIFreightAmount.Location = New System.Drawing.Point(7, 107)
-        Me.lblTCIFreightAmount.Name = "lblTCIFreightAmount"
-        Me.lblTCIFreightAmount.Size = New System.Drawing.Size(125, 13)
-        Me.lblTCIFreightAmount.TabIndex = 23
-        Me.lblTCIFreightAmount.Text = "Freight Amount/Currency"
-        '
-        'txtTCIContents
-        '
-        Me.txtTCIContents.AccessibleName = "CONTENTS"
-        Me.txtTCIContents.Location = New System.Drawing.Point(223, 35)
-        Me.txtTCIContents.Name = "txtTCIContents"
-        Me.txtTCIContents.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCIContents.TabIndex = 14
-        Me.txtTCIContents.Tag = "CONTENTS"
-        '
-        'GroupBox23
-        '
-        Me.GroupBox23.Controls.Add(Me.chkBTCIUsabel)
-        Me.GroupBox23.Controls.Add(Me.txtTCIUnUsableReason)
-        Me.GroupBox23.Location = New System.Drawing.Point(10, 263)
-        Me.GroupBox23.Name = "GroupBox23"
-        Me.GroupBox23.Size = New System.Drawing.Size(336, 43)
-        Me.GroupBox23.TabIndex = 50
-        Me.GroupBox23.TabStop = False
-        Me.GroupBox23.Text = "Usabel?/ Reason"
-        '
-        'chkBTCIUsabel
-        '
-        Me.chkBTCIUsabel.AccessibleName = "USABEL"
-        Me.chkBTCIUsabel.AutoSize = True
-        Me.chkBTCIUsabel.Location = New System.Drawing.Point(6, 18)
-        Me.chkBTCIUsabel.Name = "chkBTCIUsabel"
-        Me.chkBTCIUsabel.Size = New System.Drawing.Size(15, 14)
-        Me.chkBTCIUsabel.TabIndex = 51
-        Me.chkBTCIUsabel.Tag = "USABEL"
-        Me.chkBTCIUsabel.UseVisualStyleBackColor = True
-        '
-        'txtTCIUnUsableReason
-        '
-        Me.txtTCIUnUsableReason.AccessibleName = "UNUSABLE_REASON"
-        Me.txtTCIUnUsableReason.Location = New System.Drawing.Point(27, 12)
-        Me.txtTCIUnUsableReason.Name = "txtTCIUnUsableReason"
-        Me.txtTCIUnUsableReason.Size = New System.Drawing.Size(296, 20)
-        Me.txtTCIUnUsableReason.TabIndex = 52
-        Me.txtTCIUnUsableReason.Tag = "UNUSABLE_REASON"
-        '
-        'GroupBox22
-        '
-        Me.GroupBox22.Controls.Add(Me.txtTCISitNam)
-        Me.GroupBox22.Controls.Add(Me.lblTCISitNam)
-        Me.GroupBox22.Controls.Add(Me.txtTCIBlding)
-        Me.GroupBox22.Controls.Add(Me.lblTCIBlding)
-        Me.GroupBox22.Controls.Add(Me.txtTCILocatn)
-        Me.GroupBox22.Controls.Add(Me.lblBldingLst)
-        Me.GroupBox22.Controls.Add(Me.txtTCIBldingLst)
-        Me.GroupBox22.Location = New System.Drawing.Point(10, 184)
-        Me.GroupBox22.Name = "GroupBox22"
-        Me.GroupBox22.Size = New System.Drawing.Size(336, 66)
-        Me.GroupBox22.TabIndex = 26
-        Me.GroupBox22.TabStop = False
-        Me.GroupBox22.Text = "Trailer Location"
-        '
-        'txtTCISitNam
-        '
-        Me.txtTCISitNam.AccessibleName = "SITE_NAME"
-        Me.txtTCISitNam.Location = New System.Drawing.Point(118, 13)
-        Me.txtTCISitNam.Name = "txtTCISitNam"
-        Me.txtTCISitNam.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCISitNam.TabIndex = 28
-        Me.txtTCISitNam.Tag = "SITE_NAME"
-        '
-        'lblTCISitNam
-        '
-        Me.lblTCISitNam.AutoSize = True
-        Me.lblTCISitNam.Location = New System.Drawing.Point(6, 20)
-        Me.lblTCISitNam.Name = "lblTCISitNam"
-        Me.lblTCISitNam.Size = New System.Drawing.Size(105, 13)
-        Me.lblTCISitNam.TabIndex = 27
-        Me.lblTCISitNam.Text = "Site Name/Location "
-        '
-        'txtTCIBlding
-        '
-        Me.txtTCIBlding.AccessibleName = "BUILDING"
-        Me.txtTCIBlding.Location = New System.Drawing.Point(60, 43)
-        Me.txtTCIBlding.Name = "txtTCIBlding"
-        Me.txtTCIBlding.Size = New System.Drawing.Size(87, 20)
-        Me.txtTCIBlding.TabIndex = 31
-        Me.txtTCIBlding.Tag = "BUILDING"
-        '
-        'lblTCIBlding
-        '
-        Me.lblTCIBlding.AutoSize = True
-        Me.lblTCIBlding.Location = New System.Drawing.Point(6, 43)
-        Me.lblTCIBlding.Name = "lblTCIBlding"
-        Me.lblTCIBlding.Size = New System.Drawing.Size(44, 13)
-        Me.lblTCIBlding.TabIndex = 30
-        Me.lblTCIBlding.Text = "Building"
-        '
-        'txtTCILocatn
-        '
-        Me.txtTCILocatn.AccessibleName = "LOCATION"
-        Me.txtTCILocatn.Location = New System.Drawing.Point(223, 13)
-        Me.txtTCILocatn.Name = "txtTCILocatn"
-        Me.txtTCILocatn.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCILocatn.TabIndex = 29
-        Me.txtTCILocatn.Tag = "LOCATION"
-        '
-        'lblBldingLst
-        '
-        Me.lblBldingLst.AutoSize = True
-        Me.lblBldingLst.Location = New System.Drawing.Point(150, 43)
-        Me.lblBldingLst.Name = "lblBldingLst"
-        Me.lblBldingLst.Size = New System.Drawing.Size(50, 13)
-        Me.lblBldingLst.TabIndex = 32
-        Me.lblBldingLst.Text = "Bldg. List"
-        '
-        'txtTCIBldingLst
-        '
-        Me.txtTCIBldingLst.AccessibleName = "BUILDING_LIST"
-        Me.txtTCIBldingLst.Location = New System.Drawing.Point(206, 40)
-        Me.txtTCIBldingLst.Name = "txtTCIBldingLst"
-        Me.txtTCIBldingLst.Size = New System.Drawing.Size(117, 20)
-        Me.txtTCIBldingLst.TabIndex = 33
-        Me.txtTCIBldingLst.Tag = "BUILDING_LIST"
-        '
-        'GroupBox21
-        '
-        Me.GroupBox21.Controls.Add(Me.TextBox8)
-        Me.GroupBox21.Controls.Add(Me.Label34)
-        Me.GroupBox21.Controls.Add(Me.txtTCIDrvName)
-        Me.GroupBox21.Controls.Add(Me.lblTCIDrvName)
-        Me.GroupBox21.Controls.Add(Me.txtTCILicPlateNum)
-        Me.GroupBox21.Controls.Add(Me.lblTCILicPlateNum)
-        Me.GroupBox21.Controls.Add(Me.txtTCILicPlateSt)
-        Me.GroupBox21.Controls.Add(Me.lblTCILicPlateSt)
-        Me.GroupBox21.Location = New System.Drawing.Point(373, 19)
-        Me.GroupBox21.Name = "GroupBox21"
-        Me.GroupBox21.Size = New System.Drawing.Size(200, 126)
-        Me.GroupBox21.TabIndex = 34
-        Me.GroupBox21.TabStop = False
-        Me.GroupBox21.Text = "Tractor Details"
-        '
-        'TextBox8
-        '
-        Me.TextBox8.AccessibleName = "TRACTOR_ID"
-        Me.TextBox8.Location = New System.Drawing.Point(94, 16)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox8.TabIndex = 36
-        Me.TextBox8.Tag = "TRACTOR_ID"
-        '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(6, 21)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(55, 13)
-        Me.Label34.TabIndex = 35
-        Me.Label34.Text = "Tractor ID"
-        '
-        'txtTCIDrvName
-        '
-        Me.txtTCIDrvName.AccessibleName = "DRIVER_NAME"
-        Me.txtTCIDrvName.Location = New System.Drawing.Point(94, 42)
-        Me.txtTCIDrvName.Name = "txtTCIDrvName"
-        Me.txtTCIDrvName.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCIDrvName.TabIndex = 38
-        Me.txtTCIDrvName.Tag = "DRIVER_NAME"
-        '
-        'lblTCIDrvName
-        '
-        Me.lblTCIDrvName.AutoSize = True
-        Me.lblTCIDrvName.Location = New System.Drawing.Point(6, 45)
-        Me.lblTCIDrvName.Name = "lblTCIDrvName"
-        Me.lblTCIDrvName.Size = New System.Drawing.Size(66, 13)
-        Me.lblTCIDrvName.TabIndex = 37
-        Me.lblTCIDrvName.Text = "Driver Name"
-        '
-        'txtTCILicPlateNum
-        '
-        Me.txtTCILicPlateNum.AccessibleName = "LICENSE_PLATE_NUM"
-        Me.txtTCILicPlateNum.Location = New System.Drawing.Point(94, 68)
-        Me.txtTCILicPlateNum.Name = "txtTCILicPlateNum"
-        Me.txtTCILicPlateNum.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCILicPlateNum.TabIndex = 40
-        Me.txtTCILicPlateNum.Tag = "LICENSE_PLATE_NUM"
-        '
-        'lblTCILicPlateNum
-        '
-        Me.lblTCILicPlateNum.AutoSize = True
-        Me.lblTCILicPlateNum.Location = New System.Drawing.Point(8, 69)
-        Me.lblTCILicPlateNum.Name = "lblTCILicPlateNum"
-        Me.lblTCILicPlateNum.Size = New System.Drawing.Size(61, 13)
-        Me.lblTCILicPlateNum.TabIndex = 39
-        Me.lblTCILicPlateNum.Text = "Lic. Plate #"
-        '
-        'txtTCILicPlateSt
-        '
-        Me.txtTCILicPlateSt.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.txtTCILicPlateSt.Location = New System.Drawing.Point(94, 92)
-        Me.txtTCILicPlateSt.Name = "txtTCILicPlateSt"
-        Me.txtTCILicPlateSt.Size = New System.Drawing.Size(100, 20)
-        Me.txtTCILicPlateSt.TabIndex = 42
-        Me.txtTCILicPlateSt.Tag = "LICENSE_PLATE_STATE"
-        '
-        'lblTCILicPlateSt
-        '
-        Me.lblTCILicPlateSt.AutoSize = True
-        Me.lblTCILicPlateSt.Location = New System.Drawing.Point(8, 95)
-        Me.lblTCILicPlateSt.Name = "lblTCILicPlateSt"
-        Me.lblTCILicPlateSt.Size = New System.Drawing.Size(79, 13)
-        Me.lblTCILicPlateSt.TabIndex = 41
-        Me.lblTCILicPlateSt.Text = "Lic. Plate State"
-        '
-        'grpBxTCIShpRcpID
-        '
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.chkBTCIEMpty)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.txtTCIRrNumber)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.lblTCIRrnumb)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.txtTCIShipid)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.lblTCIShipid)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.txtTCIInvoiceNumber)
-        Me.grpBxTCIShpRcpID.Controls.Add(Me.lblTCIInvoiceNumber)
-        Me.grpBxTCIShpRcpID.Location = New System.Drawing.Point(373, 152)
-        Me.grpBxTCIShpRcpID.Name = "grpBxTCIShpRcpID"
-        Me.grpBxTCIShpRcpID.Size = New System.Drawing.Size(200, 111)
-        Me.grpBxTCIShpRcpID.TabIndex = 43
-        Me.grpBxTCIShpRcpID.TabStop = False
-        Me.grpBxTCIShpRcpID.Text = "Trailer Contents"
-        '
-        'chkBTCIEMpty
-        '
-        Me.chkBTCIEMpty.AccessibleName = "EMPTY"
-        Me.chkBTCIEMpty.AutoSize = True
-        Me.chkBTCIEMpty.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkBTCIEMpty.Location = New System.Drawing.Point(6, 19)
-        Me.chkBTCIEMpty.Name = "chkBTCIEMpty"
-        Me.chkBTCIEMpty.Size = New System.Drawing.Size(61, 17)
-        Me.chkBTCIEMpty.TabIndex = 44
-        Me.chkBTCIEMpty.Tag = "EMPTY"
-        Me.chkBTCIEMpty.Text = "Empty?"
-        Me.chkBTCIEMpty.UseVisualStyleBackColor = True
-        '
-        'txtTCIRrNumber
-        '
-        Me.txtTCIRrNumber.AccessibleName = "RR_NUMBER"
-        Me.txtTCIRrNumber.Location = New System.Drawing.Point(73, 32)
-        Me.txtTCIRrNumber.Name = "txtTCIRrNumber"
-        Me.txtTCIRrNumber.Size = New System.Drawing.Size(106, 20)
-        Me.txtTCIRrNumber.TabIndex = 45
-        Me.txtTCIRrNumber.Tag = "RR_NUMBER"
-        '
-        'lblTCIRrnumb
-        '
-        Me.lblTCIRrnumb.AutoSize = True
-        Me.lblTCIRrnumb.Location = New System.Drawing.Point(7, 39)
-        Me.lblTCIRrnumb.Name = "lblTCIRrnumb"
-        Me.lblTCIRrnumb.Size = New System.Drawing.Size(54, 13)
-        Me.lblTCIRrnumb.TabIndex = 44
-        Me.lblTCIRrnumb.Text = "Receipt #"
-        '
-        'txtTCIShipid
-        '
-        Me.txtTCIShipid.AccessibleName = "SHIPMENT_ID"
-        Me.txtTCIShipid.Location = New System.Drawing.Point(73, 55)
-        Me.txtTCIShipid.Name = "txtTCIShipid"
-        Me.txtTCIShipid.Size = New System.Drawing.Size(106, 20)
-        Me.txtTCIShipid.TabIndex = 47
-        Me.txtTCIShipid.Tag = "SHIPMENT_ID"
-        '
-        'lblTCIShipid
-        '
-        Me.lblTCIShipid.AutoSize = True
-        Me.lblTCIShipid.Location = New System.Drawing.Point(7, 62)
-        Me.lblTCIShipid.Name = "lblTCIShipid"
-        Me.lblTCIShipid.Size = New System.Drawing.Size(65, 13)
-        Me.lblTCIShipid.TabIndex = 46
-        Me.lblTCIShipid.Text = "Shipment ID"
-        '
-        'txtTCIInvoiceNumber
-        '
-        Me.txtTCIInvoiceNumber.AccessibleName = "INVOICE_NUMBER"
-        Me.txtTCIInvoiceNumber.Location = New System.Drawing.Point(73, 78)
-        Me.txtTCIInvoiceNumber.Name = "txtTCIInvoiceNumber"
-        Me.txtTCIInvoiceNumber.Size = New System.Drawing.Size(106, 20)
-        Me.txtTCIInvoiceNumber.TabIndex = 49
-        Me.txtTCIInvoiceNumber.Tag = "INVOICE_NUMBER"
-        '
-        'lblTCIInvoiceNumber
-        '
-        Me.lblTCIInvoiceNumber.AutoSize = True
-        Me.lblTCIInvoiceNumber.Location = New System.Drawing.Point(9, 81)
-        Me.lblTCIInvoiceNumber.Name = "lblTCIInvoiceNumber"
-        Me.lblTCIInvoiceNumber.Size = New System.Drawing.Size(52, 13)
-        Me.lblTCIInvoiceNumber.TabIndex = 48
-        Me.lblTCIInvoiceNumber.Text = "Invoice #"
-        '
-        'txtTCIWcsTransitNum
-        '
-        Me.txtTCIWcsTransitNum.AccessibleName = "WCS_TRANSIT_NUM"
-        Me.txtTCIWcsTransitNum.Location = New System.Drawing.Point(452, 269)
-        Me.txtTCIWcsTransitNum.Name = "txtTCIWcsTransitNum"
-        Me.txtTCIWcsTransitNum.Size = New System.Drawing.Size(121, 20)
-        Me.txtTCIWcsTransitNum.TabIndex = 54
-        Me.txtTCIWcsTransitNum.Tag = "WCS_TRANSIT_NUM"
-        '
-        'lblTCIWcsTransitNum
-        '
-        Me.lblTCIWcsTransitNum.AutoSize = True
-        Me.lblTCIWcsTransitNum.Location = New System.Drawing.Point(373, 272)
-        Me.lblTCIWcsTransitNum.Name = "lblTCIWcsTransitNum"
-        Me.lblTCIWcsTransitNum.Size = New System.Drawing.Size(80, 13)
-        Me.lblTCIWcsTransitNum.TabIndex = 53
-        Me.lblTCIWcsTransitNum.Text = "WCS Transit #."
-        '
-        'lblTCITrklin
-        '
-        Me.lblTCITrklin.AutoSize = True
-        Me.lblTCITrklin.Location = New System.Drawing.Point(7, 19)
-        Me.lblTCITrklin.Name = "lblTCITrklin"
-        Me.lblTCITrklin.Size = New System.Drawing.Size(58, 13)
-        Me.lblTCITrklin.TabIndex = 2
-        Me.lblTCITrklin.Text = "Truck Line"
-        '
-        'lblTCITrlnum
-        '
-        Me.lblTCITrlnum.AutoSize = True
-        Me.lblTCITrlnum.Location = New System.Drawing.Point(181, 24)
-        Me.lblTCITrlnum.Name = "lblTCITrlnum"
-        Me.lblTCITrlnum.Size = New System.Drawing.Size(48, 13)
-        Me.lblTCITrlnum.TabIndex = 4
-        Me.lblTCITrlnum.Text = "Trailer Id"
-        '
-        'btnTCin_TrlCkin
-        '
-        Me.btnTCin_TrlCkin.AccessibleName = "TrailerCheckin"
-        Me.btnTCin_TrlCkin.Location = New System.Drawing.Point(10, 312)
-        Me.btnTCin_TrlCkin.Name = "btnTCin_TrlCkin"
-        Me.btnTCin_TrlCkin.Size = New System.Drawing.Size(97, 23)
-        Me.btnTCin_TrlCkin.TabIndex = 1
-        Me.btnTCin_TrlCkin.Tag = "TrailerCheckin"
-        Me.btnTCin_TrlCkin.Text = "Check-&In Trailer"
-        Me.btnTCin_TrlCkin.UseVisualStyleBackColor = True
-        '
-        'tabPgTrlCo
-        '
-        Me.tabPgTrlCo.AccessibleName = "TrailerCheckout"
-        Me.tabPgTrlCo.Controls.Add(Me.grpBxTrlCkout)
-        Me.tabPgTrlCo.Location = New System.Drawing.Point(4, 22)
-        Me.tabPgTrlCo.Name = "tabPgTrlCo"
-        Me.tabPgTrlCo.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPgTrlCo.Size = New System.Drawing.Size(662, 360)
-        Me.tabPgTrlCo.TabIndex = 1
-        Me.tabPgTrlCo.Tag = "TrailerCheckout"
-        Me.tabPgTrlCo.Text = "Trailer Check-Out"
-        Me.tabPgTrlCo.UseVisualStyleBackColor = True
-        '
-        'grpBxTrlCkout
-        '
-        Me.grpBxTrlCkout.AccessibleName = "TrailerData"
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_LicPlateState)
-        Me.grpBxTrlCkout.Controls.Add(Me.lblLicPlateState)
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_LicPlateNum)
-        Me.grpBxTrlCkout.Controls.Add(Me.lblLicPlateNum)
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_DrvName)
-        Me.grpBxTrlCkout.Controls.Add(Me.lblDrvNam)
-        Me.grpBxTrlCkout.Controls.Add(Me.dtpckrTrlCo_CarArrDt)
-        Me.grpBxTrlCkout.Controls.Add(Me.lblCarArrDt)
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_TractorId)
-        Me.grpBxTrlCkout.Controls.Add(Me.lbltrlCoTractorId)
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_TrkLin)
-        Me.grpBxTrlCkout.Controls.Add(Me.lblTrlCoTrlkin)
-        Me.grpBxTrlCkout.Controls.Add(Me.txtTrlCo_trlnum)
-        Me.grpBxTrlCkout.Controls.Add(Me.Label33)
-        Me.grpBxTrlCkout.Controls.Add(Me.btnTrlCkout)
-        Me.grpBxTrlCkout.Location = New System.Drawing.Point(26, 24)
-        Me.grpBxTrlCkout.Name = "grpBxTrlCkout"
-        Me.grpBxTrlCkout.Size = New System.Drawing.Size(432, 280)
-        Me.grpBxTrlCkout.TabIndex = 1
-        Me.grpBxTrlCkout.TabStop = False
-        Me.grpBxTrlCkout.Tag = "TrailerData"
-        Me.grpBxTrlCkout.Text = "Check-Out Details"
-        '
-        'txtTrlCo_LicPlateState
-        '
-        Me.txtTrlCo_LicPlateState.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.txtTrlCo_LicPlateState.Location = New System.Drawing.Point(136, 148)
-        Me.txtTrlCo_LicPlateState.Name = "txtTrlCo_LicPlateState"
-        Me.txtTrlCo_LicPlateState.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_LicPlateState.TabIndex = 12
-        Me.txtTrlCo_LicPlateState.Tag = "LICENSE_PLATE_STATE"
-        '
-        'lblLicPlateState
-        '
-        Me.lblLicPlateState.AutoSize = True
-        Me.lblLicPlateState.Location = New System.Drawing.Point(26, 151)
-        Me.lblLicPlateState.Name = "lblLicPlateState"
-        Me.lblLicPlateState.Size = New System.Drawing.Size(99, 13)
-        Me.lblLicPlateState.TabIndex = 14
-        Me.lblLicPlateState.Text = "License Plate State"
-        '
-        'txtTrlCo_LicPlateNum
-        '
-        Me.txtTrlCo_LicPlateNum.AccessibleName = "LICENSE_PLATE_NUM"
-        Me.txtTrlCo_LicPlateNum.Location = New System.Drawing.Point(136, 122)
-        Me.txtTrlCo_LicPlateNum.Name = "txtTrlCo_LicPlateNum"
-        Me.txtTrlCo_LicPlateNum.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_LicPlateNum.TabIndex = 10
-        Me.txtTrlCo_LicPlateNum.Tag = "LICENSE_PLATE_NUM"
-        '
-        'lblLicPlateNum
-        '
-        Me.lblLicPlateNum.AutoSize = True
-        Me.lblLicPlateNum.Location = New System.Drawing.Point(26, 125)
-        Me.lblLicPlateNum.Name = "lblLicPlateNum"
-        Me.lblLicPlateNum.Size = New System.Drawing.Size(111, 13)
-        Me.lblLicPlateNum.TabIndex = 12
-        Me.lblLicPlateNum.Text = "License Plate Number"
-        '
-        'txtTrlCo_DrvName
-        '
-        Me.txtTrlCo_DrvName.AccessibleName = "DRIVER_NAME"
-        Me.txtTrlCo_DrvName.Location = New System.Drawing.Point(136, 96)
-        Me.txtTrlCo_DrvName.Name = "txtTrlCo_DrvName"
-        Me.txtTrlCo_DrvName.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_DrvName.TabIndex = 8
-        Me.txtTrlCo_DrvName.Tag = "DRIVER_NAME"
-        '
-        'lblDrvNam
-        '
-        Me.lblDrvNam.AutoSize = True
-        Me.lblDrvNam.Location = New System.Drawing.Point(26, 99)
-        Me.lblDrvNam.Name = "lblDrvNam"
-        Me.lblDrvNam.Size = New System.Drawing.Size(66, 13)
-        Me.lblDrvNam.TabIndex = 10
-        Me.lblDrvNam.Text = "Driver Name"
-        '
-        'dtpckrTrlCo_CarArrDt
-        '
-        Me.dtpckrTrlCo_CarArrDt.AccessibleName = "CARRIER_ARRIVAL_DT"
-        Me.dtpckrTrlCo_CarArrDt.Location = New System.Drawing.Point(136, 174)
-        Me.dtpckrTrlCo_CarArrDt.Name = "dtpckrTrlCo_CarArrDt"
-        Me.dtpckrTrlCo_CarArrDt.Size = New System.Drawing.Size(200, 20)
-        Me.dtpckrTrlCo_CarArrDt.TabIndex = 14
-        Me.dtpckrTrlCo_CarArrDt.Tag = "CARRIER_ARRIVAL_DT"
-        '
-        'lblCarArrDt
-        '
-        Me.lblCarArrDt.AutoSize = True
-        Me.lblCarArrDt.Location = New System.Drawing.Point(26, 174)
-        Me.lblCarArrDt.Name = "lblCarArrDt"
-        Me.lblCarArrDt.Size = New System.Drawing.Size(95, 13)
-        Me.lblCarArrDt.TabIndex = 7
-        Me.lblCarArrDt.Text = "Carrier Arrival Date"
-        '
-        'txtTrlCo_TractorId
-        '
-        Me.txtTrlCo_TractorId.AccessibleName = "TRACTOR_ID"
-        Me.txtTrlCo_TractorId.Location = New System.Drawing.Point(136, 72)
-        Me.txtTrlCo_TractorId.Name = "txtTrlCo_TractorId"
-        Me.txtTrlCo_TractorId.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_TractorId.TabIndex = 6
-        Me.txtTrlCo_TractorId.Tag = "TRACTOR_ID"
-        '
-        'lbltrlCoTractorId
-        '
-        Me.lbltrlCoTractorId.AutoSize = True
-        Me.lbltrlCoTractorId.Location = New System.Drawing.Point(26, 79)
-        Me.lbltrlCoTractorId.Name = "lbltrlCoTractorId"
-        Me.lbltrlCoTractorId.Size = New System.Drawing.Size(55, 13)
-        Me.lbltrlCoTractorId.TabIndex = 5
-        Me.lbltrlCoTractorId.Text = "Tractor ID"
-        '
-        'txtTrlCo_TrkLin
-        '
-        Me.txtTrlCo_TrkLin.AccessibleDescription = ""
-        Me.txtTrlCo_TrkLin.AccessibleName = "TRUCK_LINE"
-        Me.txtTrlCo_TrkLin.Location = New System.Drawing.Point(136, 23)
-        Me.txtTrlCo_TrkLin.Name = "txtTrlCo_TrkLin"
-        Me.txtTrlCo_TrkLin.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_TrkLin.TabIndex = 2
-        Me.txtTrlCo_TrkLin.Tag = "TRUCK_LINE"
-        '
-        'lblTrlCoTrlkin
-        '
-        Me.lblTrlCoTrlkin.AutoSize = True
-        Me.lblTrlCoTrlkin.Location = New System.Drawing.Point(26, 30)
-        Me.lblTrlCoTrlkin.Name = "lblTrlCoTrlkin"
-        Me.lblTrlCoTrlkin.Size = New System.Drawing.Size(58, 13)
-        Me.lblTrlCoTrlkin.TabIndex = 3
-        Me.lblTrlCoTrlkin.Text = "Truck Line"
-        '
-        'txtTrlCo_trlnum
-        '
-        Me.txtTrlCo_trlnum.AccessibleDescription = ""
-        Me.txtTrlCo_trlnum.AccessibleName = "TRAILER_ID"
-        Me.txtTrlCo_trlnum.Location = New System.Drawing.Point(136, 49)
-        Me.txtTrlCo_trlnum.Name = "txtTrlCo_trlnum"
-        Me.txtTrlCo_trlnum.Size = New System.Drawing.Size(100, 20)
-        Me.txtTrlCo_trlnum.TabIndex = 4
-        Me.txtTrlCo_trlnum.Tag = "TRAILER_ID"
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(26, 56)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(48, 13)
-        Me.Label33.TabIndex = 1
-        Me.Label33.Text = "Trailer Id"
-        '
-        'btnTrlCkout
-        '
-        Me.btnTrlCkout.Location = New System.Drawing.Point(22, 226)
-        Me.btnTrlCkout.Name = "btnTrlCkout"
-        Me.btnTrlCkout.Size = New System.Drawing.Size(97, 23)
-        Me.btnTrlCkout.TabIndex = 0
-        Me.btnTrlCkout.Text = "Check-&Out Trailer"
-        Me.btnTrlCkout.UseVisualStyleBackColor = True
-        '
-        'tabPgTrlLocAsg
-        '
-        Me.tabPgTrlLocAsg.Controls.Add(Me.grpBxTrlLocAsg)
-        Me.tabPgTrlLocAsg.Location = New System.Drawing.Point(4, 22)
-        Me.tabPgTrlLocAsg.Name = "tabPgTrlLocAsg"
-        Me.tabPgTrlLocAsg.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPgTrlLocAsg.Size = New System.Drawing.Size(662, 360)
-        Me.tabPgTrlLocAsg.TabIndex = 2
-        Me.tabPgTrlLocAsg.Text = "Location Assignment"
-        Me.tabPgTrlLocAsg.UseVisualStyleBackColor = True
-        '
-        'grpBxTrlLocAsg
-        '
-        Me.grpBxTrlLocAsg.AccessibleName = "TrailerData"
-        Me.grpBxTrlLocAsg.Controls.Add(Me.GroupBox25)
-        Me.grpBxTrlLocAsg.Controls.Add(Me.TextBox10)
-        Me.grpBxTrlLocAsg.Controls.Add(Me.Label35)
-        Me.grpBxTrlLocAsg.Controls.Add(Me.TextBox11)
-        Me.grpBxTrlLocAsg.Controls.Add(Me.Label36)
-        Me.grpBxTrlLocAsg.Location = New System.Drawing.Point(17, 20)
-        Me.grpBxTrlLocAsg.Name = "grpBxTrlLocAsg"
-        Me.grpBxTrlLocAsg.Size = New System.Drawing.Size(384, 218)
-        Me.grpBxTrlLocAsg.TabIndex = 0
-        Me.grpBxTrlLocAsg.TabStop = False
-        Me.grpBxTrlLocAsg.Tag = "TrailerData"
-        Me.grpBxTrlLocAsg.Text = "Trailer Location Assignment"
-        '
-        'GroupBox25
-        '
-        Me.GroupBox25.Controls.Add(Me.TextBox12)
-        Me.GroupBox25.Controls.Add(Me.Label37)
-        Me.GroupBox25.Controls.Add(Me.TextBox13)
-        Me.GroupBox25.Controls.Add(Me.Label38)
-        Me.GroupBox25.Controls.Add(Me.TextBox14)
-        Me.GroupBox25.Controls.Add(Me.Label39)
-        Me.GroupBox25.Controls.Add(Me.TextBox15)
-        Me.GroupBox25.Location = New System.Drawing.Point(12, 77)
-        Me.GroupBox25.Name = "GroupBox25"
-        Me.GroupBox25.Size = New System.Drawing.Size(336, 66)
-        Me.GroupBox25.TabIndex = 27
-        Me.GroupBox25.TabStop = False
-        Me.GroupBox25.Text = "Trailer Location"
-        '
-        'TextBox12
-        '
-        Me.TextBox12.AccessibleName = "SITE_NAME"
-        Me.TextBox12.Location = New System.Drawing.Point(118, 13)
-        Me.TextBox12.Name = "TextBox12"
-        Me.TextBox12.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox12.TabIndex = 28
-        Me.TextBox12.Tag = "SITE_NAME"
-        '
-        'Label37
-        '
-        Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(6, 20)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(105, 13)
-        Me.Label37.TabIndex = 27
-        Me.Label37.Text = "Site Name/Location "
-        '
-        'TextBox13
-        '
-        Me.TextBox13.AccessibleName = "BUILDING"
-        Me.TextBox13.Location = New System.Drawing.Point(60, 43)
-        Me.TextBox13.Name = "TextBox13"
-        Me.TextBox13.Size = New System.Drawing.Size(87, 20)
-        Me.TextBox13.TabIndex = 31
-        Me.TextBox13.Tag = "BUILDING"
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.Location = New System.Drawing.Point(6, 43)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(44, 13)
-        Me.Label38.TabIndex = 30
-        Me.Label38.Text = "Building"
-        '
-        'TextBox14
-        '
-        Me.TextBox14.AccessibleName = "LOCATION"
-        Me.TextBox14.Location = New System.Drawing.Point(223, 13)
-        Me.TextBox14.Name = "TextBox14"
-        Me.TextBox14.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox14.TabIndex = 29
-        Me.TextBox14.Tag = "LOCATION"
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.Location = New System.Drawing.Point(150, 43)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(50, 13)
-        Me.Label39.TabIndex = 32
-        Me.Label39.Text = "Bldg. List"
-        '
-        'TextBox15
-        '
-        Me.TextBox15.AccessibleName = "BUILDING_LIST"
-        Me.TextBox15.Location = New System.Drawing.Point(206, 40)
-        Me.TextBox15.Name = "TextBox15"
-        Me.TextBox15.Size = New System.Drawing.Size(117, 20)
-        Me.TextBox15.TabIndex = 33
-        Me.TextBox15.Tag = "BUILDING_LIST"
-        '
-        'TextBox10
-        '
-        Me.TextBox10.AccessibleDescription = ""
-        Me.TextBox10.AccessibleName = "TRUCK_LINE"
-        Me.TextBox10.Location = New System.Drawing.Point(119, 16)
-        Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox10.TabIndex = 6
-        Me.TextBox10.Tag = "TRUCK_LINE"
-        '
-        'Label35
-        '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(9, 23)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(58, 13)
-        Me.Label35.TabIndex = 7
-        Me.Label35.Text = "Truck Line"
-        '
-        'TextBox11
-        '
-        Me.TextBox11.AccessibleDescription = ""
-        Me.TextBox11.AccessibleName = "TRAILER_ID"
-        Me.TextBox11.Location = New System.Drawing.Point(119, 42)
-        Me.TextBox11.Name = "TextBox11"
-        Me.TextBox11.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox11.TabIndex = 8
-        Me.TextBox11.Tag = "TRAILER_ID"
-        '
-        'Label36
-        '
-        Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(9, 49)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(48, 13)
-        Me.Label36.TabIndex = 5
-        Me.Label36.Text = "Trailer Id"
-        '
-        'TabPage15
-        '
-        Me.TabPage15.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage15.Name = "TabPage15"
-        Me.TabPage15.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage15.Size = New System.Drawing.Size(662, 360)
-        Me.TabPage15.TabIndex = 3
-        Me.TabPage15.Text = "TabPage15"
-        Me.TabPage15.UseVisualStyleBackColor = True
-        '
         'tabPgTrlMovEmu
         '
-        Me.tabPgTrlMovEmu.Controls.Add(Me.Label78)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.lblWMSTCSTrlData)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.lblTrlEMUData)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.dGridTCSTrlViewData)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.btnGetTrlMovData)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.gbTrailerMovMain)
-        Me.tabPgTrlMovEmu.Controls.Add(Me.dGridTraMovData)
+        Me.tabPgTrlMovEmu.Controls.Add(Me.Panel14)
+        Me.tabPgTrlMovEmu.Controls.Add(Me.pnlTCSEmuData)
+        Me.tabPgTrlMovEmu.Controls.Add(Me.TabControl2)
         Me.tabPgTrlMovEmu.Location = New System.Drawing.Point(4, 22)
         Me.tabPgTrlMovEmu.Name = "tabPgTrlMovEmu"
         Me.tabPgTrlMovEmu.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPgTrlMovEmu.Size = New System.Drawing.Size(1308, 413)
+        Me.tabPgTrlMovEmu.Size = New System.Drawing.Size(1773, 433)
         Me.tabPgTrlMovEmu.TabIndex = 16
         Me.tabPgTrlMovEmu.Text = "TCS Emulator"
         Me.tabPgTrlMovEmu.UseVisualStyleBackColor = True
         '
-        'Label78
+        'Panel14
         '
-        Me.Label78.AutoSize = True
-        Me.Label78.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label78.Location = New System.Drawing.Point(232, 7)
-        Me.Label78.Name = "Label78"
-        Me.Label78.Size = New System.Drawing.Size(180, 13)
-        Me.Label78.TabIndex = 4
-        Me.Label78.Text = "Select a row below to load the fields."
+        Me.Panel14.Controls.Add(Me.btnLoadActivityData)
+        Me.Panel14.Controls.Add(Me.btnTCSEmuViewData)
+        Me.Panel14.Controls.Add(Me.dgvTrlActivityData)
+        Me.Panel14.Controls.Add(Me.Label34)
+        Me.Panel14.Location = New System.Drawing.Point(1184, 3)
+        Me.Panel14.Name = "Panel14"
+        Me.Panel14.Size = New System.Drawing.Size(451, 424)
+        Me.Panel14.TabIndex = 8
         '
-        'lblWMSTCSTrlData
+        'btnTCSEmuViewData
         '
-        Me.lblWMSTCSTrlData.AutoSize = True
-        Me.lblWMSTCSTrlData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblWMSTCSTrlData.Location = New System.Drawing.Point(691, 7)
-        Me.lblWMSTCSTrlData.Name = "lblWMSTCSTrlData"
-        Me.lblWMSTCSTrlData.Size = New System.Drawing.Size(140, 13)
-        Me.lblWMSTCSTrlData.TabIndex = 3
-        Me.lblWMSTCSTrlData.Text = "WMS TCS Trailer Data "
+        Me.btnTCSEmuViewData.Location = New System.Drawing.Point(3, 397)
+        Me.btnTCSEmuViewData.Name = "btnTCSEmuViewData"
+        Me.btnTCSEmuViewData.Size = New System.Drawing.Size(75, 23)
+        Me.btnTCSEmuViewData.TabIndex = 78
+        Me.btnTCSEmuViewData.Text = "View Data"
+        Me.btnTCSEmuViewData.UseVisualStyleBackColor = True
+        '
+        'dgvTrlActivityData
+        '
+        Me.dgvTrlActivityData.AllowUserToAddRows = False
+        Me.dgvTrlActivityData.AllowUserToDeleteRows = False
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvTrlActivityData.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgvTrlActivityData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgvTrlActivityData.DefaultCellStyle = DataGridViewCellStyle2
+        Me.dgvTrlActivityData.Location = New System.Drawing.Point(3, 16)
+        Me.dgvTrlActivityData.Name = "dgvTrlActivityData"
+        Me.dgvTrlActivityData.ReadOnly = True
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvTrlActivityData.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        Me.dgvTrlActivityData.Size = New System.Drawing.Size(433, 381)
+        Me.dgvTrlActivityData.TabIndex = 8
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(3, 0)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(137, 13)
+        Me.Label34.TabIndex = 7
+        Me.Label34.Text = "Emulator Activity Data "
+        '
+        'pnlTCSEmuData
+        '
+        Me.pnlTCSEmuData.Controls.Add(Me.dGridTraMovData)
+        Me.pnlTCSEmuData.Controls.Add(Me.chkBxTcsEmuEMUSessionOnly)
+        Me.pnlTCSEmuData.Controls.Add(Me.lblTrlEMUData)
+        Me.pnlTCSEmuData.Location = New System.Drawing.Point(1597, 3)
+        Me.pnlTCSEmuData.Name = "pnlTCSEmuData"
+        Me.pnlTCSEmuData.Size = New System.Drawing.Size(141, 78)
+        Me.pnlTCSEmuData.TabIndex = 7
+        Me.pnlTCSEmuData.Visible = False
+        '
+        'dGridTraMovData
+        '
+        Me.dGridTraMovData.AllowUserToAddRows = False
+        Me.dGridTraMovData.AllowUserToDeleteRows = False
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dGridTraMovData.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        Me.dGridTraMovData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dGridTraMovData.DefaultCellStyle = DataGridViewCellStyle5
+        Me.dGridTraMovData.Location = New System.Drawing.Point(12, 54)
+        Me.dGridTraMovData.Name = "dGridTraMovData"
+        Me.dGridTraMovData.ReadOnly = True
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dGridTraMovData.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
+        Me.dGridTraMovData.Size = New System.Drawing.Size(176, 104)
+        Me.dGridTraMovData.TabIndex = 5
+        '
+        'chkBxTcsEmuEMUSessionOnly
+        '
+        Me.chkBxTcsEmuEMUSessionOnly.AutoSize = True
+        Me.chkBxTcsEmuEMUSessionOnly.Location = New System.Drawing.Point(12, 26)
+        Me.chkBxTcsEmuEMUSessionOnly.Name = "chkBxTcsEmuEMUSessionOnly"
+        Me.chkBxTcsEmuEMUSessionOnly.Size = New System.Drawing.Size(110, 17)
+        Me.chkBxTcsEmuEMUSessionOnly.TabIndex = 1
+        Me.chkBxTcsEmuEMUSessionOnly.Text = "Only This Session"
+        Me.chkBxTcsEmuEMUSessionOnly.UseVisualStyleBackColor = True
         '
         'lblTrlEMUData
         '
         Me.lblTrlEMUData.AutoSize = True
         Me.lblTrlEMUData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTrlEMUData.Location = New System.Drawing.Point(7, 7)
+        Me.lblTrlEMUData.Location = New System.Drawing.Point(12, 7)
         Me.lblTrlEMUData.Name = "lblTrlEMUData"
         Me.lblTrlEMUData.Size = New System.Drawing.Size(91, 13)
         Me.lblTrlEMUData.TabIndex = 5
         Me.lblTrlEMUData.Text = "Emulator Data "
+        '
+        'TabControl2
+        '
+        Me.TabControl2.Controls.Add(Me.TabPage16)
+        Me.TabControl2.Controls.Add(Me.TabPage17)
+        Me.TabControl2.Controls.Add(Me.TabPage18)
+        Me.TabControl2.Location = New System.Drawing.Point(1, 0)
+        Me.TabControl2.Multiline = True
+        Me.TabControl2.Name = "TabControl2"
+        Me.TabControl2.SelectedIndex = 0
+        Me.TabControl2.Size = New System.Drawing.Size(1181, 430)
+        Me.TabControl2.TabIndex = 6
+        '
+        'TabPage16
+        '
+        Me.TabPage16.Controls.Add(Me.chkBxTcsEmuWMSEmpty)
+        Me.TabPage16.Controls.Add(Me.chkBxTcsEmuWMSReadyToShip)
+        Me.TabPage16.Controls.Add(Me.chkBxTcsEmuWMSSessOnly)
+        Me.TabPage16.Controls.Add(Me.dGridTCSTrlViewData)
+        Me.TabPage16.Controls.Add(Me.gbTrailerMovMain)
+        Me.TabPage16.Controls.Add(Me.lblWMSTCSTrlData)
+        Me.TabPage16.Controls.Add(Me.btnGetTrlMovData)
+        Me.TabPage16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TabPage16.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.TabPage16.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage16.Name = "TabPage16"
+        Me.TabPage16.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage16.Size = New System.Drawing.Size(1173, 404)
+        Me.TabPage16.TabIndex = 0
+        Me.TabPage16.Text = "Trailer Checkin/Checkout"
+        Me.TabPage16.UseVisualStyleBackColor = True
+        '
+        'chkBxTcsEmuWMSEmpty
+        '
+        Me.chkBxTcsEmuWMSEmpty.AutoSize = True
+        Me.chkBxTcsEmuWMSEmpty.Location = New System.Drawing.Point(503, 3)
+        Me.chkBxTcsEmuWMSEmpty.Name = "chkBxTcsEmuWMSEmpty"
+        Me.chkBxTcsEmuWMSEmpty.Size = New System.Drawing.Size(85, 17)
+        Me.chkBxTcsEmuWMSEmpty.TabIndex = 4
+        Me.chkBxTcsEmuWMSEmpty.Text = "Show Empty"
+        Me.chkBxTcsEmuWMSEmpty.UseVisualStyleBackColor = True
+        '
+        'chkBxTcsEmuWMSReadyToShip
+        '
+        Me.chkBxTcsEmuWMSReadyToShip.AutoSize = True
+        Me.chkBxTcsEmuWMSReadyToShip.Location = New System.Drawing.Point(352, 3)
+        Me.chkBxTcsEmuWMSReadyToShip.Name = "chkBxTcsEmuWMSReadyToShip"
+        Me.chkBxTcsEmuWMSReadyToShip.Size = New System.Drawing.Size(93, 17)
+        Me.chkBxTcsEmuWMSReadyToShip.TabIndex = 3
+        Me.chkBxTcsEmuWMSReadyToShip.Text = "Ready to Ship"
+        Me.chkBxTcsEmuWMSReadyToShip.UseVisualStyleBackColor = True
+        '
+        'chkBxTcsEmuWMSSessOnly
+        '
+        Me.chkBxTcsEmuWMSSessOnly.AutoSize = True
+        Me.chkBxTcsEmuWMSSessOnly.Location = New System.Drawing.Point(200, 3)
+        Me.chkBxTcsEmuWMSSessOnly.Name = "chkBxTcsEmuWMSSessOnly"
+        Me.chkBxTcsEmuWMSSessOnly.Size = New System.Drawing.Size(110, 17)
+        Me.chkBxTcsEmuWMSSessOnly.TabIndex = 2
+        Me.chkBxTcsEmuWMSSessOnly.Text = "Only This Session"
+        Me.chkBxTcsEmuWMSSessOnly.UseVisualStyleBackColor = True
         '
         'dGridTCSTrlViewData
         '
         Me.dGridTCSTrlViewData.AllowUserToAddRows = False
         Me.dGridTCSTrlViewData.AllowUserToDeleteRows = False
         Me.dGridTCSTrlViewData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dGridTCSTrlViewData.Location = New System.Drawing.Point(678, 26)
+        Me.dGridTCSTrlViewData.Location = New System.Drawing.Point(6, 26)
         Me.dGridTCSTrlViewData.Name = "dGridTCSTrlViewData"
         Me.dGridTCSTrlViewData.ReadOnly = True
-        Me.dGridTCSTrlViewData.Size = New System.Drawing.Size(547, 118)
-        Me.dGridTCSTrlViewData.TabIndex = 2
-        '
-        'btnGetTrlMovData
-        '
-        Me.btnGetTrlMovData.Location = New System.Drawing.Point(624, 29)
-        Me.btnGetTrlMovData.Name = "btnGetTrlMovData"
-        Me.btnGetTrlMovData.Size = New System.Drawing.Size(48, 115)
-        Me.btnGetTrlMovData.TabIndex = 0
-        Me.btnGetTrlMovData.TabStop = False
-        Me.btnGetTrlMovData.Text = "Load Data"
-        Me.btnGetTrlMovData.UseVisualStyleBackColor = True
+        Me.dGridTCSTrlViewData.Size = New System.Drawing.Size(1142, 138)
+        Me.dGridTCSTrlViewData.TabIndex = 6
         '
         'gbTrailerMovMain
         '
-        Me.gbTrailerMovMain.Controls.Add(Me.TextBox44)
-        Me.gbTrailerMovMain.Controls.Add(Me.Label67)
-        Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTrlLocUpd)
-        Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTrlMovCancel)
-        Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovReqTrailerForTractor)
-        Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTrlMovPickup)
+        Me.gbTrailerMovMain.Controls.Add(Me.Label96)
+        Me.gbTrailerMovMain.Controls.Add(Me.TextBox58)
+        Me.gbTrailerMovMain.Controls.Add(Me.Label66)
+        Me.gbTrailerMovMain.Controls.Add(Me.Label65)
+        Me.gbTrailerMovMain.Controls.Add(Me.CheckBox4)
+        Me.gbTrailerMovMain.Controls.Add(Me.GroupBox30)
         Me.gbTrailerMovMain.Controls.Add(Me.TextBox46)
+        Me.gbTrailerMovMain.Controls.Add(Me.GroupBox29)
         Me.gbTrailerMovMain.Controls.Add(Me.Label70)
         Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovReset)
-        Me.gbTrailerMovMain.Controls.Add(Me.Label64)
         Me.gbTrailerMovMain.Controls.Add(Me.TextBox39)
-        Me.gbTrailerMovMain.Controls.Add(Me.GroupBox30)
         Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTCkout)
-        Me.gbTrailerMovMain.Controls.Add(Me.TextBox41)
         Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovAsgnShpRcp)
-        Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTrlMovComp)
-        Me.gbTrailerMovMain.Controls.Add(Me.TextBox40)
         Me.gbTrailerMovMain.Controls.Add(Me.GroupBox27)
-        Me.gbTrailerMovMain.Controls.Add(Me.Label62)
-        Me.gbTrailerMovMain.Controls.Add(Me.GroupBox29)
         Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTLocAsgn)
         Me.gbTrailerMovMain.Controls.Add(Me.Label57)
         Me.gbTrailerMovMain.Controls.Add(Me.btnTrlMovTCkin)
-        Me.gbTrailerMovMain.Location = New System.Drawing.Point(6, 141)
+        Me.gbTrailerMovMain.Location = New System.Drawing.Point(3, 164)
         Me.gbTrailerMovMain.Name = "gbTrailerMovMain"
-        Me.gbTrailerMovMain.Size = New System.Drawing.Size(1218, 266)
+        Me.gbTrailerMovMain.Size = New System.Drawing.Size(1145, 237)
         Me.gbTrailerMovMain.TabIndex = 1
         Me.gbTrailerMovMain.TabStop = False
         Me.gbTrailerMovMain.Tag = "TrailerCheckinData"
         '
-        'TextBox44
+        'Label96
         '
-        Me.TextBox44.AccessibleName = "LICENSE_PLATE_NUM"
-        Me.TextBox44.Location = New System.Drawing.Point(537, 196)
-        Me.TextBox44.Name = "TextBox44"
-        Me.TextBox44.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox44.TabIndex = 3
-        Me.TextBox44.Tag = "DEVICE_ID"
+        Me.Label96.AutoSize = True
+        Me.Label96.Location = New System.Drawing.Point(931, 137)
+        Me.Label96.Name = "Label96"
+        Me.Label96.Size = New System.Drawing.Size(38, 13)
+        Me.Label96.TabIndex = 77
+        Me.Label96.Text = "Priority"
         '
-        'Label67
+        'TextBox58
         '
-        Me.Label67.AutoSize = True
-        Me.Label67.Location = New System.Drawing.Point(478, 199)
-        Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(53, 13)
-        Me.Label67.TabIndex = 74
-        Me.Label67.Text = "Device Id"
+        Me.TextBox58.AccessibleName = "FREIGHT_CURRENCY"
+        Me.TextBox58.Location = New System.Drawing.Point(1017, 137)
+        Me.TextBox58.Name = "TextBox58"
+        Me.TextBox58.Size = New System.Drawing.Size(97, 20)
+        Me.TextBox58.TabIndex = 76
+        Me.TextBox58.Tag = "PRIORITY"
         '
-        'btnTrlMovTrlLocUpd
+        'Label66
         '
-        Me.btnTrlMovTrlLocUpd.Location = New System.Drawing.Point(479, 233)
-        Me.btnTrlMovTrlLocUpd.Name = "btnTrlMovTrlLocUpd"
-        Me.btnTrlMovTrlLocUpd.Size = New System.Drawing.Size(106, 23)
-        Me.btnTrlMovTrlLocUpd.TabIndex = 20
-        Me.btnTrlMovTrlLocUpd.TabStop = False
-        Me.btnTrlMovTrlLocUpd.Text = "Trl. Loc Update"
-        Me.btnTrlMovTrlLocUpd.UseVisualStyleBackColor = True
+        Me.Label66.AutoSize = True
+        Me.Label66.Location = New System.Drawing.Point(708, 137)
+        Me.Label66.Name = "Label66"
+        Me.Label66.Size = New System.Drawing.Size(68, 13)
+        Me.Label66.TabIndex = 75
+        Me.Label66.Text = "Queue Flag?"
         '
-        'btnTrlMovTrlMovCancel
+        'Label65
         '
-        Me.btnTrlMovTrlMovCancel.AccessibleName = "TrailerCheckin"
-        Me.btnTrlMovTrlMovCancel.Location = New System.Drawing.Point(824, 234)
-        Me.btnTrlMovTrlMovCancel.Name = "btnTrlMovTrlMovCancel"
-        Me.btnTrlMovTrlMovCancel.Size = New System.Drawing.Size(114, 23)
-        Me.btnTrlMovTrlMovCancel.TabIndex = 19
-        Me.btnTrlMovTrlMovCancel.Tag = ""
-        Me.btnTrlMovTrlMovCancel.Text = "Trl. Move Cancel"
-        Me.btnTrlMovTrlMovCancel.UseVisualStyleBackColor = True
+        Me.Label65.AutoSize = True
+        Me.Label65.Location = New System.Drawing.Point(815, 145)
+        Me.Label65.Name = "Label65"
+        Me.Label65.Size = New System.Drawing.Size(0, 13)
+        Me.Label65.TabIndex = 74
         '
-        'btnTrlMovReqTrailerForTractor
+        'CheckBox4
         '
-        Me.btnTrlMovReqTrailerForTractor.Location = New System.Drawing.Point(1096, 196)
-        Me.btnTrlMovReqTrailerForTractor.Name = "btnTrlMovReqTrailerForTractor"
-        Me.btnTrlMovReqTrailerForTractor.Size = New System.Drawing.Size(116, 25)
-        Me.btnTrlMovReqTrailerForTractor.TabIndex = 21
-        Me.btnTrlMovReqTrailerForTractor.TabStop = False
-        Me.btnTrlMovReqTrailerForTractor.Text = "Req. Trl. For Tractor "
-        Me.btnTrlMovReqTrailerForTractor.UseVisualStyleBackColor = True
-        Me.btnTrlMovReqTrailerForTractor.Visible = False
-        '
-        'TextBox46
-        '
-        Me.TextBox46.AccessibleName = "WCS_TRANSIT_NUM"
-        Me.TextBox46.BackColor = System.Drawing.SystemColors.InactiveBorder
-        Me.TextBox46.Location = New System.Drawing.Point(86, 196)
-        Me.TextBox46.Name = "TextBox46"
-        Me.TextBox46.Size = New System.Drawing.Size(139, 20)
-        Me.TextBox46.TabIndex = 1
-        Me.TextBox46.Tag = "TCS_TRAILER_TAG"
-        '
-        'Label70
-        '
-        Me.Label70.AutoSize = True
-        Me.Label70.Location = New System.Drawing.Point(6, 199)
-        Me.Label70.Name = "Label70"
-        Me.Label70.Size = New System.Drawing.Size(82, 13)
-        Me.Label70.TabIndex = 70
-        Me.Label70.Text = "TCS Trailer Tag"
-        '
-        'btnTrlMovReset
-        '
-        Me.btnTrlMovReset.AccessibleName = "TrailerCheckOut"
-        Me.btnTrlMovReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
-        Me.btnTrlMovReset.Location = New System.Drawing.Point(1115, 233)
-        Me.btnTrlMovReset.Name = "btnTrlMovReset"
-        Me.btnTrlMovReset.Size = New System.Drawing.Size(97, 23)
-        Me.btnTrlMovReset.TabIndex = 16
-        Me.btnTrlMovReset.Tag = ""
-        Me.btnTrlMovReset.Text = "Clear All "
-        Me.btnTrlMovReset.UseVisualStyleBackColor = True
-        '
-        'Label64
-        '
-        Me.Label64.AutoSize = True
-        Me.Label64.Location = New System.Drawing.Point(811, 200)
-        Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(38, 13)
-        Me.Label64.TabIndex = 78
-        Me.Label64.Text = "Priority"
-        '
-        'TextBox39
-        '
-        Me.TextBox39.AccessibleName = "WCS_TRANSIT_NUM"
-        Me.TextBox39.BackColor = System.Drawing.SystemColors.InactiveBorder
-        Me.TextBox39.Location = New System.Drawing.Point(321, 196)
-        Me.TextBox39.Name = "TextBox39"
-        Me.TextBox39.Size = New System.Drawing.Size(139, 20)
-        Me.TextBox39.TabIndex = 2
-        Me.TextBox39.Tag = "WCS_TRANSIT_NUM"
+        Me.CheckBox4.AccessibleName = "EMPTY"
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.CheckBox4.Location = New System.Drawing.Point(785, 137)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(15, 14)
+        Me.CheckBox4.TabIndex = 73
+        Me.CheckBox4.Tag = "QUEUE_FLAG"
+        Me.CheckBox4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.CheckBox4.UseVisualStyleBackColor = True
         '
         'GroupBox30
         '
-        Me.GroupBox30.Controls.Add(Me.TextBox42)
-        Me.GroupBox30.Controls.Add(Me.Label65)
         Me.GroupBox30.Controls.Add(Me.Label61)
         Me.GroupBox30.Controls.Add(Me.DateTimePicker1)
         Me.GroupBox30.Controls.Add(Me.Label69)
-        Me.GroupBox30.Controls.Add(Me.TextBox43)
-        Me.GroupBox30.Controls.Add(Me.Label66)
         Me.GroupBox30.Controls.Add(Me.TextBox32)
         Me.GroupBox30.Controls.Add(Me.Label50)
         Me.GroupBox30.Controls.Add(Me.TextBox33)
@@ -4854,35 +4008,17 @@ Partial Class Main
         Me.GroupBox30.Controls.Add(Me.TextBox25)
         Me.GroupBox30.Controls.Add(Me.Label46)
         Me.GroupBox30.Controls.Add(Me.TextBox22)
-        Me.GroupBox30.Location = New System.Drawing.Point(743, 14)
+        Me.GroupBox30.Location = New System.Drawing.Point(702, 9)
         Me.GroupBox30.Name = "GroupBox30"
-        Me.GroupBox30.Size = New System.Drawing.Size(339, 176)
+        Me.GroupBox30.Size = New System.Drawing.Size(436, 122)
         Me.GroupBox30.TabIndex = 11
         Me.GroupBox30.TabStop = False
         Me.GroupBox30.Text = "Tractor Details"
         '
-        'TextBox42
-        '
-        Me.TextBox42.AccessibleName = "DRIVER_NAME"
-        Me.TextBox42.Location = New System.Drawing.Point(81, 129)
-        Me.TextBox42.Name = "TextBox42"
-        Me.TextBox42.Size = New System.Drawing.Size(84, 20)
-        Me.TextBox42.TabIndex = 7
-        Me.TextBox42.Tag = "SHIP_SITE_NAME"
-        '
-        'Label65
-        '
-        Me.Label65.AutoSize = True
-        Me.Label65.Location = New System.Drawing.Point(6, 132)
-        Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(69, 13)
-        Me.Label65.TabIndex = 10
-        Me.Label65.Text = "Shipping Site"
-        '
         'Label61
         '
         Me.Label61.AutoSize = True
-        Me.Label61.Location = New System.Drawing.Point(165, 103)
+        Me.Label61.Location = New System.Drawing.Point(228, 93)
         Me.Label61.Name = "Label61"
         Me.Label61.Size = New System.Drawing.Size(84, 13)
         Me.Label61.TabIndex = 11
@@ -4891,9 +4027,9 @@ Partial Class Main
         'DateTimePicker1
         '
         Me.DateTimePicker1.AccessibleName = "CARRIER_ARRIVAL_DT"
-        Me.DateTimePicker1.Location = New System.Drawing.Point(110, 68)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(94, 68)
         Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(219, 20)
+        Me.DateTimePicker1.Size = New System.Drawing.Size(209, 20)
         Me.DateTimePicker1.TabIndex = 4
         Me.DateTimePicker1.Tag = "CARRIER_ARRIVAL_DT"
         '
@@ -4902,34 +4038,16 @@ Partial Class Main
         Me.Label69.AutoSize = True
         Me.Label69.Location = New System.Drawing.Point(6, 71)
         Me.Label69.Name = "Label69"
-        Me.Label69.Size = New System.Drawing.Size(95, 13)
+        Me.Label69.Size = New System.Drawing.Size(83, 13)
         Me.Label69.TabIndex = 13
-        Me.Label69.Text = "Carrier Arrival Date"
-        '
-        'TextBox43
-        '
-        Me.TextBox43.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.TextBox43.Location = New System.Drawing.Point(251, 129)
-        Me.TextBox43.Name = "TextBox43"
-        Me.TextBox43.Size = New System.Drawing.Size(81, 20)
-        Me.TextBox43.TabIndex = 8
-        Me.TextBox43.Tag = "REC_SITE_NAME"
-        '
-        'Label66
-        '
-        Me.Label66.AutoSize = True
-        Me.Label66.Location = New System.Drawing.Point(169, 132)
-        Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(76, 13)
-        Me.Label66.TabIndex = 9
-        Me.Label66.Text = "Receiving Site"
+        Me.Label69.Text = "Carrier Arrival Dt"
         '
         'TextBox32
         '
         Me.TextBox32.AccessibleName = "TRACTOR_ID"
-        Me.TextBox32.Location = New System.Drawing.Point(78, 16)
+        Me.TextBox32.Location = New System.Drawing.Point(93, 16)
         Me.TextBox32.Name = "TextBox32"
-        Me.TextBox32.Size = New System.Drawing.Size(84, 20)
+        Me.TextBox32.Size = New System.Drawing.Size(110, 20)
         Me.TextBox32.TabIndex = 0
         Me.TextBox32.Tag = "TRACTOR_ID"
         '
@@ -4945,9 +4063,9 @@ Partial Class Main
         'TextBox33
         '
         Me.TextBox33.AccessibleName = "DRIVER_NAME"
-        Me.TextBox33.Location = New System.Drawing.Point(78, 42)
+        Me.TextBox33.Location = New System.Drawing.Point(93, 42)
         Me.TextBox33.Name = "TextBox33"
-        Me.TextBox33.Size = New System.Drawing.Size(84, 20)
+        Me.TextBox33.Size = New System.Drawing.Size(110, 20)
         Me.TextBox33.TabIndex = 2
         Me.TextBox33.Tag = "DRIVER_NAME"
         '
@@ -4963,16 +4081,16 @@ Partial Class Main
         'TextBox34
         '
         Me.TextBox34.AccessibleName = "LICENSE_PLATE_NUM"
-        Me.TextBox34.Location = New System.Drawing.Point(251, 18)
+        Me.TextBox34.Location = New System.Drawing.Point(314, 18)
         Me.TextBox34.Name = "TextBox34"
-        Me.TextBox34.Size = New System.Drawing.Size(81, 20)
+        Me.TextBox34.Size = New System.Drawing.Size(100, 20)
         Me.TextBox34.TabIndex = 1
         Me.TextBox34.Tag = "LICENSE_NUM"
         '
         'Label52
         '
         Me.Label52.AutoSize = True
-        Me.Label52.Location = New System.Drawing.Point(165, 19)
+        Me.Label52.Location = New System.Drawing.Point(228, 19)
         Me.Label52.Name = "Label52"
         Me.Label52.Size = New System.Drawing.Size(61, 13)
         Me.Label52.TabIndex = 16
@@ -4981,16 +4099,16 @@ Partial Class Main
         'TextBox35
         '
         Me.TextBox35.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.TextBox35.Location = New System.Drawing.Point(251, 42)
+        Me.TextBox35.Location = New System.Drawing.Point(314, 42)
         Me.TextBox35.Name = "TextBox35"
-        Me.TextBox35.Size = New System.Drawing.Size(81, 20)
+        Me.TextBox35.Size = New System.Drawing.Size(100, 20)
         Me.TextBox35.TabIndex = 3
         Me.TextBox35.Tag = "LICENSE_STATE"
         '
         'Label53
         '
         Me.Label53.AutoSize = True
-        Me.Label53.Location = New System.Drawing.Point(165, 45)
+        Me.Label53.Location = New System.Drawing.Point(228, 45)
         Me.Label53.Name = "Label53"
         Me.Label53.Size = New System.Drawing.Size(79, 13)
         Me.Label53.TabIndex = 14
@@ -4999,16 +4117,16 @@ Partial Class Main
         'TextBox25
         '
         Me.TextBox25.AccessibleName = "FREIGHT_AMOUNT"
-        Me.TextBox25.Location = New System.Drawing.Point(81, 103)
+        Me.TextBox25.Location = New System.Drawing.Point(93, 93)
         Me.TextBox25.Name = "TextBox25"
-        Me.TextBox25.Size = New System.Drawing.Size(84, 20)
+        Me.TextBox25.Size = New System.Drawing.Size(110, 20)
         Me.TextBox25.TabIndex = 5
         Me.TextBox25.Tag = "FREIGHT_AMOUNT"
         '
         'Label46
         '
         Me.Label46.AutoSize = True
-        Me.Label46.Location = New System.Drawing.Point(6, 106)
+        Me.Label46.Location = New System.Drawing.Point(6, 93)
         Me.Label46.Name = "Label46"
         Me.Label46.Size = New System.Drawing.Size(78, 13)
         Me.Label46.TabIndex = 12
@@ -5017,43 +4135,246 @@ Partial Class Main
         'TextBox22
         '
         Me.TextBox22.AccessibleName = "FREIGHT_CURRENCY"
-        Me.TextBox22.Location = New System.Drawing.Point(251, 103)
+        Me.TextBox22.Location = New System.Drawing.Point(314, 93)
         Me.TextBox22.Name = "TextBox22"
-        Me.TextBox22.Size = New System.Drawing.Size(78, 20)
+        Me.TextBox22.Size = New System.Drawing.Size(97, 20)
         Me.TextBox22.TabIndex = 6
         Me.TextBox22.Tag = "FREIGHT_CURRENCY"
+        '
+        'TextBox46
+        '
+        Me.TextBox46.AccessibleName = "WCS_TRANSIT_NUM"
+        Me.TextBox46.BackColor = System.Drawing.SystemColors.Window
+        Me.TextBox46.Location = New System.Drawing.Point(795, 170)
+        Me.TextBox46.Name = "TextBox46"
+        Me.TextBox46.Size = New System.Drawing.Size(115, 20)
+        Me.TextBox46.TabIndex = 1
+        Me.TextBox46.Tag = "TCS_TRAILER_TAG"
+        '
+        'GroupBox29
+        '
+        Me.GroupBox29.Controls.Add(Me.TextBox38)
+        Me.GroupBox29.Controls.Add(Me.Label56)
+        Me.GroupBox29.Controls.Add(Me.TextBox45)
+        Me.GroupBox29.Controls.Add(Me.Label63)
+        Me.GroupBox29.Controls.Add(Me.Label68)
+        Me.GroupBox29.Controls.Add(Me.TextBox36)
+        Me.GroupBox29.Controls.Add(Me.Panel12)
+        Me.GroupBox29.Controls.Add(Me.Label54)
+        Me.GroupBox29.Controls.Add(Me.TextBox29)
+        Me.GroupBox29.Controls.Add(Me.TextBox28)
+        Me.GroupBox29.Controls.Add(Me.TextBox30)
+        Me.GroupBox29.Controls.Add(Me.Label48)
+        Me.GroupBox29.Controls.Add(Me.Label47)
+        Me.GroupBox29.Controls.Add(Me.TextBox31)
+        Me.GroupBox29.Controls.Add(Me.TextBox37)
+        Me.GroupBox29.Controls.Add(Me.Label49)
+        Me.GroupBox29.Controls.Add(Me.Label55)
+        Me.GroupBox29.Location = New System.Drawing.Point(3, 130)
+        Me.GroupBox29.Name = "GroupBox29"
+        Me.GroupBox29.Size = New System.Drawing.Size(694, 75)
+        Me.GroupBox29.TabIndex = 10
+        Me.GroupBox29.TabStop = False
+        Me.GroupBox29.Text = "Trailer Contents/Location"
+        '
+        'TextBox38
+        '
+        Me.TextBox38.AccessibleName = "INVOICE_NUMBER"
+        Me.TextBox38.Location = New System.Drawing.Point(572, 16)
+        Me.TextBox38.Name = "TextBox38"
+        Me.TextBox38.Size = New System.Drawing.Size(94, 20)
+        Me.TextBox38.TabIndex = 3
+        Me.TextBox38.Tag = "INVOICE_NUMBER"
+        '
+        'Label56
+        '
+        Me.Label56.AutoSize = True
+        Me.Label56.Location = New System.Drawing.Point(515, 20)
+        Me.Label56.Name = "Label56"
+        Me.Label56.Size = New System.Drawing.Size(52, 13)
+        Me.Label56.TabIndex = 23
+        Me.Label56.Text = "Invoice #"
+        '
+        'TextBox45
+        '
+        Me.TextBox45.AccessibleName = "INVOICE_NUMBER"
+        Me.TextBox45.Location = New System.Drawing.Point(396, 17)
+        Me.TextBox45.Name = "TextBox45"
+        Me.TextBox45.Size = New System.Drawing.Size(107, 20)
+        Me.TextBox45.TabIndex = 2
+        Me.TextBox45.Tag = "BOL_NUMBER"
+        '
+        'Label63
+        '
+        Me.Label63.AutoSize = True
+        Me.Label63.Location = New System.Drawing.Point(176, 47)
+        Me.Label63.Name = "Label63"
+        Me.Label63.Size = New System.Drawing.Size(51, 13)
+        Me.Label63.TabIndex = 21
+        Me.Label63.Text = "Location "
+        '
+        'Label68
+        '
+        Me.Label68.AutoSize = True
+        Me.Label68.Location = New System.Drawing.Point(340, 20)
+        Me.Label68.Name = "Label68"
+        Me.Label68.Size = New System.Drawing.Size(38, 13)
+        Me.Label68.TabIndex = 24
+        Me.Label68.Text = "BOL #"
+        '
+        'TextBox36
+        '
+        Me.TextBox36.AccessibleName = "RR_NUMBER"
+        Me.TextBox36.Location = New System.Drawing.Point(233, 15)
+        Me.TextBox36.Name = "TextBox36"
+        Me.TextBox36.Size = New System.Drawing.Size(96, 20)
+        Me.TextBox36.TabIndex = 1
+        Me.TextBox36.Tag = "RR_NUMBER"
+        '
+        'Panel12
+        '
+        Me.Panel12.Location = New System.Drawing.Point(580, 76)
+        Me.Panel12.Name = "Panel12"
+        Me.Panel12.Size = New System.Drawing.Size(127, 44)
+        Me.Panel12.TabIndex = 57
+        '
+        'Label54
+        '
+        Me.Label54.AutoSize = True
+        Me.Label54.Location = New System.Drawing.Point(176, 21)
+        Me.Label54.Name = "Label54"
+        Me.Label54.Size = New System.Drawing.Size(54, 13)
+        Me.Label54.TabIndex = 0
+        Me.Label54.Text = "Receipt #"
+        '
+        'TextBox29
+        '
+        Me.TextBox29.AccessibleName = "BUILDING"
+        Me.TextBox29.Location = New System.Drawing.Point(396, 44)
+        Me.TextBox29.Name = "TextBox29"
+        Me.TextBox29.Size = New System.Drawing.Size(108, 20)
+        Me.TextBox29.TabIndex = 6
+        Me.TextBox29.Tag = "BUILDING"
+        '
+        'TextBox28
+        '
+        Me.TextBox28.AccessibleName = "SITE_NAME"
+        Me.TextBox28.Location = New System.Drawing.Point(69, 45)
+        Me.TextBox28.Name = "TextBox28"
+        Me.TextBox28.Size = New System.Drawing.Size(92, 20)
+        Me.TextBox28.TabIndex = 4
+        Me.TextBox28.Tag = "SITE_NAME"
+        '
+        'TextBox30
+        '
+        Me.TextBox30.AccessibleName = "LOCATION"
+        Me.TextBox30.Location = New System.Drawing.Point(233, 41)
+        Me.TextBox30.Name = "TextBox30"
+        Me.TextBox30.Size = New System.Drawing.Size(98, 20)
+        Me.TextBox30.TabIndex = 5
+        Me.TextBox30.Tag = "LOCATION"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.Location = New System.Drawing.Point(337, 47)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(44, 13)
+        Me.Label48.TabIndex = 20
+        Me.Label48.Text = "Building"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Location = New System.Drawing.Point(9, 50)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(56, 13)
+        Me.Label47.TabIndex = 22
+        Me.Label47.Text = "Site Name"
+        '
+        'TextBox31
+        '
+        Me.TextBox31.AccessibleName = "BUILDING_LIST"
+        Me.TextBox31.Location = New System.Drawing.Point(571, 41)
+        Me.TextBox31.Name = "TextBox31"
+        Me.TextBox31.Size = New System.Drawing.Size(97, 20)
+        Me.TextBox31.TabIndex = 7
+        Me.TextBox31.Tag = "BUILDING_LIST"
+        '
+        'TextBox37
+        '
+        Me.TextBox37.AccessibleName = "SHIPMENT_ID"
+        Me.TextBox37.Location = New System.Drawing.Point(67, 19)
+        Me.TextBox37.Name = "TextBox37"
+        Me.TextBox37.Size = New System.Drawing.Size(94, 20)
+        Me.TextBox37.TabIndex = 0
+        Me.TextBox37.Tag = "SHIPMENT_ID"
+        '
+        'Label49
+        '
+        Me.Label49.AutoSize = True
+        Me.Label49.Location = New System.Drawing.Point(515, 46)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(50, 13)
+        Me.Label49.TabIndex = 19
+        Me.Label49.Text = "Bldg. List"
+        '
+        'Label55
+        '
+        Me.Label55.AutoSize = True
+        Me.Label55.Location = New System.Drawing.Point(7, 22)
+        Me.Label55.Name = "Label55"
+        Me.Label55.Size = New System.Drawing.Size(42, 13)
+        Me.Label55.TabIndex = 1
+        Me.Label55.Text = "Ship ID"
+        '
+        'Label70
+        '
+        Me.Label70.AutoSize = True
+        Me.Label70.Location = New System.Drawing.Point(708, 178)
+        Me.Label70.Name = "Label70"
+        Me.Label70.Size = New System.Drawing.Size(82, 13)
+        Me.Label70.TabIndex = 70
+        Me.Label70.Text = "TCS Trailer Tag"
+        '
+        'btnTrlMovReset
+        '
+        Me.btnTrlMovReset.AccessibleName = "TrailerCheckOut"
+        Me.btnTrlMovReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnTrlMovReset.Location = New System.Drawing.Point(466, 209)
+        Me.btnTrlMovReset.Name = "btnTrlMovReset"
+        Me.btnTrlMovReset.Size = New System.Drawing.Size(67, 23)
+        Me.btnTrlMovReset.TabIndex = 4
+        Me.btnTrlMovReset.Tag = ""
+        Me.btnTrlMovReset.Text = "Clear All "
+        Me.btnTrlMovReset.UseVisualStyleBackColor = True
+        '
+        'TextBox39
+        '
+        Me.TextBox39.AccessibleName = "TCS_TRANSIT_NUM"
+        Me.TextBox39.BackColor = System.Drawing.SystemColors.Window
+        Me.TextBox39.Location = New System.Drawing.Point(1016, 177)
+        Me.TextBox39.Name = "TextBox39"
+        Me.TextBox39.Size = New System.Drawing.Size(113, 20)
+        Me.TextBox39.TabIndex = 2
+        Me.TextBox39.Tag = "TCS_TRANSIT_NUM"
         '
         'btnTrlMovTCkout
         '
         Me.btnTrlMovTCkout.AccessibleName = "TrailerCheckOut"
-        Me.btnTrlMovTCkout.Location = New System.Drawing.Point(104, 233)
+        Me.btnTrlMovTCkout.Location = New System.Drawing.Point(108, 209)
         Me.btnTrlMovTCkout.Name = "btnTrlMovTCkout"
         Me.btnTrlMovTCkout.Size = New System.Drawing.Size(97, 23)
-        Me.btnTrlMovTCkout.TabIndex = 13
+        Me.btnTrlMovTCkout.TabIndex = 1
         Me.btnTrlMovTCkout.Tag = "TrailerData"
         Me.btnTrlMovTCkout.Text = "Checkout Trailer"
         Me.btnTrlMovTCkout.UseVisualStyleBackColor = True
         '
-        'TextBox41
-        '
-        Me.TextBox41.AccessibleName = "BUILDING_LIST"
-        Me.TextBox41.Location = New System.Drawing.Point(867, 196)
-        Me.TextBox41.Name = "TextBox41"
-        Me.TextBox41.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox41.TabIndex = 6
-        Me.TextBox41.Tag = "PRIORITY"
-        '
-        'TextBox40
-        '
-        Me.TextBox40.AccessibleName = "BUILDING"
-        Me.TextBox40.Location = New System.Drawing.Point(703, 197)
-        Me.TextBox40.Name = "TextBox40"
-        Me.TextBox40.Size = New System.Drawing.Size(102, 20)
-        Me.TextBox40.TabIndex = 4
-        Me.TextBox40.Tag = "REQUEST_ID"
-        '
         'GroupBox27
         '
+        Me.GroupBox27.Controls.Add(Me.TextBox10)
+        Me.GroupBox27.Controls.Add(Me.TextBox8)
+        Me.GroupBox27.Controls.Add(Me.TextBox9)
         Me.GroupBox27.Controls.Add(Me.Label71)
         Me.GroupBox27.Controls.Add(Me.CheckBox1)
         Me.GroupBox27.Controls.Add(Me.TextBox27)
@@ -5061,12 +4382,9 @@ Partial Class Main
         Me.GroupBox27.Controls.Add(Me.CheckBox2)
         Me.GroupBox27.Controls.Add(Me.Label60)
         Me.GroupBox27.Controls.Add(Me.TextBox16)
-        Me.GroupBox27.Controls.Add(Me.ComboBox1)
         Me.GroupBox27.Controls.Add(Me.TextBox17)
         Me.GroupBox27.Controls.Add(Me.TextBox18)
         Me.GroupBox27.Controls.Add(Me.Label41)
-        Me.GroupBox27.Controls.Add(Me.ComboBox2)
-        Me.GroupBox27.Controls.Add(Me.ComboBox3)
         Me.GroupBox27.Controls.Add(Me.TextBox19)
         Me.GroupBox27.Controls.Add(Me.TextBox20)
         Me.GroupBox27.Controls.Add(Me.Label42)
@@ -5081,44 +4399,71 @@ Partial Class Main
         Me.GroupBox27.Controls.Add(Me.TextBox26)
         Me.GroupBox27.Location = New System.Drawing.Point(3, 9)
         Me.GroupBox27.Name = "GroupBox27"
-        Me.GroupBox27.Size = New System.Drawing.Size(364, 181)
+        Me.GroupBox27.Size = New System.Drawing.Size(694, 122)
         Me.GroupBox27.TabIndex = 9
         Me.GroupBox27.TabStop = False
         Me.GroupBox27.Text = "Trailer Info"
         '
+        'TextBox10
+        '
+        Me.TextBox10.AccessibleName = "TYPE"
+        Me.TextBox10.Location = New System.Drawing.Point(233, 42)
+        Me.TextBox10.Name = "TextBox10"
+        Me.TextBox10.Size = New System.Drawing.Size(120, 20)
+        Me.TextBox10.TabIndex = 104
+        Me.TextBox10.Tag = "TEMP_CODE"
+        '
+        'TextBox8
+        '
+        Me.TextBox8.AccessibleName = "LOCATION"
+        Me.TextBox8.Location = New System.Drawing.Point(233, 14)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.Size = New System.Drawing.Size(122, 20)
+        Me.TextBox8.TabIndex = 103
+        Me.TextBox8.Tag = "TRAILER_NUMBER"
+        '
+        'TextBox9
+        '
+        Me.TextBox9.AccessibleName = "SITE_NAME"
+        Me.TextBox9.Location = New System.Drawing.Point(61, 13)
+        Me.TextBox9.Name = "TextBox9"
+        Me.TextBox9.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox9.TabIndex = 102
+        Me.TextBox9.Tag = "TRUCK_LINE"
+        '
         'Label71
         '
         Me.Label71.AutoSize = True
-        Me.Label71.Location = New System.Drawing.Point(9, 151)
+        Me.Label71.Location = New System.Drawing.Point(5, 97)
         Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(46, 13)
+        Me.Label71.Size = New System.Drawing.Size(88, 13)
         Me.Label71.TabIndex = 25
-        Me.Label71.Text = "Usable?"
+        Me.Label71.Text = "Usable?/Reason"
         '
         'CheckBox1
         '
         Me.CheckBox1.AccessibleName = "USABLE"
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(61, 152)
+        Me.CheckBox1.Location = New System.Drawing.Point(105, 98)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(15, 14)
-        Me.CheckBox1.TabIndex = 13
+        Me.CheckBox1.TabIndex = 7
         Me.CheckBox1.Tag = "USABLE"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'TextBox27
         '
         Me.TextBox27.AccessibleName = "UNUSABLE_REASON"
-        Me.TextBox27.Location = New System.Drawing.Point(83, 146)
+        Me.TextBox27.Location = New System.Drawing.Point(126, 94)
         Me.TextBox27.Name = "TextBox27"
-        Me.TextBox27.Size = New System.Drawing.Size(272, 20)
-        Me.TextBox27.TabIndex = 14
+        Me.TextBox27.Size = New System.Drawing.Size(495, 20)
+        Me.TextBox27.TabIndex = 8
         Me.TextBox27.Tag = "UNUSABLE_REASON"
         '
         'Label40
         '
         Me.Label40.AutoSize = True
-        Me.Label40.Location = New System.Drawing.Point(5, 97)
+        Me.Label40.Location = New System.Drawing.Point(373, 45)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(105, 13)
         Me.Label40.TabIndex = 21
@@ -5129,17 +4474,17 @@ Partial Class Main
         Me.CheckBox2.AccessibleName = "EMPTY"
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.CheckBox2.Location = New System.Drawing.Point(330, 123)
+        Me.CheckBox2.Location = New System.Drawing.Point(488, 15)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(15, 14)
-        Me.CheckBox2.TabIndex = 12
+        Me.CheckBox2.TabIndex = 2
         Me.CheckBox2.Tag = "EMPTY"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
         'Label60
         '
         Me.Label60.AutoSize = True
-        Me.Label60.Location = New System.Drawing.Point(282, 123)
+        Me.Label60.Location = New System.Drawing.Point(440, 15)
         Me.Label60.Name = "Label60"
         Me.Label60.Size = New System.Drawing.Size(42, 13)
         Me.Label60.TabIndex = 23
@@ -5148,87 +4493,55 @@ Partial Class Main
         'TextBox16
         '
         Me.TextBox16.AccessibleName = "LENGTH"
-        Me.TextBox16.Location = New System.Drawing.Point(119, 95)
+        Me.TextBox16.Location = New System.Drawing.Point(487, 43)
         Me.TextBox16.Name = "TextBox16"
         Me.TextBox16.Size = New System.Drawing.Size(40, 20)
-        Me.TextBox16.TabIndex = 6
+        Me.TextBox16.TabIndex = 9
         Me.TextBox16.Tag = "LENGTH"
-        '
-        'ComboBox1
-        '
-        Me.ComboBox1.AccessibleName = "TRAILER_ID"
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(233, 10)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(122, 21)
-        Me.ComboBox1.TabIndex = 1
-        Me.ComboBox1.Tag = "TRAILER_NUMBER"
         '
         'TextBox17
         '
         Me.TextBox17.AccessibleName = "WIDTH"
-        Me.TextBox17.Location = New System.Drawing.Point(165, 95)
+        Me.TextBox17.Location = New System.Drawing.Point(533, 43)
         Me.TextBox17.Name = "TextBox17"
         Me.TextBox17.Size = New System.Drawing.Size(41, 20)
-        Me.TextBox17.TabIndex = 7
+        Me.TextBox17.TabIndex = 10
         Me.TextBox17.Tag = "WIDTH"
         '
         'TextBox18
         '
         Me.TextBox18.AccessibleName = "HEIGHT"
-        Me.TextBox18.Location = New System.Drawing.Point(212, 95)
+        Me.TextBox18.Location = New System.Drawing.Point(580, 43)
         Me.TextBox18.Name = "TextBox18"
         Me.TextBox18.Size = New System.Drawing.Size(40, 20)
-        Me.TextBox18.TabIndex = 8
+        Me.TextBox18.TabIndex = 11
         Me.TextBox18.Tag = "HEIGHT"
         '
         'Label41
         '
         Me.Label41.AutoSize = True
-        Me.Label41.Location = New System.Drawing.Point(5, 121)
+        Me.Label41.Location = New System.Drawing.Point(373, 69)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(112, 13)
         Me.Label41.TabIndex = 20
         Me.Label41.Text = "Weight(Emp/Full/Est.)"
         '
-        'ComboBox2
-        '
-        Me.ComboBox2.AccessibleName = "TRUCK_LINE"
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(61, 12)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(100, 21)
-        Me.ComboBox2.TabIndex = 0
-        Me.ComboBox2.Tag = "TRUCK_LINE"
-        '
-        'ComboBox3
-        '
-        Me.ComboBox3.AccessibleName = "TEMP_CODE"
-        Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.ComboBox3.Items.AddRange(New Object() {"Cold", "Hot"})
-        Me.ComboBox3.Location = New System.Drawing.Point(233, 41)
-        Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(122, 21)
-        Me.ComboBox3.TabIndex = 3
-        Me.ComboBox3.Tag = "TEMP_CODE"
-        '
         'TextBox19
         '
         Me.TextBox19.AccessibleName = "EMPTY_WEIGHT"
-        Me.TextBox19.Location = New System.Drawing.Point(120, 120)
+        Me.TextBox19.Location = New System.Drawing.Point(488, 68)
         Me.TextBox19.Name = "TextBox19"
         Me.TextBox19.Size = New System.Drawing.Size(40, 20)
-        Me.TextBox19.TabIndex = 9
+        Me.TextBox19.TabIndex = 12
         Me.TextBox19.Tag = "EMPTY_WEIGHT"
         '
         'TextBox20
         '
         Me.TextBox20.AccessibleName = "FULL_WEIGHT"
-        Me.TextBox20.Location = New System.Drawing.Point(166, 120)
+        Me.TextBox20.Location = New System.Drawing.Point(534, 68)
         Me.TextBox20.Name = "TextBox20"
         Me.TextBox20.Size = New System.Drawing.Size(41, 20)
-        Me.TextBox20.TabIndex = 10
+        Me.TextBox20.TabIndex = 13
         Me.TextBox20.Tag = "FULL_WEIGHT"
         '
         'Label42
@@ -5243,10 +4556,10 @@ Partial Class Main
         'TextBox21
         '
         Me.TextBox21.AccessibleName = "EST_WEIGHT"
-        Me.TextBox21.Location = New System.Drawing.Point(212, 120)
+        Me.TextBox21.Location = New System.Drawing.Point(580, 68)
         Me.TextBox21.Name = "TextBox21"
         Me.TextBox21.Size = New System.Drawing.Size(41, 20)
-        Me.TextBox21.TabIndex = 11
+        Me.TextBox21.TabIndex = 14
         Me.TextBox21.Tag = "EST_WEIGHT"
         '
         'TextBox23
@@ -5255,7 +4568,7 @@ Partial Class Main
         Me.TextBox23.Location = New System.Drawing.Point(61, 42)
         Me.TextBox23.Name = "TextBox23"
         Me.TextBox23.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox23.TabIndex = 2
+        Me.TextBox23.TabIndex = 3
         Me.TextBox23.Tag = "TRAILER_TYPE"
         '
         'Label43
@@ -5300,7 +4613,7 @@ Partial Class Main
         Me.TextBox24.Location = New System.Drawing.Point(61, 68)
         Me.TextBox24.Name = "TextBox24"
         Me.TextBox24.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox24.TabIndex = 4
+        Me.TextBox24.TabIndex = 5
         Me.TextBox24.Tag = "ORIGIN"
         '
         'Label45
@@ -5318,280 +4631,13 @@ Partial Class Main
         Me.TextBox26.Location = New System.Drawing.Point(233, 68)
         Me.TextBox26.Name = "TextBox26"
         Me.TextBox26.Size = New System.Drawing.Size(122, 20)
-        Me.TextBox26.TabIndex = 5
+        Me.TextBox26.TabIndex = 6
         Me.TextBox26.Tag = "CONTENTS"
-        '
-        'Label62
-        '
-        Me.Label62.AutoSize = True
-        Me.Label62.Location = New System.Drawing.Point(643, 199)
-        Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(59, 13)
-        Me.Label62.TabIndex = 76
-        Me.Label62.Text = "Request Id"
-        '
-        'GroupBox29
-        '
-        Me.GroupBox29.Controls.Add(Me.TextBox49)
-        Me.GroupBox29.Controls.Add(Me.Label74)
-        Me.GroupBox29.Controls.Add(Me.TextBox50)
-        Me.GroupBox29.Controls.Add(Me.Label75)
-        Me.GroupBox29.Controls.Add(Me.TextBox47)
-        Me.GroupBox29.Controls.Add(Me.Label72)
-        Me.GroupBox29.Controls.Add(Me.TextBox48)
-        Me.GroupBox29.Controls.Add(Me.Label73)
-        Me.GroupBox29.Controls.Add(Me.TextBox38)
-        Me.GroupBox29.Controls.Add(Me.Label56)
-        Me.GroupBox29.Controls.Add(Me.TextBox45)
-        Me.GroupBox29.Controls.Add(Me.Label63)
-        Me.GroupBox29.Controls.Add(Me.Label68)
-        Me.GroupBox29.Controls.Add(Me.TextBox36)
-        Me.GroupBox29.Controls.Add(Me.Panel12)
-        Me.GroupBox29.Controls.Add(Me.Label54)
-        Me.GroupBox29.Controls.Add(Me.TextBox29)
-        Me.GroupBox29.Controls.Add(Me.TextBox28)
-        Me.GroupBox29.Controls.Add(Me.TextBox30)
-        Me.GroupBox29.Controls.Add(Me.Label48)
-        Me.GroupBox29.Controls.Add(Me.Label47)
-        Me.GroupBox29.Controls.Add(Me.TextBox31)
-        Me.GroupBox29.Controls.Add(Me.TextBox37)
-        Me.GroupBox29.Controls.Add(Me.Label49)
-        Me.GroupBox29.Controls.Add(Me.Label55)
-        Me.GroupBox29.Location = New System.Drawing.Point(373, 9)
-        Me.GroupBox29.Name = "GroupBox29"
-        Me.GroupBox29.Size = New System.Drawing.Size(364, 181)
-        Me.GroupBox29.TabIndex = 10
-        Me.GroupBox29.TabStop = False
-        Me.GroupBox29.Text = "Trailer Contents/Location"
-        '
-        'TextBox49
-        '
-        Me.TextBox49.AccessibleName = "DRIVER_NAME"
-        Me.TextBox49.Location = New System.Drawing.Point(69, 152)
-        Me.TextBox49.Name = "TextBox49"
-        Me.TextBox49.Size = New System.Drawing.Size(98, 20)
-        Me.TextBox49.TabIndex = 10
-        Me.TextBox49.Tag = "DEST_SITE_NAME"
-        '
-        'Label74
-        '
-        Me.Label74.AutoSize = True
-        Me.Label74.Location = New System.Drawing.Point(9, 153)
-        Me.Label74.Name = "Label74"
-        Me.Label74.Size = New System.Drawing.Size(53, 13)
-        Me.Label74.TabIndex = 48
-        Me.Label74.Text = "Dest. Site"
-        '
-        'TextBox50
-        '
-        Me.TextBox50.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.TextBox50.Location = New System.Drawing.Point(232, 153)
-        Me.TextBox50.Name = "TextBox50"
-        Me.TextBox50.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox50.TabIndex = 11
-        Me.TextBox50.Tag = "DEST_LOCATION"
-        '
-        'Label75
-        '
-        Me.Label75.AutoSize = True
-        Me.Label75.Location = New System.Drawing.Point(176, 153)
-        Me.Label75.Name = "Label75"
-        Me.Label75.Size = New System.Drawing.Size(56, 13)
-        Me.Label75.TabIndex = 50
-        Me.Label75.Text = "Dest.  Loc"
-        '
-        'TextBox47
-        '
-        Me.TextBox47.AccessibleName = "DRIVER_NAME"
-        Me.TextBox47.Location = New System.Drawing.Point(67, 127)
-        Me.TextBox47.Name = "TextBox47"
-        Me.TextBox47.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox47.TabIndex = 8
-        Me.TextBox47.Tag = "SOURCE_SITE_NAME"
-        '
-        'Label72
-        '
-        Me.Label72.AutoSize = True
-        Me.Label72.Location = New System.Drawing.Point(9, 127)
-        Me.Label72.Name = "Label72"
-        Me.Label72.Size = New System.Drawing.Size(47, 13)
-        Me.Label72.TabIndex = 18
-        Me.Label72.Text = "Src. Site"
-        '
-        'TextBox48
-        '
-        Me.TextBox48.AccessibleName = "LICENSE_PLATE_STATE"
-        Me.TextBox48.Location = New System.Drawing.Point(232, 127)
-        Me.TextBox48.Name = "TextBox48"
-        Me.TextBox48.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox48.TabIndex = 9
-        Me.TextBox48.Tag = "SOURCE_LOCATION"
-        '
-        'Label73
-        '
-        Me.Label73.AutoSize = True
-        Me.Label73.Location = New System.Drawing.Point(176, 130)
-        Me.Label73.Name = "Label73"
-        Me.Label73.Size = New System.Drawing.Size(47, 13)
-        Me.Label73.TabIndex = 17
-        Me.Label73.Text = "Src Loc."
-        '
-        'TextBox38
-        '
-        Me.TextBox38.AccessibleName = "INVOICE_NUMBER"
-        Me.TextBox38.Location = New System.Drawing.Point(232, 45)
-        Me.TextBox38.Name = "TextBox38"
-        Me.TextBox38.Size = New System.Drawing.Size(97, 20)
-        Me.TextBox38.TabIndex = 3
-        Me.TextBox38.Tag = "INVOICE_NUMBER"
-        '
-        'Label56
-        '
-        Me.Label56.AutoSize = True
-        Me.Label56.Location = New System.Drawing.Point(173, 49)
-        Me.Label56.Name = "Label56"
-        Me.Label56.Size = New System.Drawing.Size(52, 13)
-        Me.Label56.TabIndex = 23
-        Me.Label56.Text = "Invoice #"
-        '
-        'TextBox45
-        '
-        Me.TextBox45.AccessibleName = "INVOICE_NUMBER"
-        Me.TextBox45.Location = New System.Drawing.Point(67, 45)
-        Me.TextBox45.Name = "TextBox45"
-        Me.TextBox45.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox45.TabIndex = 2
-        Me.TextBox45.Tag = "BOL_NUMBER"
-        '
-        'Label63
-        '
-        Me.Label63.AutoSize = True
-        Me.Label63.Location = New System.Drawing.Point(174, 79)
-        Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(51, 13)
-        Me.Label63.TabIndex = 21
-        Me.Label63.Text = "Location "
-        '
-        'Label68
-        '
-        Me.Label68.AutoSize = True
-        Me.Label68.Location = New System.Drawing.Point(9, 48)
-        Me.Label68.Name = "Label68"
-        Me.Label68.Size = New System.Drawing.Size(38, 13)
-        Me.Label68.TabIndex = 24
-        Me.Label68.Text = "BOL #"
-        '
-        'TextBox36
-        '
-        Me.TextBox36.AccessibleName = "RR_NUMBER"
-        Me.TextBox36.Location = New System.Drawing.Point(231, 17)
-        Me.TextBox36.Name = "TextBox36"
-        Me.TextBox36.Size = New System.Drawing.Size(98, 20)
-        Me.TextBox36.TabIndex = 1
-        Me.TextBox36.Tag = "RR_NUMBER"
-        Me.TextBox36.Text = "                 "
-        '
-        'Panel12
-        '
-        Me.Panel12.Location = New System.Drawing.Point(580, 76)
-        Me.Panel12.Name = "Panel12"
-        Me.Panel12.Size = New System.Drawing.Size(127, 44)
-        Me.Panel12.TabIndex = 57
-        '
-        'Label54
-        '
-        Me.Label54.AutoSize = True
-        Me.Label54.Location = New System.Drawing.Point(174, 23)
-        Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(54, 13)
-        Me.Label54.TabIndex = 0
-        Me.Label54.Text = "Receipt #"
-        '
-        'TextBox29
-        '
-        Me.TextBox29.AccessibleName = "BUILDING"
-        Me.TextBox29.Location = New System.Drawing.Point(68, 101)
-        Me.TextBox29.Name = "TextBox29"
-        Me.TextBox29.Size = New System.Drawing.Size(101, 20)
-        Me.TextBox29.TabIndex = 6
-        Me.TextBox29.Tag = "BUILDING"
-        '
-        'TextBox28
-        '
-        Me.TextBox28.AccessibleName = "SITE_NAME"
-        Me.TextBox28.Location = New System.Drawing.Point(69, 75)
-        Me.TextBox28.Name = "TextBox28"
-        Me.TextBox28.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox28.TabIndex = 4
-        Me.TextBox28.Tag = "SITE_NAME"
-        '
-        'TextBox30
-        '
-        Me.TextBox30.AccessibleName = "LOCATION"
-        Me.TextBox30.Location = New System.Drawing.Point(231, 73)
-        Me.TextBox30.Name = "TextBox30"
-        Me.TextBox30.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox30.TabIndex = 5
-        Me.TextBox30.Tag = "LOCATION"
-        '
-        'Label48
-        '
-        Me.Label48.AutoSize = True
-        Me.Label48.Location = New System.Drawing.Point(9, 104)
-        Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(44, 13)
-        Me.Label48.TabIndex = 20
-        Me.Label48.Text = "Building"
-        '
-        'Label47
-        '
-        Me.Label47.AutoSize = True
-        Me.Label47.Location = New System.Drawing.Point(9, 80)
-        Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(56, 13)
-        Me.Label47.TabIndex = 22
-        Me.Label47.Text = "Site Name"
-        '
-        'TextBox31
-        '
-        Me.TextBox31.AccessibleName = "BUILDING_LIST"
-        Me.TextBox31.Location = New System.Drawing.Point(232, 99)
-        Me.TextBox31.Name = "TextBox31"
-        Me.TextBox31.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox31.TabIndex = 7
-        Me.TextBox31.Tag = "BUILDING_LIST"
-        '
-        'TextBox37
-        '
-        Me.TextBox37.AccessibleName = "SHIPMENT_ID"
-        Me.TextBox37.Location = New System.Drawing.Point(67, 19)
-        Me.TextBox37.Name = "TextBox37"
-        Me.TextBox37.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox37.TabIndex = 0
-        Me.TextBox37.Tag = "SHIPMENT_ID"
-        '
-        'Label49
-        '
-        Me.Label49.AutoSize = True
-        Me.Label49.Location = New System.Drawing.Point(176, 104)
-        Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(50, 13)
-        Me.Label49.TabIndex = 19
-        Me.Label49.Text = "Bldg. List"
-        '
-        'Label55
-        '
-        Me.Label55.AutoSize = True
-        Me.Label55.Location = New System.Drawing.Point(7, 22)
-        Me.Label55.Name = "Label55"
-        Me.Label55.Size = New System.Drawing.Size(42, 13)
-        Me.Label55.TabIndex = 1
-        Me.Label55.Text = "Ship ID"
         '
         'Label57
         '
         Me.Label57.AutoSize = True
-        Me.Label57.Location = New System.Drawing.Point(241, 199)
+        Me.Label57.Location = New System.Drawing.Point(930, 180)
         Me.Label57.Name = "Label57"
         Me.Label57.Size = New System.Drawing.Size(76, 13)
         Me.Label57.TabIndex = 72
@@ -5600,24 +4646,864 @@ Partial Class Main
         'btnTrlMovTCkin
         '
         Me.btnTrlMovTCkin.AccessibleName = "TrailerCheckin"
-        Me.btnTrlMovTCkin.Location = New System.Drawing.Point(1, 233)
+        Me.btnTrlMovTCkin.Location = New System.Drawing.Point(5, 209)
         Me.btnTrlMovTCkin.Name = "btnTrlMovTCkin"
         Me.btnTrlMovTCkin.Size = New System.Drawing.Size(97, 23)
-        Me.btnTrlMovTCkin.TabIndex = 12
+        Me.btnTrlMovTCkin.TabIndex = 0
         Me.btnTrlMovTCkin.Tag = "{""TrailerData"", """","""")"
         Me.btnTrlMovTCkin.Text = "Check-In Trailer"
         Me.btnTrlMovTCkin.UseVisualStyleBackColor = True
         '
-        'dGridTraMovData
+        'lblWMSTCSTrlData
         '
-        Me.dGridTraMovData.AllowUserToAddRows = False
-        Me.dGridTraMovData.AllowUserToDeleteRows = False
-        Me.dGridTraMovData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dGridTraMovData.Location = New System.Drawing.Point(7, 29)
-        Me.dGridTraMovData.Name = "dGridTraMovData"
-        Me.dGridTraMovData.ReadOnly = True
-        Me.dGridTraMovData.Size = New System.Drawing.Size(611, 115)
-        Me.dGridTraMovData.TabIndex = 1
+        Me.lblWMSTCSTrlData.AutoSize = True
+        Me.lblWMSTCSTrlData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblWMSTCSTrlData.Location = New System.Drawing.Point(6, 5)
+        Me.lblWMSTCSTrlData.Name = "lblWMSTCSTrlData"
+        Me.lblWMSTCSTrlData.Size = New System.Drawing.Size(171, 13)
+        Me.lblWMSTCSTrlData.TabIndex = 3
+        Me.lblWMSTCSTrlData.Text = "WMS TCS Trailer View Data "
+        '
+        'btnGetTrlMovData
+        '
+        Me.btnGetTrlMovData.Location = New System.Drawing.Point(1065, 3)
+        Me.btnGetTrlMovData.Name = "btnGetTrlMovData"
+        Me.btnGetTrlMovData.Size = New System.Drawing.Size(81, 22)
+        Me.btnGetTrlMovData.TabIndex = 0
+        Me.btnGetTrlMovData.TabStop = False
+        Me.btnGetTrlMovData.Text = "Get Data"
+        Me.btnGetTrlMovData.UseVisualStyleBackColor = True
+        '
+        'TabPage17
+        '
+        Me.TabPage17.Controls.Add(Me.chkbTrlMvmtShowEmpty)
+        Me.TabPage17.Controls.Add(Me.chkbTrlMvmtReadyToShip)
+        Me.TabPage17.Controls.Add(Me.Label33)
+        Me.TabPage17.Controls.Add(Me.chkbTrlMvmtThisSessionOnly)
+        Me.TabPage17.Controls.Add(Me.dgvTrlMvmtTCSTrailerView)
+        Me.TabPage17.Controls.Add(Me.Label86)
+        Me.TabPage17.Controls.Add(Me.chkBxTcsEmuTrlMovWMSSessOnly)
+        Me.TabPage17.Controls.Add(Me.dgvTcsTrailerReq)
+        Me.TabPage17.Controls.Add(Me.btnLoadTrailerMovData)
+        Me.TabPage17.Controls.Add(Me.gbxTrailerMovement)
+        Me.TabPage17.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage17.Name = "TabPage17"
+        Me.TabPage17.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage17.Size = New System.Drawing.Size(1173, 404)
+        Me.TabPage17.TabIndex = 1
+        Me.TabPage17.Text = "Trailer Movement"
+        Me.TabPage17.UseVisualStyleBackColor = True
+        '
+        'chkbTrlMvmtShowEmpty
+        '
+        Me.chkbTrlMvmtShowEmpty.AutoSize = True
+        Me.chkbTrlMvmtShowEmpty.Location = New System.Drawing.Point(512, 3)
+        Me.chkbTrlMvmtShowEmpty.Name = "chkbTrlMvmtShowEmpty"
+        Me.chkbTrlMvmtShowEmpty.Size = New System.Drawing.Size(85, 17)
+        Me.chkbTrlMvmtShowEmpty.TabIndex = 17
+        Me.chkbTrlMvmtShowEmpty.Text = "Show Empty"
+        Me.chkbTrlMvmtShowEmpty.UseVisualStyleBackColor = True
+        '
+        'chkbTrlMvmtReadyToShip
+        '
+        Me.chkbTrlMvmtReadyToShip.AutoSize = True
+        Me.chkbTrlMvmtReadyToShip.Location = New System.Drawing.Point(361, 3)
+        Me.chkbTrlMvmtReadyToShip.Name = "chkbTrlMvmtReadyToShip"
+        Me.chkbTrlMvmtReadyToShip.Size = New System.Drawing.Size(93, 17)
+        Me.chkbTrlMvmtReadyToShip.TabIndex = 16
+        Me.chkbTrlMvmtReadyToShip.Text = "Ready to Ship"
+        Me.chkbTrlMvmtReadyToShip.UseVisualStyleBackColor = True
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(6, 7)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(136, 13)
+        Me.Label33.TabIndex = 15
+        Me.Label33.Text = "WMS TCS Trailer Data"
+        '
+        'chkbTrlMvmtThisSessionOnly
+        '
+        Me.chkbTrlMvmtThisSessionOnly.AutoSize = True
+        Me.chkbTrlMvmtThisSessionOnly.Location = New System.Drawing.Point(225, 6)
+        Me.chkbTrlMvmtThisSessionOnly.Name = "chkbTrlMvmtThisSessionOnly"
+        Me.chkbTrlMvmtThisSessionOnly.Size = New System.Drawing.Size(110, 17)
+        Me.chkbTrlMvmtThisSessionOnly.TabIndex = 14
+        Me.chkbTrlMvmtThisSessionOnly.Text = "Only This Session"
+        Me.chkbTrlMvmtThisSessionOnly.UseVisualStyleBackColor = True
+        '
+        'dgvTrlMvmtTCSTrailerView
+        '
+        Me.dgvTrlMvmtTCSTrailerView.AllowUserToAddRows = False
+        Me.dgvTrlMvmtTCSTrailerView.AllowUserToDeleteRows = False
+        Me.dgvTrlMvmtTCSTrailerView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvTrlMvmtTCSTrailerView.Location = New System.Drawing.Point(6, 25)
+        Me.dgvTrlMvmtTCSTrailerView.Name = "dgvTrlMvmtTCSTrailerView"
+        Me.dgvTrlMvmtTCSTrailerView.ReadOnly = True
+        Me.dgvTrlMvmtTCSTrailerView.Size = New System.Drawing.Size(711, 201)
+        Me.dgvTrlMvmtTCSTrailerView.TabIndex = 13
+        '
+        'Label86
+        '
+        Me.Label86.AutoSize = True
+        Me.Label86.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label86.Location = New System.Drawing.Point(859, 11)
+        Me.Label86.Name = "Label86"
+        Me.Label86.Size = New System.Drawing.Size(163, 13)
+        Me.Label86.TabIndex = 12
+        Me.Label86.Text = "WMS TCS Trailer Req Data"
+        '
+        'chkBxTcsEmuTrlMovWMSSessOnly
+        '
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.AutoSize = True
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.Location = New System.Drawing.Point(1033, 7)
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.Name = "chkBxTcsEmuTrlMovWMSSessOnly"
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.Size = New System.Drawing.Size(110, 17)
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.TabIndex = 11
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.Text = "Only This Session"
+        Me.chkBxTcsEmuTrlMovWMSSessOnly.UseVisualStyleBackColor = True
+        '
+        'dgvTcsTrailerReq
+        '
+        Me.dgvTcsTrailerReq.AllowUserToAddRows = False
+        Me.dgvTcsTrailerReq.AllowUserToDeleteRows = False
+        Me.dgvTcsTrailerReq.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvTcsTrailerReq.Location = New System.Drawing.Point(723, 25)
+        Me.dgvTcsTrailerReq.Name = "dgvTcsTrailerReq"
+        Me.dgvTcsTrailerReq.ReadOnly = True
+        Me.dgvTcsTrailerReq.Size = New System.Drawing.Size(444, 363)
+        Me.dgvTcsTrailerReq.TabIndex = 10
+        '
+        'btnLoadTrailerMovData
+        '
+        Me.btnLoadTrailerMovData.Location = New System.Drawing.Point(614, 0)
+        Me.btnLoadTrailerMovData.Name = "btnLoadTrailerMovData"
+        Me.btnLoadTrailerMovData.Size = New System.Drawing.Size(103, 23)
+        Me.btnLoadTrailerMovData.TabIndex = 8
+        Me.btnLoadTrailerMovData.TabStop = False
+        Me.btnLoadTrailerMovData.Text = "Get Data"
+        Me.btnLoadTrailerMovData.UseVisualStyleBackColor = True
+        '
+        'gbxTrailerMovement
+        '
+        Me.gbxTrailerMovement.Controls.Add(Me.btnTrlMovementReset)
+        Me.gbxTrailerMovement.Controls.Add(Me.btnTrlMovTrlChgPriority)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label97)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox60)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label95)
+        Me.gbxTrailerMovement.Controls.Add(Me.CheckBox5)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox43)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox42)
+        Me.gbxTrailerMovement.Controls.Add(Me.btnTrlMovTrlLocUpd)
+        Me.gbxTrailerMovement.Controls.Add(Me.btnTrlMovTrlMovCancel)
+        Me.gbxTrailerMovement.Controls.Add(Me.btnTrlMovTrlLocReq)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox57)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label85)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox56)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label84)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label83)
+        Me.gbxTrailerMovement.Controls.Add(Me.CheckBox3)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox55)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label79)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox51)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox52)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox53)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label80)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label81)
+        Me.gbxTrailerMovement.Controls.Add(Me.TextBox54)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label82)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label76)
+        Me.gbxTrailerMovement.Controls.Add(Me.Label77)
+        Me.gbxTrailerMovement.Location = New System.Drawing.Point(6, 232)
+        Me.gbxTrailerMovement.Name = "gbxTrailerMovement"
+        Me.gbxTrailerMovement.Size = New System.Drawing.Size(711, 156)
+        Me.gbxTrailerMovement.TabIndex = 7
+        Me.gbxTrailerMovement.TabStop = False
+        '
+        'btnTrlMovementReset
+        '
+        Me.btnTrlMovementReset.AccessibleName = "TrailerCheckOut"
+        Me.btnTrlMovementReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnTrlMovementReset.Location = New System.Drawing.Point(528, 125)
+        Me.btnTrlMovementReset.Name = "btnTrlMovementReset"
+        Me.btnTrlMovementReset.Size = New System.Drawing.Size(67, 23)
+        Me.btnTrlMovementReset.TabIndex = 90
+        Me.btnTrlMovementReset.Tag = ""
+        Me.btnTrlMovementReset.Text = "Clear All "
+        Me.btnTrlMovementReset.UseVisualStyleBackColor = True
+        '
+        'btnTrlMovTrlChgPriority
+        '
+        Me.btnTrlMovTrlChgPriority.Location = New System.Drawing.Point(369, 124)
+        Me.btnTrlMovTrlChgPriority.Name = "btnTrlMovTrlChgPriority"
+        Me.btnTrlMovTrlChgPriority.Size = New System.Drawing.Size(113, 25)
+        Me.btnTrlMovTrlChgPriority.TabIndex = 89
+        Me.btnTrlMovTrlChgPriority.Text = "Trl. Change Priority"
+        Me.btnTrlMovTrlChgPriority.UseVisualStyleBackColor = True
+        '
+        'Label97
+        '
+        Me.Label97.AutoSize = True
+        Me.Label97.Location = New System.Drawing.Point(423, 96)
+        Me.Label97.Name = "Label97"
+        Me.Label97.Size = New System.Drawing.Size(38, 13)
+        Me.Label97.TabIndex = 88
+        Me.Label97.Text = "Priority"
+        '
+        'TextBox60
+        '
+        Me.TextBox60.AccessibleName = "FREIGHT_CURRENCY"
+        Me.TextBox60.Location = New System.Drawing.Point(509, 93)
+        Me.TextBox60.Name = "TextBox60"
+        Me.TextBox60.Size = New System.Drawing.Size(117, 20)
+        Me.TextBox60.TabIndex = 87
+        Me.TextBox60.Tag = "PRIORITY"
+        '
+        'Label95
+        '
+        Me.Label95.AutoSize = True
+        Me.Label95.Location = New System.Drawing.Point(237, 98)
+        Me.Label95.Name = "Label95"
+        Me.Label95.Size = New System.Drawing.Size(68, 13)
+        Me.Label95.TabIndex = 86
+        Me.Label95.Text = "Queue Flag?"
+        '
+        'CheckBox5
+        '
+        Me.CheckBox5.AccessibleName = "EMPTY"
+        Me.CheckBox5.AutoSize = True
+        Me.CheckBox5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.CheckBox5.Location = New System.Drawing.Point(314, 98)
+        Me.CheckBox5.Name = "CheckBox5"
+        Me.CheckBox5.Size = New System.Drawing.Size(15, 14)
+        Me.CheckBox5.TabIndex = 85
+        Me.CheckBox5.Tag = "QUEUE_FLAG"
+        Me.CheckBox5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.CheckBox5.UseVisualStyleBackColor = True
+        '
+        'TextBox43
+        '
+        Me.TextBox43.AccessibleName = "LOCATION"
+        Me.TextBox43.Location = New System.Drawing.Point(258, 8)
+        Me.TextBox43.Name = "TextBox43"
+        Me.TextBox43.Size = New System.Drawing.Size(88, 20)
+        Me.TextBox43.TabIndex = 84
+        Me.TextBox43.Tag = "TRAILER_NUMBER"
+        '
+        'TextBox42
+        '
+        Me.TextBox42.AccessibleName = "SITE_NAME"
+        Me.TextBox42.Location = New System.Drawing.Point(86, 9)
+        Me.TextBox42.Name = "TextBox42"
+        Me.TextBox42.Size = New System.Drawing.Size(96, 20)
+        Me.TextBox42.TabIndex = 83
+        Me.TextBox42.Tag = "TRUCK_LINE"
+        '
+        'btnTrlMovTrlLocUpd
+        '
+        Me.btnTrlMovTrlLocUpd.Location = New System.Drawing.Point(124, 124)
+        Me.btnTrlMovTrlLocUpd.Name = "btnTrlMovTrlLocUpd"
+        Me.btnTrlMovTrlLocUpd.Size = New System.Drawing.Size(106, 23)
+        Me.btnTrlMovTrlLocUpd.TabIndex = 82
+        Me.btnTrlMovTrlLocUpd.TabStop = False
+        Me.btnTrlMovTrlLocUpd.Text = "Trl. Loc Update"
+        Me.btnTrlMovTrlLocUpd.UseVisualStyleBackColor = True
+        '
+        'btnTrlMovTrlMovCancel
+        '
+        Me.btnTrlMovTrlMovCancel.AccessibleName = "TrailerCheckin"
+        Me.btnTrlMovTrlMovCancel.Location = New System.Drawing.Point(240, 125)
+        Me.btnTrlMovTrlMovCancel.Name = "btnTrlMovTrlMovCancel"
+        Me.btnTrlMovTrlMovCancel.Size = New System.Drawing.Size(117, 23)
+        Me.btnTrlMovTrlMovCancel.TabIndex = 81
+        Me.btnTrlMovTrlMovCancel.Tag = ""
+        Me.btnTrlMovTrlMovCancel.Text = "Trl. Move Cancel"
+        Me.btnTrlMovTrlMovCancel.UseVisualStyleBackColor = True
+        '
+        'TextBox57
+        '
+        Me.TextBox57.AccessibleName = "BUILDING"
+        Me.TextBox57.Location = New System.Drawing.Point(86, 92)
+        Me.TextBox57.Name = "TextBox57"
+        Me.TextBox57.Size = New System.Drawing.Size(120, 20)
+        Me.TextBox57.TabIndex = 77
+        Me.TextBox57.Tag = "REQUEST_ID"
+        '
+        'Label85
+        '
+        Me.Label85.AutoSize = True
+        Me.Label85.Location = New System.Drawing.Point(5, 96)
+        Me.Label85.Name = "Label85"
+        Me.Label85.Size = New System.Drawing.Size(59, 13)
+        Me.Label85.TabIndex = 78
+        Me.Label85.Text = "Request Id"
+        '
+        'TextBox56
+        '
+        Me.TextBox56.AccessibleName = "WCS_TRANSIT_NUM"
+        Me.TextBox56.BackColor = System.Drawing.SystemColors.Window
+        Me.TextBox56.Location = New System.Drawing.Point(509, 66)
+        Me.TextBox56.Name = "TextBox56"
+        Me.TextBox56.Size = New System.Drawing.Size(117, 20)
+        Me.TextBox56.TabIndex = 71
+        Me.TextBox56.Tag = "TCS_TRAILER_TAG"
+        '
+        'Label84
+        '
+        Me.Label84.AutoSize = True
+        Me.Label84.Location = New System.Drawing.Point(423, 69)
+        Me.Label84.Name = "Label84"
+        Me.Label84.Size = New System.Drawing.Size(82, 13)
+        Me.Label84.TabIndex = 72
+        Me.Label84.Text = "TCS Trailer Tag"
+        '
+        'Label83
+        '
+        Me.Label83.AutoSize = True
+        Me.Label83.Location = New System.Drawing.Point(5, 70)
+        Me.Label83.Name = "Label83"
+        Me.Label83.Size = New System.Drawing.Size(88, 13)
+        Me.Label83.TabIndex = 33
+        Me.Label83.Text = "Usable?/Reason"
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AccessibleName = "USABLE"
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(95, 69)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(15, 14)
+        Me.CheckBox3.TabIndex = 31
+        Me.CheckBox3.Tag = "USABLE"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'TextBox55
+        '
+        Me.TextBox55.AccessibleName = "UNUSABLE_REASON"
+        Me.TextBox55.Location = New System.Drawing.Point(116, 66)
+        Me.TextBox55.Name = "TextBox55"
+        Me.TextBox55.Size = New System.Drawing.Size(290, 20)
+        Me.TextBox55.TabIndex = 32
+        Me.TextBox55.Tag = "UNUSABLE_REASON"
+        '
+        'Label79
+        '
+        Me.Label79.AutoSize = True
+        Me.Label79.Location = New System.Drawing.Point(189, 42)
+        Me.Label79.Name = "Label79"
+        Me.Label79.Size = New System.Drawing.Size(51, 13)
+        Me.Label79.TabIndex = 29
+        Me.Label79.Text = "Location "
+        '
+        'TextBox51
+        '
+        Me.TextBox51.AccessibleName = "BUILDING"
+        Me.TextBox51.Location = New System.Drawing.Point(412, 38)
+        Me.TextBox51.Name = "TextBox51"
+        Me.TextBox51.Size = New System.Drawing.Size(75, 20)
+        Me.TextBox51.TabIndex = 25
+        Me.TextBox51.Tag = "BUILDING"
+        '
+        'TextBox52
+        '
+        Me.TextBox52.AccessibleName = "SITE_NAME"
+        Me.TextBox52.Location = New System.Drawing.Point(86, 39)
+        Me.TextBox52.Name = "TextBox52"
+        Me.TextBox52.Size = New System.Drawing.Size(96, 20)
+        Me.TextBox52.TabIndex = 23
+        Me.TextBox52.Tag = "SITE_NAME"
+        '
+        'TextBox53
+        '
+        Me.TextBox53.AccessibleName = "LOCATION"
+        Me.TextBox53.Location = New System.Drawing.Point(258, 36)
+        Me.TextBox53.Name = "TextBox53"
+        Me.TextBox53.Size = New System.Drawing.Size(88, 20)
+        Me.TextBox53.TabIndex = 24
+        Me.TextBox53.Tag = "LOCATION"
+        '
+        'Label80
+        '
+        Me.Label80.AutoSize = True
+        Me.Label80.Location = New System.Drawing.Point(362, 38)
+        Me.Label80.Name = "Label80"
+        Me.Label80.Size = New System.Drawing.Size(44, 13)
+        Me.Label80.TabIndex = 28
+        Me.Label80.Text = "Building"
+        '
+        'Label81
+        '
+        Me.Label81.AutoSize = True
+        Me.Label81.Location = New System.Drawing.Point(5, 39)
+        Me.Label81.Name = "Label81"
+        Me.Label81.Size = New System.Drawing.Size(56, 13)
+        Me.Label81.TabIndex = 30
+        Me.Label81.Text = "Site Name"
+        '
+        'TextBox54
+        '
+        Me.TextBox54.AccessibleName = "BUILDING_LIST"
+        Me.TextBox54.Location = New System.Drawing.Point(568, 36)
+        Me.TextBox54.Name = "TextBox54"
+        Me.TextBox54.Size = New System.Drawing.Size(58, 20)
+        Me.TextBox54.TabIndex = 26
+        Me.TextBox54.Tag = "BUILDING_LIST"
+        '
+        'Label82
+        '
+        Me.Label82.AutoSize = True
+        Me.Label82.Location = New System.Drawing.Point(501, 39)
+        Me.Label82.Name = "Label82"
+        Me.Label82.Size = New System.Drawing.Size(50, 13)
+        Me.Label82.TabIndex = 27
+        Me.Label82.Text = "Bldg. List"
+        '
+        'Label76
+        '
+        Me.Label76.AutoSize = True
+        Me.Label76.Location = New System.Drawing.Point(189, 14)
+        Me.Label76.Name = "Label76"
+        Me.Label76.Size = New System.Drawing.Size(48, 13)
+        Me.Label76.TabIndex = 21
+        Me.Label76.Text = "Trailer Id"
+        '
+        'Label77
+        '
+        Me.Label77.AutoSize = True
+        Me.Label77.Location = New System.Drawing.Point(5, 11)
+        Me.Label77.Name = "Label77"
+        Me.Label77.Size = New System.Drawing.Size(58, 13)
+        Me.Label77.TabIndex = 22
+        Me.Label77.Text = "Truck Line"
+        '
+        'TabPage18
+        '
+        Me.TabPage18.Controls.Add(Me.Label88)
+        Me.TabPage18.Controls.Add(Me.dgvTcsLocation)
+        Me.TabPage18.Controls.Add(Me.Label98)
+        Me.TabPage18.Controls.Add(Me.chkbTCSTrlExecCurSessOnly)
+        Me.TabPage18.Controls.Add(Me.btnLoadTrlExecTrlReqData)
+        Me.TabPage18.Controls.Add(Me.dgTCSTrlReqbySessionViewData)
+        Me.TabPage18.Controls.Add(Me.gbxTrailerMoveExec)
+        Me.TabPage18.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage18.Name = "TabPage18"
+        Me.TabPage18.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage18.Size = New System.Drawing.Size(1173, 404)
+        Me.TabPage18.TabIndex = 2
+        Me.TabPage18.Text = "Trailer Move Execution"
+        Me.TabPage18.UseVisualStyleBackColor = True
+        '
+        'Label88
+        '
+        Me.Label88.AutoSize = True
+        Me.Label88.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label88.Location = New System.Drawing.Point(822, 9)
+        Me.Label88.Name = "Label88"
+        Me.Label88.Size = New System.Drawing.Size(149, 13)
+        Me.Label88.TabIndex = 16
+        Me.Label88.Text = "WMS TCS Location Data"
+        '
+        'dgvTcsLocation
+        '
+        Me.dgvTcsLocation.AllowUserToAddRows = False
+        Me.dgvTcsLocation.AllowUserToDeleteRows = False
+        Me.dgvTcsLocation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvTcsLocation.Location = New System.Drawing.Point(822, 27)
+        Me.dgvTcsLocation.Name = "dgvTcsLocation"
+        Me.dgvTcsLocation.ReadOnly = True
+        Me.dgvTcsLocation.Size = New System.Drawing.Size(345, 371)
+        Me.dgvTcsLocation.TabIndex = 15
+        '
+        'Label98
+        '
+        Me.Label98.AutoSize = True
+        Me.Label98.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label98.Location = New System.Drawing.Point(10, 6)
+        Me.Label98.Name = "Label98"
+        Me.Label98.Size = New System.Drawing.Size(163, 13)
+        Me.Label98.TabIndex = 14
+        Me.Label98.Text = "WMS TCS Trailer Req Data"
+        '
+        'chkbTCSTrlExecCurSessOnly
+        '
+        Me.chkbTCSTrlExecCurSessOnly.AutoSize = True
+        Me.chkbTCSTrlExecCurSessOnly.Location = New System.Drawing.Point(243, 6)
+        Me.chkbTCSTrlExecCurSessOnly.Name = "chkbTCSTrlExecCurSessOnly"
+        Me.chkbTCSTrlExecCurSessOnly.Size = New System.Drawing.Size(110, 17)
+        Me.chkbTCSTrlExecCurSessOnly.TabIndex = 13
+        Me.chkbTCSTrlExecCurSessOnly.Text = "This Session Only"
+        Me.chkbTCSTrlExecCurSessOnly.UseVisualStyleBackColor = True
+        '
+        'btnLoadTrlExecTrlReqData
+        '
+        Me.btnLoadTrlExecTrlReqData.Location = New System.Drawing.Point(724, 3)
+        Me.btnLoadTrlExecTrlReqData.Name = "btnLoadTrlExecTrlReqData"
+        Me.btnLoadTrlExecTrlReqData.Size = New System.Drawing.Size(92, 20)
+        Me.btnLoadTrlExecTrlReqData.TabIndex = 10
+        Me.btnLoadTrlExecTrlReqData.TabStop = False
+        Me.btnLoadTrlExecTrlReqData.Text = "Get Data"
+        Me.btnLoadTrlExecTrlReqData.UseVisualStyleBackColor = True
+        '
+        'dgTCSTrlReqbySessionViewData
+        '
+        Me.dgTCSTrlReqbySessionViewData.AllowUserToAddRows = False
+        Me.dgTCSTrlReqbySessionViewData.AllowUserToDeleteRows = False
+        Me.dgTCSTrlReqbySessionViewData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgTCSTrlReqbySessionViewData.Location = New System.Drawing.Point(12, 27)
+        Me.dgTCSTrlReqbySessionViewData.Name = "dgTCSTrlReqbySessionViewData"
+        Me.dgTCSTrlReqbySessionViewData.ReadOnly = True
+        Me.dgTCSTrlReqbySessionViewData.Size = New System.Drawing.Size(804, 186)
+        Me.dgTCSTrlReqbySessionViewData.TabIndex = 11
+        '
+        'gbxTrailerMoveExec
+        '
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox12)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label35)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.btnTrlMovExecReset)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.btnTrlMovExecTrlChgPriority)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox65)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox66)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox44)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label67)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label64)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox41)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox40)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label62)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label75)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox49)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label74)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox50)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox47)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label72)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox48)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label73)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.btnTrlMovTrlMovPickup)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.btnTrlMovTrlMovComp)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.btnTrlMovExecTrlMovCancel)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox59)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label87)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label89)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox61)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox62)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox63)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label90)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label91)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.TextBox64)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label92)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label93)
+        Me.gbxTrailerMoveExec.Controls.Add(Me.Label94)
+        Me.gbxTrailerMoveExec.Location = New System.Drawing.Point(6, 219)
+        Me.gbxTrailerMoveExec.Name = "gbxTrailerMoveExec"
+        Me.gbxTrailerMoveExec.Size = New System.Drawing.Size(810, 179)
+        Me.gbxTrailerMoveExec.TabIndex = 8
+        Me.gbxTrailerMoveExec.TabStop = False
+        '
+        'TextBox12
+        '
+        Me.TextBox12.AccessibleName = "BUILDING"
+        Me.TextBox12.Location = New System.Drawing.Point(85, 121)
+        Me.TextBox12.Name = "TextBox12"
+        Me.TextBox12.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox12.TabIndex = 106
+        Me.TextBox12.Tag = "USER_ID"
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(9, 124)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(41, 13)
+        Me.Label35.TabIndex = 107
+        Me.Label35.Text = "User Id"
+        '
+        'btnTrlMovExecReset
+        '
+        Me.btnTrlMovExecReset.AccessibleName = "TrailerCheckOut"
+        Me.btnTrlMovExecReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnTrlMovExecReset.Location = New System.Drawing.Point(504, 148)
+        Me.btnTrlMovExecReset.Name = "btnTrlMovExecReset"
+        Me.btnTrlMovExecReset.Size = New System.Drawing.Size(67, 23)
+        Me.btnTrlMovExecReset.TabIndex = 103
+        Me.btnTrlMovExecReset.Tag = ""
+        Me.btnTrlMovExecReset.Text = "Clear All "
+        Me.btnTrlMovExecReset.UseVisualStyleBackColor = True
+        '
+        'btnTrlMovExecTrlChgPriority
+        '
+        Me.btnTrlMovExecTrlChgPriority.AccessibleName = "TrailerCheckin"
+        Me.btnTrlMovExecTrlChgPriority.Location = New System.Drawing.Point(366, 149)
+        Me.btnTrlMovExecTrlChgPriority.Name = "btnTrlMovExecTrlChgPriority"
+        Me.btnTrlMovExecTrlChgPriority.Size = New System.Drawing.Size(117, 23)
+        Me.btnTrlMovExecTrlChgPriority.TabIndex = 102
+        Me.btnTrlMovExecTrlChgPriority.Tag = ""
+        Me.btnTrlMovExecTrlChgPriority.Text = "Change Priority"
+        Me.btnTrlMovExecTrlChgPriority.UseVisualStyleBackColor = True
+        '
+        'TextBox65
+        '
+        Me.TextBox65.AccessibleName = "LOCATION"
+        Me.TextBox65.Location = New System.Drawing.Point(270, 14)
+        Me.TextBox65.Name = "TextBox65"
+        Me.TextBox65.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox65.TabIndex = 101
+        Me.TextBox65.Tag = "TRAILER_NUMBER"
+        '
+        'TextBox66
+        '
+        Me.TextBox66.AccessibleName = "SITE_NAME"
+        Me.TextBox66.Location = New System.Drawing.Point(86, 13)
+        Me.TextBox66.Name = "TextBox66"
+        Me.TextBox66.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox66.TabIndex = 100
+        Me.TextBox66.Tag = "TRUCK_LINE"
+        '
+        'TextBox44
+        '
+        Me.TextBox44.AccessibleName = "LICENSE_PLATE_NUM"
+        Me.TextBox44.Location = New System.Drawing.Point(450, 92)
+        Me.TextBox44.Name = "TextBox44"
+        Me.TextBox44.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox44.TabIndex = 94
+        Me.TextBox44.Tag = "DEVICE_ID"
+        '
+        'Label67
+        '
+        Me.Label67.AutoSize = True
+        Me.Label67.Location = New System.Drawing.Point(391, 96)
+        Me.Label67.Name = "Label67"
+        Me.Label67.Size = New System.Drawing.Size(53, 13)
+        Me.Label67.TabIndex = 97
+        Me.Label67.Text = "Device Id"
+        '
+        'Label64
+        '
+        Me.Label64.AutoSize = True
+        Me.Label64.Location = New System.Drawing.Point(208, 96)
+        Me.Label64.Name = "Label64"
+        Me.Label64.Size = New System.Drawing.Size(38, 13)
+        Me.Label64.TabIndex = 99
+        Me.Label64.Text = "Priority"
+        '
+        'TextBox41
+        '
+        Me.TextBox41.AccessibleName = "BUILDING_LIST"
+        Me.TextBox41.Location = New System.Drawing.Point(270, 92)
+        Me.TextBox41.Name = "TextBox41"
+        Me.TextBox41.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox41.TabIndex = 96
+        Me.TextBox41.Tag = "PRIORITY"
+        '
+        'TextBox40
+        '
+        Me.TextBox40.AccessibleName = "BUILDING"
+        Me.TextBox40.Location = New System.Drawing.Point(85, 92)
+        Me.TextBox40.Name = "TextBox40"
+        Me.TextBox40.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox40.TabIndex = 95
+        Me.TextBox40.Tag = "REQUEST_ID"
+        '
+        'Label62
+        '
+        Me.Label62.AutoSize = True
+        Me.Label62.Location = New System.Drawing.Point(9, 95)
+        Me.Label62.Name = "Label62"
+        Me.Label62.Size = New System.Drawing.Size(59, 13)
+        Me.Label62.TabIndex = 98
+        Me.Label62.Text = "Request Id"
+        '
+        'Label75
+        '
+        Me.Label75.AutoSize = True
+        Me.Label75.Location = New System.Drawing.Point(579, 69)
+        Me.Label75.Name = "Label75"
+        Me.Label75.Size = New System.Drawing.Size(56, 13)
+        Me.Label75.TabIndex = 93
+        Me.Label75.Text = "Dest.  Loc"
+        '
+        'TextBox49
+        '
+        Me.TextBox49.AccessibleName = "DRIVER_NAME"
+        Me.TextBox49.Location = New System.Drawing.Point(450, 66)
+        Me.TextBox49.Name = "TextBox49"
+        Me.TextBox49.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox49.TabIndex = 88
+        Me.TextBox49.Tag = "DEST_SITE_NAME"
+        '
+        'Label74
+        '
+        Me.Label74.AutoSize = True
+        Me.Label74.Location = New System.Drawing.Point(391, 66)
+        Me.Label74.Name = "Label74"
+        Me.Label74.Size = New System.Drawing.Size(53, 13)
+        Me.Label74.TabIndex = 92
+        Me.Label74.Text = "Dest. Site"
+        '
+        'TextBox50
+        '
+        Me.TextBox50.AccessibleName = "LICENSE_PLATE_STATE"
+        Me.TextBox50.Location = New System.Drawing.Point(670, 63)
+        Me.TextBox50.Name = "TextBox50"
+        Me.TextBox50.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox50.TabIndex = 89
+        Me.TextBox50.Tag = "DEST_LOCATION"
+        '
+        'TextBox47
+        '
+        Me.TextBox47.AccessibleName = "DRIVER_NAME"
+        Me.TextBox47.Location = New System.Drawing.Point(86, 66)
+        Me.TextBox47.Name = "TextBox47"
+        Me.TextBox47.Size = New System.Drawing.Size(102, 20)
+        Me.TextBox47.TabIndex = 86
+        Me.TextBox47.Tag = "SOURCE_SITE_NAME"
+        '
+        'Label72
+        '
+        Me.Label72.AutoSize = True
+        Me.Label72.Location = New System.Drawing.Point(9, 70)
+        Me.Label72.Name = "Label72"
+        Me.Label72.Size = New System.Drawing.Size(47, 13)
+        Me.Label72.TabIndex = 91
+        Me.Label72.Text = "Src. Site"
+        '
+        'TextBox48
+        '
+        Me.TextBox48.AccessibleName = "LICENSE_PLATE_STATE"
+        Me.TextBox48.Location = New System.Drawing.Point(270, 66)
+        Me.TextBox48.Name = "TextBox48"
+        Me.TextBox48.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox48.TabIndex = 87
+        Me.TextBox48.Tag = "SOURCE_LOCATION"
+        '
+        'Label73
+        '
+        Me.Label73.AutoSize = True
+        Me.Label73.Location = New System.Drawing.Point(206, 70)
+        Me.Label73.Name = "Label73"
+        Me.Label73.Size = New System.Drawing.Size(47, 13)
+        Me.Label73.TabIndex = 90
+        Me.Label73.Text = "Src Loc."
+        '
+        'btnTrlMovExecTrlMovCancel
+        '
+        Me.btnTrlMovExecTrlMovCancel.AccessibleName = "TrailerCheckin"
+        Me.btnTrlMovExecTrlMovCancel.Location = New System.Drawing.Point(242, 149)
+        Me.btnTrlMovExecTrlMovCancel.Name = "btnTrlMovExecTrlMovCancel"
+        Me.btnTrlMovExecTrlMovCancel.Size = New System.Drawing.Size(117, 23)
+        Me.btnTrlMovExecTrlMovCancel.TabIndex = 81
+        Me.btnTrlMovExecTrlMovCancel.Tag = ""
+        Me.btnTrlMovExecTrlMovCancel.Text = "Cancel Move"
+        Me.btnTrlMovExecTrlMovCancel.UseVisualStyleBackColor = True
+        '
+        'TextBox59
+        '
+        Me.TextBox59.AccessibleName = "WCS_TRANSIT_NUM"
+        Me.TextBox59.BackColor = System.Drawing.SystemColors.Window
+        Me.TextBox59.Location = New System.Drawing.Point(670, 89)
+        Me.TextBox59.Name = "TextBox59"
+        Me.TextBox59.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox59.TabIndex = 71
+        Me.TextBox59.Tag = "TCS_TRAILER_TAG"
+        '
+        'Label87
+        '
+        Me.Label87.AutoSize = True
+        Me.Label87.Location = New System.Drawing.Point(579, 96)
+        Me.Label87.Name = "Label87"
+        Me.Label87.Size = New System.Drawing.Size(82, 13)
+        Me.Label87.TabIndex = 72
+        Me.Label87.Text = "TCS Trailer Tag"
+        '
+        'Label89
+        '
+        Me.Label89.AutoSize = True
+        Me.Label89.Location = New System.Drawing.Point(206, 47)
+        Me.Label89.Name = "Label89"
+        Me.Label89.Size = New System.Drawing.Size(51, 13)
+        Me.Label89.TabIndex = 29
+        Me.Label89.Text = "Location "
+        '
+        'TextBox61
+        '
+        Me.TextBox61.AccessibleName = "BUILDING"
+        Me.TextBox61.Location = New System.Drawing.Point(450, 41)
+        Me.TextBox61.Name = "TextBox61"
+        Me.TextBox61.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox61.TabIndex = 25
+        Me.TextBox61.Tag = "BUILDING"
+        '
+        'TextBox62
+        '
+        Me.TextBox62.AccessibleName = "SITE_NAME"
+        Me.TextBox62.Location = New System.Drawing.Point(86, 40)
+        Me.TextBox62.Name = "TextBox62"
+        Me.TextBox62.Size = New System.Drawing.Size(103, 20)
+        Me.TextBox62.TabIndex = 23
+        Me.TextBox62.Tag = "SITE_NAME"
+        '
+        'TextBox63
+        '
+        Me.TextBox63.AccessibleName = "LOCATION"
+        Me.TextBox63.Location = New System.Drawing.Point(270, 41)
+        Me.TextBox63.Name = "TextBox63"
+        Me.TextBox63.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox63.TabIndex = 24
+        Me.TextBox63.Tag = "LOCATION"
+        '
+        'Label90
+        '
+        Me.Label90.AutoSize = True
+        Me.Label90.Location = New System.Drawing.Point(389, 41)
+        Me.Label90.Name = "Label90"
+        Me.Label90.Size = New System.Drawing.Size(44, 13)
+        Me.Label90.TabIndex = 28
+        Me.Label90.Text = "Building"
+        '
+        'Label91
+        '
+        Me.Label91.AutoSize = True
+        Me.Label91.Location = New System.Drawing.Point(8, 44)
+        Me.Label91.Name = "Label91"
+        Me.Label91.Size = New System.Drawing.Size(56, 13)
+        Me.Label91.TabIndex = 30
+        Me.Label91.Text = "Site Name"
+        '
+        'TextBox64
+        '
+        Me.TextBox64.AccessibleName = "BUILDING_LIST"
+        Me.TextBox64.Location = New System.Drawing.Point(670, 37)
+        Me.TextBox64.Name = "TextBox64"
+        Me.TextBox64.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox64.TabIndex = 26
+        Me.TextBox64.Tag = "BUILDING_LIST"
+        '
+        'Label92
+        '
+        Me.Label92.AutoSize = True
+        Me.Label92.Location = New System.Drawing.Point(577, 44)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(50, 13)
+        Me.Label92.TabIndex = 27
+        Me.Label92.Text = "Bldg. List"
+        '
+        'Label93
+        '
+        Me.Label93.AutoSize = True
+        Me.Label93.Location = New System.Drawing.Point(206, 22)
+        Me.Label93.Name = "Label93"
+        Me.Label93.Size = New System.Drawing.Size(48, 13)
+        Me.Label93.TabIndex = 21
+        Me.Label93.Text = "Trailer Id"
+        '
+        'Label94
+        '
+        Me.Label94.AutoSize = True
+        Me.Label94.Location = New System.Drawing.Point(8, 17)
+        Me.Label94.Name = "Label94"
+        Me.Label94.Size = New System.Drawing.Size(58, 13)
+        Me.Label94.TabIndex = 22
+        Me.Label94.Text = "Truck Line"
         '
         'SplitContainer2
         '
@@ -5648,8 +5534,8 @@ Partial Class Main
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblFirstMsgInTimeStamp)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label14)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label13)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1287, 209)
-        Me.SplitContainer2.SplitterDistance = 1157
+        Me.SplitContainer2.Size = New System.Drawing.Size(1752, 223)
+        Me.SplitContainer2.SplitterDistance = 1573
         Me.SplitContainer2.TabIndex = 62
         '
         'Label9
@@ -5694,7 +5580,7 @@ Partial Class Main
         Me.txtLog.Font = New System.Drawing.Font("r_ansi", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLog.Location = New System.Drawing.Point(72, 3)
         Me.txtLog.Name = "txtLog"
-        Me.txtLog.Size = New System.Drawing.Size(1078, 179)
+        Me.txtLog.Size = New System.Drawing.Size(1494, 193)
         Me.txtLog.TabIndex = 19
         Me.txtLog.TabStop = False
         Me.txtLog.Text = ""
@@ -5813,11 +5699,21 @@ Partial Class Main
         Me.tmrAutoScan.Interval = 5000
         Me.tmrAutoScan.Tag = "Msg24"
         '
+        'btnLoadActivityData
+        '
+        Me.btnLoadActivityData.Location = New System.Drawing.Point(84, 398)
+        Me.btnLoadActivityData.Name = "btnLoadActivityData"
+        Me.btnLoadActivityData.Size = New System.Drawing.Size(81, 22)
+        Me.btnLoadActivityData.TabIndex = 79
+        Me.btnLoadActivityData.TabStop = False
+        Me.btnLoadActivityData.Text = "Get Data"
+        Me.btnLoadActivityData.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1314, 721)
+        Me.ClientSize = New System.Drawing.Size(1779, 761)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Label1)
@@ -5908,41 +5804,37 @@ Partial Class Main
         CType(Me.flxGrid15, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage13.ResumeLayout(False)
         Me.TabPage13.PerformLayout()
-        Me.TabPage14.ResumeLayout(False)
-        Me.tabCtlTrailer.ResumeLayout(False)
-        Me.tabPgTCin.ResumeLayout(False)
-        Me.grpBxTrailerCkin.ResumeLayout(False)
-        Me.grpBxTrailerCkin.PerformLayout()
-        Me.GroupBox24.ResumeLayout(False)
-        Me.GroupBox24.PerformLayout()
-        Me.GroupBox23.ResumeLayout(False)
-        Me.GroupBox23.PerformLayout()
-        Me.GroupBox22.ResumeLayout(False)
-        Me.GroupBox22.PerformLayout()
-        Me.GroupBox21.ResumeLayout(False)
-        Me.GroupBox21.PerformLayout()
-        Me.grpBxTCIShpRcpID.ResumeLayout(False)
-        Me.grpBxTCIShpRcpID.PerformLayout()
-        Me.tabPgTrlCo.ResumeLayout(False)
-        Me.grpBxTrlCkout.ResumeLayout(False)
-        Me.grpBxTrlCkout.PerformLayout()
-        Me.tabPgTrlLocAsg.ResumeLayout(False)
-        Me.grpBxTrlLocAsg.ResumeLayout(False)
-        Me.grpBxTrlLocAsg.PerformLayout()
-        Me.GroupBox25.ResumeLayout(False)
-        Me.GroupBox25.PerformLayout()
         Me.tabPgTrlMovEmu.ResumeLayout(False)
-        Me.tabPgTrlMovEmu.PerformLayout()
+        Me.Panel14.ResumeLayout(False)
+        Me.Panel14.PerformLayout()
+        CType(Me.dgvTrlActivityData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlTCSEmuData.ResumeLayout(False)
+        Me.pnlTCSEmuData.PerformLayout()
+        CType(Me.dGridTraMovData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControl2.ResumeLayout(False)
+        Me.TabPage16.ResumeLayout(False)
+        Me.TabPage16.PerformLayout()
         CType(Me.dGridTCSTrlViewData, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTrailerMovMain.ResumeLayout(False)
         Me.gbTrailerMovMain.PerformLayout()
         Me.GroupBox30.ResumeLayout(False)
         Me.GroupBox30.PerformLayout()
-        Me.GroupBox27.ResumeLayout(False)
-        Me.GroupBox27.PerformLayout()
         Me.GroupBox29.ResumeLayout(False)
         Me.GroupBox29.PerformLayout()
-        CType(Me.dGridTraMovData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox27.ResumeLayout(False)
+        Me.GroupBox27.PerformLayout()
+        Me.TabPage17.ResumeLayout(False)
+        Me.TabPage17.PerformLayout()
+        CType(Me.dgvTrlMvmtTCSTrailerView, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgvTcsTrailerReq, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbxTrailerMovement.ResumeLayout(False)
+        Me.gbxTrailerMovement.PerformLayout()
+        Me.TabPage18.ResumeLayout(False)
+        Me.TabPage18.PerformLayout()
+        CType(Me.dgvTcsLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgTCSTrlReqbySessionViewData, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbxTrailerMoveExec.ResumeLayout(False)
+        Me.gbxTrailerMoveExec.PerformLayout()
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
@@ -6284,111 +6176,17 @@ Partial Class Main
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents txtReconcileItmCod As System.Windows.Forms.TextBox
     Friend WithEvents DataGrid1 As DataGrid
-    Friend WithEvents tabCtlTrailer As TabControl
-    Friend WithEvents tabPgTCin As TabPage
-    Friend WithEvents tabPgTrlCo As TabPage
-    Friend WithEvents grpBxTrlCkout As GroupBox
-    Friend WithEvents txtTrlCo_TractorId As TextBox
-    Friend WithEvents lbltrlCoTractorId As Label
-    Friend WithEvents txtTrlCo_TrkLin As TextBox
-    Friend WithEvents lblTrlCoTrlkin As Label
-    Friend WithEvents Label33 As Label
-    Friend WithEvents btnTrlCkout As Button
-    Friend WithEvents lblCarArrDt As Label
-    Friend WithEvents dtpckrTrlCo_CarArrDt As DateTimePicker
-    Friend WithEvents txtTrlCo_LicPlateState As TextBox
-    Friend WithEvents lblLicPlateState As Label
-    Friend WithEvents txtTrlCo_LicPlateNum As TextBox
-    Friend WithEvents lblLicPlateNum As Label
-    Friend WithEvents txtTrlCo_DrvName As TextBox
-    Friend WithEvents lblDrvNam As Label
-    Private WithEvents txtTrlCo_trlnum As TextBox
     Friend WithEvents ToolTip2 As ToolTip
-    Friend WithEvents tabPgTrlLocAsg As TabPage
-    Protected WithEvents TabPage14 As TabPage
-    Friend WithEvents grpBxTrailerCkin As GroupBox
-    Friend WithEvents chkBTCIEMpty As CheckBox
-    Friend WithEvents cboTCITrkLIne As ComboBox
-    Friend WithEvents txtTCIWcsTransitNum As TextBox
-    Friend WithEvents lblTCIWcsTransitNum As Label
-    Friend WithEvents txtTCILocatn As TextBox
-    Friend WithEvents txtTCIBldingLst As TextBox
-    Friend WithEvents lblBldingLst As Label
-    Friend WithEvents txtTCIBlding As TextBox
-    Friend WithEvents lblTCIBlding As Label
-    Friend WithEvents txtTCISitNam As TextBox
-    Friend WithEvents lblTCISitNam As Label
-    Friend WithEvents txtTCIFreightCurrency As TextBox
-    Friend WithEvents txtTCIFreightAmt As TextBox
-    Friend WithEvents lblTCIFreightAmount As Label
-    Friend WithEvents txtTCIContents As TextBox
-    Friend WithEvents lblTCIContents As Label
-    Friend WithEvents txtTCIOrigin As TextBox
-    Friend WithEvents lblTCIOrigin As Label
-    Friend WithEvents txtTCIInvoiceNumber As TextBox
-    Friend WithEvents lblTCIInvoiceNumber As Label
-    Friend WithEvents txtTCIShipid As TextBox
-    Friend WithEvents lblTCIShipid As Label
-    Friend WithEvents txtTCIRrNumber As TextBox
-    Friend WithEvents lblTCIRrnumb As Label
-    Friend WithEvents txtTCIUnUsableReason As TextBox
-    Friend WithEvents txtTCILicPlateSt As TextBox
-    Friend WithEvents lblTCILicPlateSt As Label
-    Friend WithEvents txtTCILicPlateNum As TextBox
-    Friend WithEvents lblTCILicPlateNum As Label
-    Friend WithEvents txtTCIDrvName As TextBox
-    Friend WithEvents lblTCIDrvName As Label
-    Friend WithEvents lblTCITempCode As Label
-    Friend WithEvents TextBox9 As TextBox
-    Friend WithEvents txtTCIFullWgt As TextBox
-    Friend WithEvents txtTCIEmptyWeight As TextBox
-    Friend WithEvents lblTCIEmptyWgt As Label
-    Friend WithEvents txtTCIHeight As TextBox
-    Friend WithEvents txtTCIWidth As TextBox
-    Friend WithEvents txtTCILen As TextBox
-    Friend WithEvents lblTCI_len As Label
-    Friend WithEvents txtTCIType As TextBox
-    Friend WithEvents lblTCI_type As Label
-    Friend WithEvents TextBox8 As TextBox
-    Friend WithEvents Label34 As Label
-    Friend WithEvents lblTCITrklin As Label
-    Friend WithEvents lblTCITrlnum As Label
-    Friend WithEvents btnTCin_TrlCkin As Button
-    Friend WithEvents chkBTCIUsabel As CheckBox
-    Friend WithEvents grpBxTCIShpRcpID As GroupBox
-    Friend WithEvents GroupBox24 As GroupBox
-    Friend WithEvents GroupBox23 As GroupBox
-    Friend WithEvents GroupBox22 As GroupBox
-    Friend WithEvents GroupBox21 As GroupBox
-    Friend WithEvents cboTCITrlnum As ComboBox
-    Friend WithEvents cboTCITrklin As ComboBox
-    Friend WithEvents grpBxTrlLocAsg As GroupBox
-    Friend WithEvents GroupBox25 As GroupBox
-    Friend WithEvents TextBox12 As TextBox
-    Friend WithEvents Label37 As Label
-    Friend WithEvents TextBox13 As TextBox
-    Friend WithEvents Label38 As Label
-    Friend WithEvents TextBox14 As TextBox
-    Friend WithEvents Label39 As Label
-    Friend WithEvents TextBox15 As TextBox
-    Friend WithEvents TextBox10 As TextBox
-    Friend WithEvents Label35 As Label
-    Private WithEvents TextBox11 As TextBox
-    Friend WithEvents Label36 As Label
-    Friend WithEvents TabPage15 As TabPage
     Friend WithEvents tabPgTrlMovEmu As TabPage
     Friend WithEvents dGridTraMovData As DataGridView
     Friend WithEvents gbTrailerMovMain As GroupBox
     Friend WithEvents btnTrlMovTCkout As Button
-    Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents GroupBox27 As GroupBox
     Friend WithEvents Label40 As Label
     Friend WithEvents TextBox16 As TextBox
     Friend WithEvents TextBox17 As TextBox
     Friend WithEvents TextBox18 As TextBox
     Friend WithEvents Label41 As Label
-    Friend WithEvents ComboBox3 As ComboBox
     Friend WithEvents TextBox19 As TextBox
     Friend WithEvents TextBox20 As TextBox
     Friend WithEvents Label42 As Label
@@ -6413,7 +6211,6 @@ Partial Class Main
     Friend WithEvents Label49 As Label
     Friend WithEvents TextBox31 As TextBox
     Friend WithEvents GroupBox30 As GroupBox
-    Friend WithEvents btnTrlMovTrlLocUpd As Button
     Friend WithEvents TextBox32 As TextBox
     Friend WithEvents Label50 As Label
     Friend WithEvents TextBox33 As TextBox
@@ -6438,25 +6235,11 @@ Partial Class Main
     Friend WithEvents btnGetTrlMovData As Button
     Friend WithEvents BindingSource1 As BindingSource
     Friend WithEvents btnTrlMovTLocAsgn As Button
-    Friend WithEvents btnTrlMovTrlMovCancel As Button
-    Friend WithEvents btnTrlMovTrlMovComp As Button
-    Friend WithEvents btnTrlMovReqTrailerForTractor As Button
     Friend WithEvents Panel12 As Panel
     Friend WithEvents Label60 As Label
-    Friend WithEvents btnTrlMovTrlMovPickup As Button
     Friend WithEvents Label61 As Label
-    Friend WithEvents Label64 As Label
-    Friend WithEvents TextBox41 As TextBox
     Friend WithEvents Label63 As Label
-    Friend WithEvents TextBox40 As TextBox
-    Friend WithEvents Label62 As Label
     Friend WithEvents btnTrlMovReset As Button
-    Friend WithEvents TextBox44 As TextBox
-    Friend WithEvents Label67 As Label
-    Friend WithEvents TextBox42 As TextBox
-    Friend WithEvents Label65 As Label
-    Friend WithEvents TextBox43 As TextBox
-    Friend WithEvents Label66 As Label
     Friend WithEvents TextBox45 As TextBox
     Friend WithEvents Label68 As Label
     Friend WithEvents TextBox46 As TextBox
@@ -6465,16 +6248,110 @@ Partial Class Main
     Friend WithEvents Label69 As Label
     Friend WithEvents Label71 As Label
     Friend WithEvents dGridTCSTrlViewData As DataGridView
+    Friend WithEvents lblWMSTCSTrlData As Label
+    Friend WithEvents lblTrlEMUData As Label
+    Friend WithEvents DeleteTCSTRAILERToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TabControl2 As TabControl
+    Friend WithEvents TabPage16 As TabPage
+    Friend WithEvents TabPage17 As TabPage
+    Friend WithEvents TabPage18 As TabPage
+    Friend WithEvents gbxTrailerMovement As GroupBox
+    Friend WithEvents btnTrlMovTrlMovCancel As Button
+    Friend WithEvents btnTrlMovTrlLocReq As Button
+    Friend WithEvents TextBox57 As TextBox
+    Friend WithEvents Label85 As Label
+    Friend WithEvents TextBox56 As TextBox
+    Friend WithEvents Label84 As Label
+    Friend WithEvents Label83 As Label
+    Friend WithEvents CheckBox3 As CheckBox
+    Friend WithEvents TextBox55 As TextBox
+    Friend WithEvents Label79 As Label
+    Friend WithEvents TextBox51 As TextBox
+    Friend WithEvents TextBox52 As TextBox
+    Friend WithEvents TextBox53 As TextBox
+    Friend WithEvents Label80 As Label
+    Friend WithEvents Label81 As Label
+    Friend WithEvents TextBox54 As TextBox
+    Friend WithEvents Label82 As Label
+    Friend WithEvents Label76 As Label
+    Friend WithEvents Label77 As Label
+    Friend WithEvents dgvTcsTrailerReq As DataGridView
+    Friend WithEvents btnLoadTrailerMovData As Button
+    Friend WithEvents btnLoadTrlExecTrlReqData As Button
+    Friend WithEvents dgTCSTrlReqbySessionViewData As DataGridView
+    Friend WithEvents gbxTrailerMoveExec As GroupBox
+    Friend WithEvents TextBox44 As TextBox
+    Friend WithEvents Label67 As Label
+    Friend WithEvents Label64 As Label
+    Friend WithEvents TextBox41 As TextBox
+    Friend WithEvents TextBox40 As TextBox
+    Friend WithEvents Label62 As Label
+    Friend WithEvents Label75 As Label
     Friend WithEvents TextBox49 As TextBox
     Friend WithEvents Label74 As Label
     Friend WithEvents TextBox50 As TextBox
-    Friend WithEvents Label75 As Label
     Friend WithEvents TextBox47 As TextBox
     Friend WithEvents Label72 As Label
     Friend WithEvents TextBox48 As TextBox
     Friend WithEvents Label73 As Label
-    Friend WithEvents Label78 As Label
-    Friend WithEvents lblWMSTCSTrlData As Label
-    Friend WithEvents lblTrlEMUData As Label
-    Friend WithEvents DeleteTCSTRAILERToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnTrlMovTrlMovPickup As Button
+    Friend WithEvents btnTrlMovTrlMovComp As Button
+    Friend WithEvents btnTrlMovExecTrlMovCancel As Button
+    Friend WithEvents TextBox59 As TextBox
+    Friend WithEvents Label87 As Label
+    Friend WithEvents Label89 As Label
+    Friend WithEvents TextBox61 As TextBox
+    Friend WithEvents TextBox62 As TextBox
+    Friend WithEvents TextBox63 As TextBox
+    Friend WithEvents Label90 As Label
+    Friend WithEvents Label91 As Label
+    Friend WithEvents TextBox64 As TextBox
+    Friend WithEvents Label92 As Label
+    Friend WithEvents Label93 As Label
+    Friend WithEvents Label94 As Label
+    Friend WithEvents btnTrlMovTrlLocUpd As Button
+    Friend WithEvents chkBxTcsEmuWMSEmpty As CheckBox
+    Friend WithEvents chkBxTcsEmuWMSReadyToShip As CheckBox
+    Friend WithEvents chkBxTcsEmuWMSSessOnly As CheckBox
+    Friend WithEvents chkBxTcsEmuEMUSessionOnly As CheckBox
+    Friend WithEvents CheckBox4 As CheckBox
+    Friend WithEvents Label66 As Label
+    Friend WithEvents Label65 As Label
+    Friend WithEvents Label86 As Label
+    Friend WithEvents chkBxTcsEmuTrlMovWMSSessOnly As CheckBox
+    Friend WithEvents TextBox43 As TextBox
+    Friend WithEvents TextBox42 As TextBox
+    Friend WithEvents Label95 As Label
+    Friend WithEvents CheckBox5 As CheckBox
+    Friend WithEvents Label96 As Label
+    Friend WithEvents TextBox58 As TextBox
+    Friend WithEvents Label97 As Label
+    Friend WithEvents TextBox60 As TextBox
+    Friend WithEvents btnTrlMovTrlChgPriority As Button
+    Friend WithEvents Label98 As Label
+    Friend WithEvents chkbTCSTrlExecCurSessOnly As CheckBox
+    Friend WithEvents TextBox65 As TextBox
+    Friend WithEvents TextBox66 As TextBox
+    Friend WithEvents btnTrlMovExecTrlChgPriority As Button
+    Friend WithEvents btnTrlMovementReset As Button
+    Friend WithEvents btnTrlMovExecReset As Button
+    Friend WithEvents pnlTCSEmuData As Panel
+    Friend WithEvents TextBox10 As TextBox
+    Friend WithEvents TextBox8 As TextBox
+    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents Label88 As Label
+    Friend WithEvents dgvTcsLocation As DataGridView
+    Friend WithEvents dgvTrlMvmtTCSTrailerView As DataGridView
+    Friend WithEvents Label33 As Label
+    Friend WithEvents chkbTrlMvmtThisSessionOnly As CheckBox
+    Friend WithEvents chkbTrlMvmtShowEmpty As CheckBox
+    Friend WithEvents chkbTrlMvmtReadyToShip As CheckBox
+    Friend WithEvents TextBox12 As TextBox
+    Friend WithEvents Label35 As Label
+    Friend WithEvents Panel14 As Panel
+    Friend WithEvents dgvTrlActivityData As DataGridView
+    Friend WithEvents Label34 As Label
+    Friend WithEvents btnTCSEmuViewData As Button
+    Friend WithEvents TCSConfigToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnLoadActivityData As Button
 End Class
