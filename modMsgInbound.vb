@@ -226,8 +226,7 @@ Module modMsgInbound
 
                         WriteLog(gcstrProcessed, "Processed Trailer Location Assigmnet Message-[" &
                                                     dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
-                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
-                                                    dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-Status[" &
                                                     dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
                                                     dictInbXMLData.Item("ERROR_MSG") & "]")
 
@@ -253,7 +252,83 @@ Module modMsgInbound
                                                     dictInbXMLData.Item("TRACTOR_ID") & "]-Status[" &
                                                     dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
                                                     dictInbXMLData.Item("ERROR_MSG") & "]")
+                    Case TRL_MOVREQ_CANCEL_CONF_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
 
+                        dictInbXMLData = ReadXML_TrailerMoveRequestCancelConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Move Request Cancel Confirmation Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("REQUEST_ID") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
+
+                    Case TRL_LOC_UPDATE_CONF_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerLocUpdateConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Location Update Confirmation Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("SITE_NAME") & "]-[" &
+                                                    dictInbXMLData.Item("LOCATION") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
+                    Case TRL_MOVE_DEPOSIT_CONF_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerMoveRequestDepositConfirm(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Move Deposit Confirmation Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]-[" &
+                                                    dictInbXMLData.Item("REQUEST_ID") & "]-[" &
+                                                    dictInbXMLData.Item("DEST_SITE_NAME") & "]-[" &
+                                                    dictInbXMLData.Item("DEST_LOCATION") & "]-Status[" &
+                                                    dictInbXMLData.Item("ERROR_CODE") & "]-Error Msg[" &
+                                                    dictInbXMLData.Item("ERROR_MSG") & "]")
+                    Case TRL_MOVE_REQUEST_INB_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerMoveRequest(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Move Request Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER"))
+                    Case TRL_CKIN_INB_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerCheckIn(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Checkin  Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]")
+                    Case TRL_CKOUT_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerCheckOut(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Checkin  Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]")
+                    Case TRL_MOVE_CANCEL_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerMoveReqCancel(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Checkin  Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]")
+                    Case TRL_MOVE_CHANGE_PRIORITY_TAG.ToUpper
+                        Dim dictInbXMLData As Dictionary(Of String, String)
+
+                        dictInbXMLData = ReadXML_TrailerMoveReqChangePriority(document)
+
+                        WriteLog(gcstrProcessed, "Processed Trailer Checkin  Message-[" &
+                                                    dictInbXMLData.Item("TRUCK_LINE") & "]-[" &
+                                                    dictInbXMLData.Item("TRAILER_NUMBER") & "]")
                     Case "MSG6".ToUpper
                         Dim structXML As Msg6
                         structXML = ReadXML_Msg06(document)
@@ -282,18 +357,18 @@ Module modMsgInbound
 
                             Case "A8", "C8", "L8", "U8", "M8"
 
-                                lRecordsAffected = Update_CUST_PALLET_ForA8(structXML.strCust_ID, structXML.strBrand_Code, structXML.strBrand_Desc, structXML.strCode_Date, _
-                                                         structXML.strPallet_Type, structXML.strHold_Status, structXML.strActiv_Input_Location, structXML.strMsgTyp, _
+                                lRecordsAffected = Update_CUST_PALLET_ForA8(structXML.strCust_ID, structXML.strBrand_Code, structXML.strBrand_Desc, structXML.strCode_Date,
+                                                         structXML.strPallet_Type, structXML.strHold_Status, structXML.strActiv_Input_Location, structXML.strMsgTyp,
                                                          "FPDS", structXML.strPlc_Userid)
 
                                 If lRecordsAffected = 0 And structXML.strBase_ulid <> structXML.strCust_ID Then
                                     'this is stacked pallet whereas RAID didn't know the ULID yet
 
                                     With structXML
-                                        InsertULInto_CUST_PALLET(structXML.strCust_ID, "5", .strBrand_Code, .strBrand_Desc, .strCode_Date, .strPallet_Type, .strHold_Status, _
+                                        InsertULInto_CUST_PALLET(structXML.strCust_ID, "5", .strBrand_Code, .strBrand_Desc, .strCode_Date, .strPallet_Type, .strHold_Status,
                                                                  gstrASRSSystemLocationName, .strBase_ulid)
-                                        lRecordsAffected = Update_CUST_PALLET_ForA8(structXML.strCust_ID, structXML.strBrand_Code, structXML.strBrand_Desc, structXML.strCode_Date, _
-                                                     structXML.strPallet_Type, structXML.strHold_Status, structXML.strActiv_Input_Location, structXML.strMsgTyp, _
+                                        lRecordsAffected = Update_CUST_PALLET_ForA8(structXML.strCust_ID, structXML.strBrand_Code, structXML.strBrand_Desc, structXML.strCode_Date,
+                                                     structXML.strPallet_Type, structXML.strHold_Status, structXML.strActiv_Input_Location, structXML.strMsgTyp,
                                                      "FPDS", structXML.strPlc_Userid)
 
                                     End With
@@ -409,7 +484,7 @@ Module modMsgInbound
 
                             'need to find a UL based on brand_code/pallet_type/code_date etc
                             'populate shipment header
-                            InsertInto_CUST_SHIPMENT(structXML(0).HOST_CONTROL_NUMBER, gcstrShipmentRequest, "ACTIV", structXML(0).ORDER_DISPOSITION, _
+                            InsertInto_CUST_SHIPMENT(structXML(0).HOST_CONTROL_NUMBER, gcstrShipmentRequest, "ACTIV", structXML(0).ORDER_DISPOSITION,
                                  structXML(0).SCHEDULED_SHIP_DATE & Space(1) & structXML(0).SCHEDULED_SHIP_TIME, "21", String.Empty)
 
                             If Left(structXML(0).HOST_CONTROL_NUMBER, 1) = "M" And structXML(0).HOST_CONTROL_NUMBER.Length = 5 Then
@@ -464,13 +539,13 @@ Module modMsgInbound
 
                             'need to find a UL based on brand_code/pallet_type/code_date etc
                             'populate shipment header
-                            InsertInto_CUST_SHIPMENT(structXML(0).HOST_CONTROL_NUMBER, gcstrPORequest, "ACTIV", structXML(0).ORDER_DISPOSITION, _
+                            InsertInto_CUST_SHIPMENT(structXML(0).HOST_CONTROL_NUMBER, gcstrPORequest, "ACTIV", structXML(0).ORDER_DISPOSITION,
                                  structXML(0).SCHEDULED_START_DATE & Space(1) & structXML(0).SCHEDULED_START_TIME, "41", String.Empty)
 
                             'create a lineitem record for each UL needed
                             'currently XML passes in destination location, but not using it
                             For x = 0 To structXML.GetUpperBound(0)
-                                InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, (x + 1).ToString, structXML(x).SEQUENCE, structXML(x).BRAND_CODE, _
+                                InsertInto_CUST_LINEITEM(structXML(0).HOST_CONTROL_NUMBER, (x + 1).ToString, structXML(x).SEQUENCE, structXML(x).BRAND_CODE,
                                         structXML(x).CODE_DATE, structXML(x).PALLET_TYPE, "1", String.Empty, "41", String.Empty)
                             Next
                             WriteLog(gcstrProcessed, strRootTag & " Host Control #: " & structXML(0).HOST_CONTROL_NUMBER & " ULs: " & (structXML.GetUpperBound(0) + 1).ToString)
@@ -546,7 +621,7 @@ Module modMsgInbound
                             bOktoUpdate = True
 
                         Else
-                            WriteLog(gcstrError, strRootTag.ToUpper & Space(1) & structXML.strHOST_CONTROL_NUMBER & Space(1) & _
+                            WriteLog(gcstrError, strRootTag.ToUpper & Space(1) & structXML.strHOST_CONTROL_NUMBER & Space(1) &
                                         " Invalid Sign On Flag |" & structXML.strSIGNON_FLG & "|")
 
                         End If
@@ -651,13 +726,13 @@ Module modMsgInbound
                             If strA35StatusfromDB = "A35" OrElse strA35StatusfromDB = "A35S" OrElse strA35StatusfromDB = "D35" Then
 
                                 'consecutive A35 received - start with clean slate - ok per retrotech
-                                lRecordsAffected = DeleteDatafromEmulatorDBTablewithWhereClause("TRAILER_FPDS", _
+                                lRecordsAffected = DeleteDatafromEmulatorDBTablewithWhereClause("TRAILER_FPDS",
                                     "TRAILER_NUMBER='" & structXML(0).TRAILER_NUMBER & "' and TRUCK_LINE ='" & structXML(0).TRUCK_LINE & "'", False)
 
                                 WriteLog(gcstrProcessed, "Removed from WCS DB " & structXML(0).TRUCK_LINE & "|" & structXML(0).TRAILER_NUMBER & Space(1) & RecordAffectedMessage(lRecordsAffected, gcstrDelete))
 
                                 'create the new entry
-                                InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER, _
+                                InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER,
                                                       structXML(0).TRUCK_LINE, structXML(0).LINE_COUNT)
 
                                 WriteLog(gcstrProcessed, strRootTag.ToUpper & Space(1) & structXML(0).TRUCK_LINE & Space(2) & structXML(0).TRAILER_NUMBER & " (Consecutive A35s received)")
@@ -667,7 +742,7 @@ Module modMsgInbound
                                 WriteLog(gcstrError, strRootTag.ToUpper & Space(1) & "Message Rejected  - M35 Already Exists (RTCIS Needs to Send D35 then M35)" & structXML(0).TRUCK_LINE & Space(2) & structXML(0).TRAILER_NUMBER)
 
                             Else
-                                InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER, _
+                                InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER,
                                                         structXML(0).TRUCK_LINE, structXML(0).LINE_COUNT)
 
                                 WriteLog(gcstrProcessed, strRootTag.ToUpper & Space(1) & structXML(0).TRUCK_LINE & Space(2) & structXML(0).TRAILER_NUMBER)
@@ -687,7 +762,7 @@ Module modMsgInbound
                                 Else
                                     'the M35 ws received unsolicited, the RTCIS user moved the traiel rto the door without askign and we get notified
                                     'create the new entry
-                                    InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER, _
+                                    InsertInto_TRAILER_FPDS(structXML(0).MESSAGE_TYPE, structXML(0).TRAILER_NUMBER,
                                                           structXML(0).TRUCK_LINE, structXML(0).LINE_COUNT)
                                     Update_TRAILER_FPDS(structXML(0).TRUCK_LINE, structXML(0).TRAILER_NUMBER, structXML(0).MESSAGE_TYPE, structXML(0).ACTIV_INPUT_LOCATION)
 
@@ -732,7 +807,7 @@ Module modMsgInbound
 
             End Try
         End Sub
-       
+
         ' Display any validation errors.
         Private Shared Sub ValidationCallBack(ByVal sender As Object, ByVal e As ValidationEventArgs)
             WriteLog(gcstrError, "InvalidXML: " & e.Message)
@@ -743,7 +818,7 @@ Module modMsgInbound
     Dim Msg41_Data As Object
     Dim Msg41_LINE_ITEM_DATA As Object
 
-   
+
 
     Private Sub WriteLog(ByVal strAction As String, ByVal strText As String)
         Dim FilePath As String
@@ -761,25 +836,25 @@ Module modMsgInbound
     End Sub
 
 
-    Public Function Update_CUST_PALLET_ForA8(ByVal strULID As String, ByVal strBrand_Code As String, ByVal str_Brand_Desc As String, ByVal strCode_Date As String, _
-                                             ByVal strPallet_Type As String, ByVal strHold_Status As String, ByVal strActiv_Input_location As String, ByVal strRetro_Status As String, _
+    Public Function Update_CUST_PALLET_ForA8(ByVal strULID As String, ByVal strBrand_Code As String, ByVal str_Brand_Desc As String, ByVal strCode_Date As String,
+                                             ByVal strPallet_Type As String, ByVal strHold_Status As String, ByVal strActiv_Input_location As String, ByVal strRetro_Status As String,
                                              ByVal strRetro_loc As String, ByVal strPLC_USERID As String) As Long
         Dim strSql As String
         Dim oRecordsUpdated As Object = 0
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "BRAND_CODE ='" & strBrand_Code & "'," & _
-            "BRAND_DESC='" & str_Brand_Desc & "'," & _
-            "CODE_DATE='" & strCode_Date & "'," & _
-            "PALLET_TYPE='" & strPallet_Type & "'," & _
-            "HOLD_STATUS='" & strHold_Status & "'," & _
-            "ACTIV_INPUT_LOCATION='" & strActiv_Input_location & "'," & _
-            "RETRO_LOC='" & strRetro_loc & "'," & _
-            "RETRO_STATUS='" & strRetro_Status & "', " & _
-            "PLC_USERID='" & strPLC_USERID & "', " & _
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            strSql = "update CUST_PALLET set " &
+            "BRAND_CODE ='" & strBrand_Code & "'," &
+            "BRAND_DESC='" & str_Brand_Desc & "'," &
+            "CODE_DATE='" & strCode_Date & "'," &
+            "PALLET_TYPE='" & strPallet_Type & "'," &
+            "HOLD_STATUS='" & strHold_Status & "'," &
+            "ACTIV_INPUT_LOCATION='" & strActiv_Input_location & "'," &
+            "RETRO_LOC='" & strRetro_loc & "'," &
+            "RETRO_STATUS='" & strRetro_Status & "', " &
+            "PLC_USERID='" & strPLC_USERID & "', " &
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -803,9 +878,9 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "'," & _
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "'," &
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -827,10 +902,10 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "'," & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "'," &
             "RETRO_LOC='" & strRetro_loc & "'," &
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If gbShowOnlyTheBaseStackedULID = True Then
@@ -856,10 +931,10 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_STATUS='7'," & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_STATUS='7'," &
             "SHIP_ID=''," &
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where SHIP_ID ='" & strShipID & "' and retro_status <> '14'"
 
             If Len(strSql) > 0 Then
@@ -882,10 +957,10 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "RETRO_STATUS='" & strRETRO_STATUS & "'," & _
+            strSql = "update CUST_PALLET set " &
+            "RETRO_STATUS='" & strRETRO_STATUS & "'," &
             "SHIP_ID='" & strShipID & "'," &
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -902,9 +977,9 @@ Module modMsgInbound
 
     End Function
 
-    
 
-    Public Function Update_CUST_PALLET_MSG16(ByVal strULID As String, ByVal strCODE_DATE As String, _
+
+    Public Function Update_CUST_PALLET_MSG16(ByVal strULID As String, ByVal strCODE_DATE As String,
                                              ByVal strULHOLD_STATUS As String) As Long
 
         Dim strSql As String
@@ -912,10 +987,10 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_PALLET set " & _
-            "CODE_DATE='" & strCODE_DATE & "'," & _
+            strSql = "update CUST_PALLET set " &
+            "CODE_DATE='" & strCODE_DATE & "'," &
             "HOLD_STATUS='" & strULHOLD_STATUS & "'," &
-            "CTRL_DATE='" & Date.Now.ToString & "' " & _
+            "CTRL_DATE='" & Date.Now.ToString & "' " &
             "where CUST_ID ='" & strULID & "'"
 
             If Len(strSql) > 0 Then
@@ -958,12 +1033,12 @@ Module modMsgInbound
                         Update_CUST_PALLET_RETRO_STATUS_SHIPID(.strUNIT_LOAD_ID, "13", .strHOST_CONTROL_NUMBER)
 
                         'populate shipment header
-                        bSuccess = InsertInto_CUST_SHIPMENT(structXML.strHOST_CONTROL_NUMBER, "MR", "USER", _
+                        bSuccess = InsertInto_CUST_SHIPMENT(structXML.strHOST_CONTROL_NUMBER, "MR", "USER",
                                 String.Empty, Now.ToString, "13", structXML.strActiv_output_location)
 
                         'create  lineitem with ULID already known
-                        bSuccess = InsertInto_CUST_LINEITEM(structXML.strHOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML.strBRAND_CODE, _
-                                structXML.strCODE_DATE, structXML.strPALLET_TYPE, "1", _
+                        bSuccess = InsertInto_CUST_LINEITEM(structXML.strHOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML.strBRAND_CODE,
+                                structXML.strCODE_DATE, structXML.strPALLET_TYPE, "1",
                                 structXML.strWITHDRAWAL_SELECT_FLAG, "13", .strUNIT_LOAD_ID)
 
                     End If
@@ -971,13 +1046,13 @@ Module modMsgInbound
                 Else
                     'need to find a UL based on brand_code/pallet_type/code_date etc
                     'populate shipment header
-                    bSuccess = InsertInto_CUST_SHIPMENT(structXML.strHOST_CONTROL_NUMBER, "MR", "USER", _
+                    bSuccess = InsertInto_CUST_SHIPMENT(structXML.strHOST_CONTROL_NUMBER, "MR", "USER",
                             String.Empty, Now.ToString, "13", structXML.strActiv_output_location)
 
                     'create a lineitem record for each UL needed
                     For x = 1 To CInt(structXML.strUL_WITHDRAWAL_QTY)
-                        bSuccess = InsertInto_CUST_LINEITEM(structXML.strHOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML.strBRAND_CODE, _
-                                structXML.strCODE_DATE, structXML.strPALLET_TYPE, "1", _
+                        bSuccess = InsertInto_CUST_LINEITEM(structXML.strHOST_CONTROL_NUMBER, x.ToString, x.ToString, structXML.strBRAND_CODE,
+                                structXML.strCODE_DATE, structXML.strPALLET_TYPE, "1",
                                 structXML.strWITHDRAWAL_SELECT_FLAG, "13", String.Empty)
                     Next
 
@@ -1001,8 +1076,8 @@ Module modMsgInbound
     End Sub
 
 
-    Public Function InsertInto_CUST_SHIPMENT(ByVal strCUST_SHIPMENT As String, ByVal strSHIP_TYPE As String, _
-       ByVal strUSER_ID As String, ByVal strPRIORITY As String, ByVal strAPP_DATETIME As String, _
+    Public Function InsertInto_CUST_SHIPMENT(ByVal strCUST_SHIPMENT As String, ByVal strSHIP_TYPE As String,
+       ByVal strUSER_ID As String, ByVal strPRIORITY As String, ByVal strAPP_DATETIME As String,
        ByVal strRETRO_STATUS As String, ByVal strSLOT As String) As Boolean
 
         Dim strSql As String
@@ -1013,16 +1088,16 @@ Module modMsgInbound
             'Default the nextlevelid
             strNEXTLEVELID = ActivLevelIds(0)
 
-            strSql = "INSERT INTO CUST_SHIPMENT " & _
-            "(CUST_SHIPMENT,SHIP_TYPE,USER_ID,DISPOSITION,APP_DATETIME,RETRO_STATUS,SLOT,NEXTLEVELID) values (" & _
-            "'" & strCUST_SHIPMENT & "'," & _
-            "'" & strSHIP_TYPE & "'," & _
-            "'" & strUSER_ID & "'," & _
-            "'" & strPRIORITY & "'," & _
-            "'" & strAPP_DATETIME & "'," & _
-            "'" & strRETRO_STATUS & "'," & _
-            "'" & strSLOT & "'," & _
-            "'" & strNEXTLEVELID & "' " & _
+            strSql = "INSERT INTO CUST_SHIPMENT " &
+            "(CUST_SHIPMENT,SHIP_TYPE,USER_ID,DISPOSITION,APP_DATETIME,RETRO_STATUS,SLOT,NEXTLEVELID) values (" &
+            "'" & strCUST_SHIPMENT & "'," &
+            "'" & strSHIP_TYPE & "'," &
+            "'" & strUSER_ID & "'," &
+            "'" & strPRIORITY & "'," &
+            "'" & strAPP_DATETIME & "'," &
+            "'" & strRETRO_STATUS & "'," &
+            "'" & strSLOT & "'," &
+            "'" & strNEXTLEVELID & "' " &
             ")"
 
             If Len(strSql) > 0 Then
@@ -1039,26 +1114,26 @@ Module modMsgInbound
 
     End Function
 
-    Public Function InsertInto_CUST_LINEITEM(ByVal strSHIP_ID As String, ByVal strLINE_ID As String, ByVal strSEQUENCE As String, _
-      ByVal strBRAND_CODE As String, ByVal strCODE_DATE As String, ByVal strPAL_TYPE As String, _
+    Public Function InsertInto_CUST_LINEITEM(ByVal strSHIP_ID As String, ByVal strLINE_ID As String, ByVal strSEQUENCE As String,
+      ByVal strBRAND_CODE As String, ByVal strCODE_DATE As String, ByVal strPAL_TYPE As String,
       ByVal strQUANTITY As String, ByVal strSELECT_FLAG As String, ByVal strRETRO_STATUS As String, ByVal strCUST_ID As String) As Boolean
 
         Dim strSql As String
 
         Try
 
-            strSql = "INSERT INTO CUST_LINEITEM " & _
-            "(SHIP_ID,LINE_ID,SEQUENCE,BRAND_CODE,CODE_DATE,PAL_TYPE,QUANTITY,SELECT_FLAG,RETRO_STATUS,CUST_ID) values (" & _
-            "'" & strSHIP_ID & "'," & _
-            "'" & strLINE_ID & "'," & _
-            "'" & strSEQUENCE & "'," & _
-            "'" & strBRAND_CODE & "'," & _
-            "'" & strCODE_DATE & "'," & _
-            "'" & strPAL_TYPE & "'," & _
-            "'" & strQUANTITY & "'," & _
-            "'" & strSELECT_FLAG & "'," & _
-            "'" & strRETRO_STATUS & "'," & _
-            "'" & strCUST_ID & "'" & _
+            strSql = "INSERT INTO CUST_LINEITEM " &
+            "(SHIP_ID,LINE_ID,SEQUENCE,BRAND_CODE,CODE_DATE,PAL_TYPE,QUANTITY,SELECT_FLAG,RETRO_STATUS,CUST_ID) values (" &
+            "'" & strSHIP_ID & "'," &
+            "'" & strLINE_ID & "'," &
+            "'" & strSEQUENCE & "'," &
+            "'" & strBRAND_CODE & "'," &
+            "'" & strCODE_DATE & "'," &
+            "'" & strPAL_TYPE & "'," &
+            "'" & strQUANTITY & "'," &
+            "'" & strSELECT_FLAG & "'," &
+            "'" & strRETRO_STATUS & "'," &
+            "'" & strCUST_ID & "'" &
             ")"
 
             If Len(strSql) > 0 Then
@@ -1082,9 +1157,9 @@ Module modMsgInbound
         struct.ULID = "-1"
 
         Try
-            strSQL = "select CUST_ID,SHIP_ID " & _
-                "from CUST_PALLET " & _
-                "where " & _
+            strSQL = "select CUST_ID,SHIP_ID " &
+                "from CUST_PALLET " &
+                "where " &
                  "cust_id='" & strULID & "' "
 
             ' Open the Recordset using the select string:
@@ -1118,12 +1193,12 @@ Module modMsgInbound
 
         Try
 
-            strSql = "INSERT INTO MSG16HST " & _
-            "(CUST_ID,CODE_DATE,HOLD_STATUS,BRAND_CODE) values (" & _
-            "'" & strCUST_ID & "'," & _
-            "'" & strCODE_DATE & "'," & _
-            "'" & strHOLD_STATUS & "', " & _
-              "'" & strBRAND_CODE & "' " & _
+            strSql = "INSERT INTO MSG16HST " &
+            "(CUST_ID,CODE_DATE,HOLD_STATUS,BRAND_CODE) values (" &
+            "'" & strCUST_ID & "'," &
+            "'" & strCODE_DATE & "'," &
+            "'" & strHOLD_STATUS & "', " &
+              "'" & strBRAND_CODE & "' " &
             ")"
 
             If Len(strSql) > 0 Then
@@ -1146,9 +1221,9 @@ Module modMsgInbound
         WhatRetro_StatusIsShipment = "-1"
 
         Try
-            strSQL = "select RETRO_STATUS " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
+            strSQL = "select RETRO_STATUS " &
+                "from CUST_SHIPMENT " &
+                "where " &
                  "cust_shipment='" & strShipId & "' "
 
             ' Open the Recordset using the select string:
@@ -1177,9 +1252,9 @@ Module modMsgInbound
         WhatSlotAssignedToShipment = "-1"
 
         Try
-            strSQL = "select SLOT " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
+            strSQL = "select SLOT " &
+                "from CUST_SHIPMENT " &
+                "where " &
                  "cust_shipment='" & strShipId & "' "
 
             ' Open the Recordset using the select string:
@@ -1209,9 +1284,9 @@ Module modMsgInbound
         WhatShipmentAssignedToSlot = "-1"
 
         Try
-            strSQL = "select cust_shipment " & _
-                "from CUST_SHIPMENT " & _
-                "where " & _
+            strSQL = "select cust_shipment " &
+                "from CUST_SHIPMENT " &
+                "where " &
                 "slot='" & strSlot & "' "
 
             ' Open the Recordset using the select string:
@@ -1241,8 +1316,8 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='13C' " & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='13C' " &
             "where SHIP_ID ='" & strSHIPID & "' and retro_status='13S' "
 
             If Len(strSql) > 0 Then
@@ -1264,8 +1339,8 @@ Module modMsgInbound
 
         Try
 
-            strSql = "update CUST_LINEITEM set " & _
-            "RETRO_STATUS='CANCLD' " & _
+            strSql = "update CUST_LINEITEM set " &
+            "RETRO_STATUS='CANCLD' " &
             "where SHIP_ID ='" & strSHIPID & "' and CUST_ID='' "
 
             If Len(strSql) > 0 Then
@@ -1282,7 +1357,7 @@ Module modMsgInbound
 
     End Function
 
-    
+
     Public Sub ShortInventoryCheck(ByVal strShip_Id As String)
         Dim strSQL As String
         Dim strULIDCount As String
@@ -1295,10 +1370,10 @@ Module modMsgInbound
 
             WriteLog(gcstrINFO, "...Checking Available Inventory for Control# " & strShip_Id & "...")
 
-            strSQL = "select SHIP_ID, BRAND_CODE,PAL_TYPE,SumOfQUANTITY, ULIDCOUNT " & _
-                "from qryAvailableInventoryforLineItem " & _
-                "where " & _
-                "ship_id='" & strShip_Id & "' " & _
+            strSQL = "select SHIP_ID, BRAND_CODE,PAL_TYPE,SumOfQUANTITY, ULIDCOUNT " &
+                "from qryAvailableInventoryforLineItem " &
+                "where " &
+                "ship_id='" & strShip_Id & "' " &
                 "order by BRAND_CODE,PAL_TYPE"
 
             ' Open the Recordset using the select string:
@@ -1341,7 +1416,7 @@ Module modMsgInbound
 
     End Sub
 
-    
+
     Dim Msg21_LINE_ITEM_DATA As Object
     Dim Msg21_Data As Object
     Dim RequestFPDS_LINE_ITEM_DATA As Object
@@ -1352,10 +1427,10 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ConfirmHeartBeatData") _
-                     Select New With _
-                     { _
-                        .TEXT = Msg_Data.Element("TEXT").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ConfirmHeartBeatData")
+                                        Select New With
+                     {
+                        .TEXT = Msg_Data.Element("TEXT").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1374,13 +1449,13 @@ Module modMsgInbound
         Try
 
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ULDATA") _
-                     Select New With _
-                     { _
-                        .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value, _
-                        .DELIVERY_LOCATION = Msg_Data.Element("DELIVERY_LOCATION").Value, _
-                        .UNIT_LOAD_FORMER_ID = Msg_Data.Element("UNIT_LOAD_FORMER_ID").Value, _
-                        .USER_ID = Msg_Data.Element("USER_ID").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ULDATA")
+                                        Select New With
+                     {
+                        .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value,
+                        .DELIVERY_LOCATION = Msg_Data.Element("DELIVERY_LOCATION").Value,
+                        .UNIT_LOAD_FORMER_ID = Msg_Data.Element("UNIT_LOAD_FORMER_ID").Value,
+                        .USER_ID = Msg_Data.Element("USER_ID").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1402,13 +1477,13 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("MessageHeader") _
-                     Select New With _
-                     { _
-                        .SESSION_KEY = Msg_Data.Element("SESSION_KEY").Value, _
-                        .MESSAGE_ID = Msg_Data.Element("MESSAGE_ID").Value, _
-                        .TIMESTAMP = Msg_Data.Element("TIMESTAMP").Value, _
-                        .USER_ID = Msg_Data.Element("USER_ID").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("MessageHeader")
+                                        Select New With
+                     {
+                        .SESSION_KEY = Msg_Data.Element("SESSION_KEY").Value,
+                        .MESSAGE_ID = Msg_Data.Element("MESSAGE_ID").Value,
+                        .TIMESTAMP = Msg_Data.Element("TIMESTAMP").Value,
+                        .USER_ID = Msg_Data.Element("USER_ID").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1429,22 +1504,22 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("RequestLocForPallet") _
-                     Select New With _
-                     { _
-                         .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .ULID = Msg_Data.Element("UNIT_LOAD_ID").Value, _
-                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value, _
-                        .BRAND_DESCRIPTION = Msg_Data.Element("BRAND_DESCRIPTION").Value, _
-                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value, _
-                        .PALLET_TYPE = Msg_Data.Element("PALLET_TYPE").Value, _
-                        .UL_HOLD_STATUS_CODE = Msg_Data.Element("UL_HOLD_STATUS_CODE").Value, _
-                        .ACTIV_INPUT_LOCATION = Msg_Data.Element("ACTIV_INPUT_LOCATION").Value, _
-                        .ITEM_GROUP = Msg_Data.Element("ITEM_GROUP").Value, _
-                        .BASE_ULID = Msg_Data.Element("BASE_ULID").Value, _
-                        .CASE_QUANTITY = Msg_Data.Element("CASE_QUANTITY").Value, _
-                        .PARTIAL_FLAG = Msg_Data.Element("PARTIAL_FLAG").Value, _
-                        .PLC_USERID = Msg_Data.Element("PLC_USERID").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("RequestLocForPallet")
+                                        Select New With
+                     {
+                         .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .ULID = Msg_Data.Element("UNIT_LOAD_ID").Value,
+                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value,
+                        .BRAND_DESCRIPTION = Msg_Data.Element("BRAND_DESCRIPTION").Value,
+                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value,
+                        .PALLET_TYPE = Msg_Data.Element("PALLET_TYPE").Value,
+                        .UL_HOLD_STATUS_CODE = Msg_Data.Element("UL_HOLD_STATUS_CODE").Value,
+                        .ACTIV_INPUT_LOCATION = Msg_Data.Element("ACTIV_INPUT_LOCATION").Value,
+                        .ITEM_GROUP = Msg_Data.Element("ITEM_GROUP").Value,
+                        .BASE_ULID = Msg_Data.Element("BASE_ULID").Value,
+                        .CASE_QUANTITY = Msg_Data.Element("CASE_QUANTITY").Value,
+                        .PARTIAL_FLAG = Msg_Data.Element("PARTIAL_FLAG").Value,
+                        .PLC_USERID = Msg_Data.Element("PLC_USERID").Value
                      }
 
 
@@ -1461,7 +1536,7 @@ Module modMsgInbound
                 struct.strBase_ulid = Msg_Data.BASE_ULID
                 struct.strCase_quantity = Msg_Data.CASE_QUANTITY
                 struct.strPartial_flag = Msg_Data.PARTIAL_FLAG
-                struct.strPLC_USERID = Msg_Data.PLC_USERID
+                struct.strPlc_Userid = Msg_Data.PLC_USERID
             Next
 
 
@@ -1476,20 +1551,20 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("RequestInventory") _
-                     Select New With _
-                     { _
-                         .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                         .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value, _
-                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value, _
-                        .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value, _
-                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value, _
-                        .PALLET_TYPE = Msg_Data.Element("PALLET_TYPE").Value, _
-                        .UL_WITHDRAWAL_QTY = Msg_Data.Element("UL_WITHDRAWAL_QTY").Value, _
-                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value, _
-                        .WITHDRAWAL_INTENT_CODE = Msg_Data.Element("WITHDRAWAL_INTENT_CODE").Value, _
-                        .WITHDRAWAL_SELECT_FLAG = Msg_Data.Element("WITHDRAWAL_SELECT_FLAG").Value, _
-                        .WITHDRAWAL_PARTIAL_CODE = Msg_Data.Element("WITHDRAWAL_PARTIAL_CODE").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("RequestInventory")
+                                        Select New With
+                     {
+                         .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                         .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value,
+                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value,
+                        .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value,
+                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value,
+                        .PALLET_TYPE = Msg_Data.Element("PALLET_TYPE").Value,
+                        .UL_WITHDRAWAL_QTY = Msg_Data.Element("UL_WITHDRAWAL_QTY").Value,
+                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value,
+                        .WITHDRAWAL_INTENT_CODE = Msg_Data.Element("WITHDRAWAL_INTENT_CODE").Value,
+                        .WITHDRAWAL_SELECT_FLAG = Msg_Data.Element("WITHDRAWAL_SELECT_FLAG").Value,
+                        .WITHDRAWAL_PARTIAL_CODE = Msg_Data.Element("WITHDRAWAL_PARTIAL_CODE").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1518,13 +1593,13 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ChangeULQA") _
-                     Select New With _
-                     { _
-                         .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value, _
-                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value, _
-                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value, _
-                        .UL_HOLD_STATUS_CODE = Msg_Data.Element("UL_HOLD_STATUS_CODE").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("ChangeULQA")
+                                        Select New With
+                     {
+                         .UNIT_LOAD_ID = Msg_Data.Element("UNIT_LOAD_ID").Value,
+                        .BRAND_CODE = Msg_Data.Element("BRAND_CODE").Value,
+                        .CODE_DATE = Msg_Data.Element("CODE_DATE").Value,
+                        .UL_HOLD_STATUS_CODE = Msg_Data.Element("UL_HOLD_STATUS_CODE").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1546,11 +1621,11 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopShip") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopShip")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1596,15 +1671,15 @@ Module modMsgInbound
                 struct(0).LINE_COUNT = Msg21_Data.LINE_COUNT
             Next
 
-            Dim LineItems As Object = From Msg21_LINE_ITEM_DATA In document.Descendants("ShipUL") _
-                         Select New With _
-                         { _
-                            .SEQUENCE = Msg21_LINE_ITEM_DATA.Element("SEQUENCE").Value, _
-                            .BRAND_CODE = Msg21_LINE_ITEM_DATA.Element("BRAND_CODE").Value, _
-                            .CODE_DATE = Msg21_LINE_ITEM_DATA.Element("CODE_DATE").Value, _
-                            .PALLET_TYPE = Msg21_LINE_ITEM_DATA.Element("PALLET_TYPE").Value, _
-                            .LINE_QTY = Msg21_LINE_ITEM_DATA.Element("LINE_QTY").Value, _
-                            .FIFO_WINDOW = Msg21_LINE_ITEM_DATA.Element("FIFO_WINDOW").Value _
+            Dim LineItems As Object = From Msg21_LINE_ITEM_DATA In document.Descendants("ShipUL")
+                                      Select New With
+                         {
+                            .SEQUENCE = Msg21_LINE_ITEM_DATA.Element("SEQUENCE").Value,
+                            .BRAND_CODE = Msg21_LINE_ITEM_DATA.Element("BRAND_CODE").Value,
+                            .CODE_DATE = Msg21_LINE_ITEM_DATA.Element("CODE_DATE").Value,
+                            .PALLET_TYPE = Msg21_LINE_ITEM_DATA.Element("PALLET_TYPE").Value,
+                            .LINE_QTY = Msg21_LINE_ITEM_DATA.Element("LINE_QTY").Value,
+                            .FIFO_WINDOW = Msg21_LINE_ITEM_DATA.Element("FIFO_WINDOW").Value
                          }
 
             For Each Msg21_LINE_ITEM_DATA In LineItems
@@ -1631,12 +1706,12 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("LocEmpty") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value, _
-                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("LocEmpty")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value,
+                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1658,11 +1733,11 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopStage") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopStage")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1681,13 +1756,13 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("SlotRequest") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value, _
-                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value, _
-                        .SIGNON_FLG = Msg_Data.Element("SIGNON_FLG").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("SlotRequest")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value,
+                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value,
+                        .SIGNON_FLG = Msg_Data.Element("SIGNON_FLG").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1710,11 +1785,11 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopProdOrder") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("StopProdOrder")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .HOST_CONTROL_NUMBER = Msg_Data.Element("HOST_CONTROL_NUMBER").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1737,14 +1812,14 @@ Module modMsgInbound
 
             'ignorign message_type
 
-            Dim HeaderItems As Object = From Msg41_Data In document.Descendants("ProdOrderHeader") _
-                     Select New With _
-                     { _
-                        .HOST_CONTROL_NUMBER = Msg41_Data.Element("HOST_CONTROL_NUMBER").Value, _
-                        .SCHEDULED_START_DATE = Msg41_Data.Element("SCHEDULED_START_DATE").Value, _
-                        .SCHEDULED_START_TIME = Msg41_Data.Element("SCHEDULED_START_TIME").Value, _
-                        .ORDER_DISPOSITION = Msg41_Data.Element("ORDER_DISPOSITION").Value, _
-                        .LINE_COUNT = Msg41_Data.Element("LINE_COUNT").Value _
+            Dim HeaderItems As Object = From Msg41_Data In document.Descendants("ProdOrderHeader")
+                                        Select New With
+                     {
+                        .HOST_CONTROL_NUMBER = Msg41_Data.Element("HOST_CONTROL_NUMBER").Value,
+                        .SCHEDULED_START_DATE = Msg41_Data.Element("SCHEDULED_START_DATE").Value,
+                        .SCHEDULED_START_TIME = Msg41_Data.Element("SCHEDULED_START_TIME").Value,
+                        .ORDER_DISPOSITION = Msg41_Data.Element("ORDER_DISPOSITION").Value,
+                        .LINE_COUNT = Msg41_Data.Element("LINE_COUNT").Value
                      }
 
             For Each Msg41_Data In HeaderItems
@@ -1755,15 +1830,15 @@ Module modMsgInbound
                 struct(0).LINE_COUNT = Msg41_Data.LINE_COUNT
             Next
 
-            Dim LineItems As Object = From Msg41_LINE_ITEM_DATA In document.Descendants("ProdOrderUL") _
-                         Select New With _
-                         { _
-                            .SEQUENCE = Msg41_LINE_ITEM_DATA.Element("SEQUENCE").Value, _
-                            .BRAND_CODE = Msg41_LINE_ITEM_DATA.Element("BRAND_CODE").Value, _
-                            .CODE_DATE = Msg41_LINE_ITEM_DATA.Element("CODE_DATE").Value, _
-                            .PALLET_TYPE = Msg41_LINE_ITEM_DATA.Element("PALLET_TYPE").Value, _
-                            .LINE_QTY = Msg41_LINE_ITEM_DATA.Element("LINE_QTY").Value, _
-                            .FIFO_WINDOW = Msg41_LINE_ITEM_DATA.Element("FIFO_WINDOW").Value _
+            Dim LineItems As Object = From Msg41_LINE_ITEM_DATA In document.Descendants("ProdOrderUL")
+                                      Select New With
+                         {
+                            .SEQUENCE = Msg41_LINE_ITEM_DATA.Element("SEQUENCE").Value,
+                            .BRAND_CODE = Msg41_LINE_ITEM_DATA.Element("BRAND_CODE").Value,
+                            .CODE_DATE = Msg41_LINE_ITEM_DATA.Element("CODE_DATE").Value,
+                            .PALLET_TYPE = Msg41_LINE_ITEM_DATA.Element("PALLET_TYPE").Value,
+                            .LINE_QTY = Msg41_LINE_ITEM_DATA.Element("LINE_QTY").Value,
+                            .FIFO_WINDOW = Msg41_LINE_ITEM_DATA.Element("FIFO_WINDOW").Value
                          }
 
             For Each Msg41_LINE_ITEM_DATA In LineItems
@@ -1790,11 +1865,11 @@ Module modMsgInbound
 
         Try
 
-            Dim HeaderItems As Object = From Msg_Data In document.Descendants("SlotRequest") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value, _
-                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value _
+            Dim HeaderItems As Object = From Msg_Data In document.Descendants("SlotRequest")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = Msg_Data.Element("MESSAGE_TYPE").Value,
+                        .ACTIV_OUTPUT_LOCATION = Msg_Data.Element("ACTIV_OUTPUT_LOCATION").Value
                      }
 
             For Each Msg_Data In HeaderItems
@@ -1826,14 +1901,14 @@ Module modMsgInbound
             'ignorign message_type
             'the ctype indicates optional fields and is used to aviod an exception error when the field is not present 
 
-            Dim HeaderItems As Object = From RequestFPDS_Data In document.Descendants("TrailerHeader") _
-                     Select New With _
-                     { _
-                        .MESSAGE_TYPE = RequestFPDS_Data.Element("MESSAGE_TYPE").Value, _
-                        .TRAILER_NUMBER = RequestFPDS_Data.Element("TRAILER_NUMBER").Value, _
-                        .TRUCK_LINE = RequestFPDS_Data.Element("TRUCK_LINE").Value, _
-                        .LINE_COUNT = RequestFPDS_Data.Element("LINE_COUNT").Value, _
-                        .ACTIV_INPUT_LOCATION = GetOptionalXMLValue(RequestFPDS_Data, "ACTIV_INPUT_CONVEYOR") _
+            Dim HeaderItems As Object = From RequestFPDS_Data In document.Descendants("TrailerHeader")
+                                        Select New With
+                     {
+                        .MESSAGE_TYPE = RequestFPDS_Data.Element("MESSAGE_TYPE").Value,
+                        .TRAILER_NUMBER = RequestFPDS_Data.Element("TRAILER_NUMBER").Value,
+                        .TRUCK_LINE = RequestFPDS_Data.Element("TRUCK_LINE").Value,
+                        .LINE_COUNT = RequestFPDS_Data.Element("LINE_COUNT").Value,
+                        .ACTIV_INPUT_LOCATION = GetOptionalXMLValue(RequestFPDS_Data, "ACTIV_INPUT_CONVEYOR")
                      }
 
             ' .ACTIV_INPUT_LOCATION = CType(RequestFPDS_Data.Element("BOB").Value, String) _
@@ -1846,13 +1921,13 @@ Module modMsgInbound
                 struct(0).ACTIV_INPUT_LOCATION = RequestFPDS_Data.ACTIV_INPUT_LOCATION
             Next
 
-            Dim LineItems As Object = From RequestFPDS_LINE_ITEM_DATA In document.Descendants("TrailerUL") _
-                         Select New With _
-                         { _
-                            .UNIT_LOAD_ID = RequestFPDS_LINE_ITEM_DATA.Element("UNIT_LOAD_ID").Value, _
-                            .BRAND_CODE = RequestFPDS_LINE_ITEM_DATA.Element("BRAND_CODE").Value, _
-                            .ITEM_NUMBER = RequestFPDS_LINE_ITEM_DATA.Element("ITEM_NUMBER").Value, _
-                            .PALLET_TYPE = RequestFPDS_LINE_ITEM_DATA.Element("PALLET_TYPE").Value _
+            Dim LineItems As Object = From RequestFPDS_LINE_ITEM_DATA In document.Descendants("TrailerUL")
+                                      Select New With
+                         {
+                            .UNIT_LOAD_ID = RequestFPDS_LINE_ITEM_DATA.Element("UNIT_LOAD_ID").Value,
+                            .BRAND_CODE = RequestFPDS_LINE_ITEM_DATA.Element("BRAND_CODE").Value,
+                            .ITEM_NUMBER = RequestFPDS_LINE_ITEM_DATA.Element("ITEM_NUMBER").Value,
+                            .PALLET_TYPE = RequestFPDS_LINE_ITEM_DATA.Element("PALLET_TYPE").Value
                          }
 
             For Each RequestFPDS_LINE_ITEM_DATA In LineItems
@@ -1860,10 +1935,10 @@ Module modMsgInbound
                 iRequestFPDS_LINE_ITEM_DATA_Count += 1
                 ReDim Preserve struct(iRequestFPDS_LINE_ITEM_DATA_Count)
 
-                struct(iRequestFPDS_LINE_ITEM_DATA_Count).UNIT_LOAD_ID = RequestFPDS_LINE_ITEM_DATA.UNIT_LOAD_ID
-                struct(iRequestFPDS_LINE_ITEM_DATA_Count).BRAND_CODE = RequestFPDS_LINE_ITEM_DATA.BRAND_CODE
-                struct(iRequestFPDS_LINE_ITEM_DATA_Count).ITEM_NUMBER = RequestFPDS_LINE_ITEM_DATA.ITEM_NUMBER
-                struct(iRequestFPDS_LINE_ITEM_DATA_Count).PALLET_TYPE = RequestFPDS_LINE_ITEM_DATA.PALLET_TYPE
+                struct(iRequestFPDS_LINE_ITEM_DATA_Count).Unit_Load_Id = RequestFPDS_LINE_ITEM_DATA.UNIT_LOAD_ID
+                struct(iRequestFPDS_LINE_ITEM_DATA_Count).Brand_Code = RequestFPDS_LINE_ITEM_DATA.BRAND_CODE
+                struct(iRequestFPDS_LINE_ITEM_DATA_Count).Item_Number = RequestFPDS_LINE_ITEM_DATA.ITEM_NUMBER
+                struct(iRequestFPDS_LINE_ITEM_DATA_Count).Pallet_Type = RequestFPDS_LINE_ITEM_DATA.PALLET_TYPE
 
             Next
             Return struct
@@ -1873,20 +1948,20 @@ Module modMsgInbound
         End Try
     End Function
 
-    Public Function InsertInto_TRAILER_FPDS(ByVal strMESSAGE_TYPE As String, ByVal strTRAILER_NUMBER As String, _
+    Public Function InsertInto_TRAILER_FPDS(ByVal strMESSAGE_TYPE As String, ByVal strTRAILER_NUMBER As String,
      ByVal strTRUCK_LINE As String, ByVal strLINE_COUNT As String) As Boolean
 
         Dim strSql As String
 
         Try
 
-            strSql = "INSERT INTO TRAILER_FPDS " & _
-            "(MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE,LINE_COUNT,CTRL_DATE) values (" & _
-            "'" & strMESSAGE_TYPE & "'," & _
-            "'" & strTRAILER_NUMBER & "'," & _
-            "'" & strTRUCK_LINE & "'," & _
-            "'" & strLINE_COUNT & "'," & _
-            "'" & Date.Now.ToString & "' " & _
+            strSql = "INSERT INTO TRAILER_FPDS " &
+            "(MESSAGE_TYPE,TRAILER_NUMBER,TRUCK_LINE,LINE_COUNT,CTRL_DATE) values (" &
+            "'" & strMESSAGE_TYPE & "'," &
+            "'" & strTRAILER_NUMBER & "'," &
+            "'" & strTRUCK_LINE & "'," &
+            "'" & strLINE_COUNT & "'," &
+            "'" & Date.Now.ToString & "' " &
             ")"
 
             If Len(strSql) > 0 Then
@@ -1908,10 +1983,10 @@ Module modMsgInbound
         ReadTrailer_FPDS_MessageTypeFromDB = "-1"
 
         Try
-            strSQL = "select MESSAGE_TYPE " & _
-                "from TRAILER_FPDS " & _
-                "where " & _
-                "TRUCK_LINE='" & strTruck_Line & "' and " & _
+            strSQL = "select MESSAGE_TYPE " &
+                "from TRAILER_FPDS " &
+                "where " &
+                "TRUCK_LINE='" & strTruck_Line & "' and " &
                 "TRAILER_NUMBER='" & strTrailer_Number & "' "
 
             ' Open the Recordset using the select string:
@@ -1950,7 +2025,15 @@ Module modMsgInbound
                 Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKIN_CONF_DATA_TAG)
             Else
                 'Update the database
-                updateTCS_TRAILER_EMU(TRL_CKIN_CONF_DATA_ELEMENTS, dataDict)
+                'updateTCS_TRAILER_EMU(TRL_CKIN_CONF_DATA_ELEMENTS, dataDict, TRL_CKIN_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_CKIN_CONF_TAG,
+                              TRL_CKIN_CONF_DATA_ELEMENTS,
+                              document,
+                              dataDict,
+                              False,
+                              DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_CKIN_CONF_TAG)
+                End If
             End If
 
         Catch ex As Exception
@@ -1991,7 +2074,15 @@ Module modMsgInbound
                 Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKOUT_CONF_DATA_TAG)
             Else
                 'Update the database
-                updateTCS_TRAILER_EMU(TRL_CKOUT_CONF_DATA_ELEMENTS, dataDict)
+                'updateTCS_TRAILER_EMU(TRL_CKOUT_CONF_DATA_ELEMENTS, dataDict, TRL_CKOUT_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_CKOUT_CONF_TAG,
+                                              TRL_CKOUT_CONF_DATA_ELEMENTS,
+                                              document,
+                                              dataDict,
+                                              False,
+                                              DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_CKIN_CONF_TAG)
+                End If
             End If
 
         Catch ex As Exception
@@ -2014,7 +2105,12 @@ Module modMsgInbound
                 Throw New Exception("Error parsing the inbound data elements for segment " & TRL_LOC_ASSG_CONF_DATA_TAG)
             Else
                 'Update the database
-                updateTCS_TRAILER_EMU(TRL_LOC_ASSG_CONF_DATA_ELEMENTS, dataDict)
+                'updateTCS_TRAILER_EMU(TRL_LOC_ASSG_CONF_DATA_ELEMENTS, dataDict, TRL_LOC_ASSG_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_LOC_ASSG_CONF_TAG,
+                                              TRL_LOC_ASSG_CONF_DATA_ELEMENTS,
+                                              document, dataDict, False, DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_LOC_ASSG_CONF_TAG)
+                End If
             End If
 
         Catch ex As Exception
@@ -2036,7 +2132,13 @@ Module modMsgInbound
                 Throw New Exception("Error parsing the inbound data elements for segment " & TRL_SHPRCP_ASG_CONF_DATA_TAG)
             Else
                 'Update the database
-                updateTCS_TRAILER_EMU(TRL_SHPRCP_ASG_CONF_DATA_ELEMENTS, dataDict)
+                'updateTCS_TRAILER_EMU(TRL_SHPRCP_ASG_CONF_DATA_ELEMENTS, dataDict, TRL_SHPRCP_ASG_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_SHPRCP_ASG_CONF_TAG,
+                                              TRL_SHPRCP_ASG_CONF_DATA_ELEMENTS,
+                                              document, dataDict, False, DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_SHPRCP_ASG_CONF_TAG)
+                End If
+
             End If
 
         Catch ex As Exception
@@ -2046,4 +2148,255 @@ Module modMsgInbound
         Return dataDict
     End Function
 
+    Public Function ReadXML_TrailerMoveRequestCancelConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_MOVREQ_CANCEL_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_MOVREQ_CANCEL_CONF_DATA_TAG)
+            Else
+                'Update the database
+                'updateTCS_TRAILER_EMU(TRL_MOVREQ_CANCEL_CONF_DATA_ELEMENTS, dataDict, TRL_MOVREQ_CANCEL_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_MOVREQ_CANCEL_CONF_TAG,
+                              TRL_MOVREQ_CANCEL_CONF_DATA_ELEMENTS,
+                              document, dataDict, False, DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_MOVREQ_CANCEL_CONF_TAG)
+                End If
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+
+    Public Function ReadXML_TrailerLocUpdateConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_LOC_UPDATE_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_LOC_UPDATE_CONF_DATA_TAG)
+            Else
+                'Update the database
+                'updateTCS_TRAILER_EMU(TRL_LOC_UPDATE_CONF_DATA_ELEMENTS, dataDict, TRL_LOC_UPDATE_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_LOC_UPDATE_CONF_TAG,
+                                            TRL_LOC_UPDATE_CONF_DATA_ELEMENTS,
+                                            document, dataDict, False, DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_LOC_UPDATE_CONF_TAG)
+                End If
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+
+    Public Function ReadXML_TrailerMoveRequestDepositConfirm(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_MOVE_DEPOSIT_CONF_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_MOVE_DEPOSIT_CONF_DATA_TAG)
+            Else
+                'Update the database
+                'updateTCS_TRAILER_EMU(TRL_MOVE_DEPOSIT_CONF_DATA_ELEMENTS, dataDict, TRL_MOVE_DEPOSIT_CONF_TAG)
+                If (Not ProcessInboundMessage(TRL_MOVE_DEPOSIT_CONF_TAG,
+                                              TRL_MOVE_DEPOSIT_CONF_DATA_ELEMENTS,
+                                              document, dataDict, False, DEFAULT_TAG_ARRAY)) Then
+                    Throw New Exception("Error processing inbound message" & TRL_MOVE_DEPOSIT_CONF_TAG)
+                End If
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+
+
+    Public Function ReadXML_TrailerMoveRequest(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_MOVE_REQUEST_INB_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_MOVE_REQUEST_INB_DATA_TAG)
+            Else
+                'Update the database
+                'updateTCS_TRAILER_EMU(TRL_MOVE_REQUEST_INB_DATA_ELEMENTS, dataDict, TRL_MOVE_REQUEST_INB_TAG)
+
+                'If the Auto Confirm is yes - then send the confirmation message.
+                'SendConfirmMessage(TRL_MOVE_REQUEST_INB_TAG)
+                If (Not ProcessInboundMessage(TRL_MOVE_REQUEST_INB_TAG,
+                              TRL_MOVE_REQUEST_INB_DATA_ELEMENTS,
+                              document,
+                              dataDict,
+                              gTCSAutoConfirmTCSInbounds,'True,    'IIf(Main.chkBxTcsEmuActvSndAutoConf.Checked, True, False)
+                              TRL_MOVE_REQUEST_INB_CONFIRM_MSG_TAG
+                                )) Then
+                    Throw New Exception("Error processing inbound message" & TRL_MOVE_REQUEST_INB_TAG)
+                End If
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+    Public Function ReadXML_TrailerCheckIn(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_CKIN_INB_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKIN_INB_DATA_TAG)
+            Else
+                'Process inbound message 
+
+                If (Not ProcessInboundMessage(TRL_CKIN_INB_TAG,
+                                              TRL_CKIN_DATA_ELEMENTS,
+                                              document,
+                                              dataDict,
+                                              gTCSAutoConfirmTCSInbounds, 'True,    'IIf(Main.chkBxTcsEmuActvSndAutoConf.Checked, True, False)
+                                              TRL_CKIN_INB_CONF_MSG_ARRAY
+                                                )) Then
+                    Throw New Exception("Error processing inbound message" & TRL_CKIN_INB_DATA_TAG)
+                End If
+                'Load the grid after processing the inbound
+                ''''Load_TCS_TRAILER_EMU(Main.dgvTrlActivityData)
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+    Public Function ReadXML_TrailerCheckOut(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_CKOUT_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_CKOUT_DATA_TAG)
+            Else
+                'Process inbound message 
+
+                If (Not ProcessInboundMessage(TRL_CKOUT_TAG,
+                                              TRL_CKOUT_DATA_ELEMENTS,
+                                              document,
+                                              dataDict,
+                                              gTCSAutoConfirmTCSInbounds, 'True,    'IIf(Main.chkBxTcsEmuActvSndAutoConf.Checked, True, False)
+                                              TRL_CKOUT_CONF_TAG_ARRAY
+                                                )) Then
+                    Throw New Exception("Error processing inbound message" & TRL_CKOUT_DATA_TAG)
+                End If
+                'Load the grid after processing the inbound
+                ''''Load_TCS_TRAILER_EMU(Main.dgvTrlActivityData)
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+    Public Function ReadXML_TrailerMoveReqCancel(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_MOVE_CANCEL_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_MOVE_CANCEL_DATA_TAG)
+            Else
+                'Process inbound message 
+
+                If (Not ProcessInboundMessage(TRL_MOVE_CANCEL_TAG,
+                                              TRL_MOVE_CANCEL_ELEMENTS,
+                                              document,
+                                              dataDict,
+                                              gTCSAutoConfirmTCSInbounds,'True,    'IIf(Main.chkBxTcsEmuActvSndAutoConf.Checked, True, False)
+                                              TRL_MOVREQ_CANCEL_CONF_TAG_ARRAY
+                                                )) Then
+                    Throw New Exception("Error processing inbound message" & TRL_MOVE_CANCEL_DATA_TAG)
+                End If
+                'Load the grid after processing the inbound
+                ''''Load_TCS_TRAILER_EMU(Main.dgvTrlActivityData)
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
+    Public Function ReadXML_TrailerMoveReqChangePriority(ByVal document As XDocument) As Dictionary(Of String, String)
+        Dim dataDict As Dictionary(Of String, String) = Nothing
+
+        Try
+            'Parse out the inbound XML data segment and store as name, value pairs in dictionary
+            dataDict = (From elem In document.Descendants(TRL_MOVE_CHANGE_PRIORITY_DATA_TAG).Elements()
+                        Select New KeyValuePair(Of String, String) _
+                                      (elem.Name.ToString(), elem.Value)).ToDictionary(Function(p) p.Key, Function(p) p.Value)
+
+            If (IsNothing(dataDict)) Then
+                Throw New Exception("Error parsing the inbound data elements for segment " & TRL_MOVE_CHANGE_PRIORITY_DATA_TAG)
+            Else
+                'Process inbound message 
+
+                If (Not ProcessInboundMessage(TRL_MOVE_CHANGE_PRIORITY_TAG,
+                                              TRL_MOVE_CHANGE_PRIORITY_ELEMENTS,
+                                              document,
+                                              dataDict,
+                                              False,    'IIf(Main.chkBxTcsEmuActvSndAutoConf.Checked, True, False)
+                                              DEFAULT_TAG_ARRAY
+                                                )) Then
+                    Throw New Exception("Error processing inbound message" & TRL_MOVE_CHANGE_PRIORITY_TAG)
+                End If
+                'Load the grid after processing the inbound
+                ''''Load_TCS_TRAILER_EMU(Main.dgvTrlActivityData)
+            End If
+
+        Catch ex As Exception
+            WriteLog(gcstrError, GetCurrentMethod.Name() & Space(1) & Err.Description & "Exception [" & ex.Message & "]")
+        End Try
+
+        Return dataDict
+    End Function
 End Module
