@@ -1,0 +1,6 @@
+CONFIRM_HEARTBEAT format not correct from BAMBAM
+INFEED autoscanning
+MSg16 history not FUNCTIONING  DARN IT!!
+msg14 grid a lil short
+msg21 sequence start with 1 not zero in picking
+MSg21 log message when no inventory

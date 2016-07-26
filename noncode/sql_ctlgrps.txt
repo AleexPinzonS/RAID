@@ -1,0 +1,13 @@
+set pagesize 999;
+select u.ulid, d.itmcod, d.ctlgrp, d.casqty, d.ctrl_date, c.qastat
+from unitld u, untdtl d, ctlgrp c
+where d.ulid=u.ulid
+and d.itmcod=c.itmcod and d.itmcls=c.itmcls and d.ctlgrp=c.ctlgrp 
+and d.itmcod='81327934'
+and u.locatn='CIMAT'
+and u.subsit='1';
+
+and u.ulid='0000047001000115888'
+order by ctrl_date desc;
+
+
