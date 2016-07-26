@@ -196,4 +196,36 @@
         Dim SiGNON As String
         Dim NEXTLEVELID As String
     End Structure
+
+    Public Structure TRAILER_MOVEMENT
+        Dim TRUCK_LINE As String
+        Dim TRAILER_ID As String
+        Dim TRACTOR_ID As String
+        Dim TYPE As String
+        Dim LENGTH As String
+        Dim WIDTH As String
+        Dim HEIGHT As String
+        Dim EMPTY_WEIGHT As String
+        Dim FULL_WEIGHT As String
+        Dim EST_WEIGHT As String
+        Dim TEMP_CODE As String
+        Dim DRIVER_NAME As String
+        Dim LIC_PLATE_NUM As String
+        Dim LIC_PLATE_STATE As String
+        Dim USABLE As String
+        Dim UNUSABLE_REASON As String
+        Dim EMPTY As String
+        Dim ORIGIN As String
+        Dim CONTENTS As String
+        Dim FREIGHT_AMOUNT As String
+        Dim FREIGHT_CURRENCY As String
+        Dim SHIPID As String
+        Dim RRUNMB As String
+        Dim INVNUM As String
+        Dim SITNAM As String
+        Dim BUILDING As String
+        Dim BUILDING_LIST As String
+        Dim LOCATION As String
+        Dim WCS_TRANSIT_NUM As String
+    End Structure
 End Module
