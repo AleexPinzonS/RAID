@@ -1,9 +1,9 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmLoginDB
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing AndAlso components IsNot Nothing Then
             components.Dispose()
@@ -17,7 +17,7 @@ Partial Class frmLoginDB
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLoginDB))
@@ -42,6 +42,7 @@ Partial Class frmLoginDB
         Me.radButAccess = New System.Windows.Forms.RadioButton()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.chkDefeatAutoLogin = New System.Windows.Forms.CheckBox()
+        Me.lblIniFile = New System.Windows.Forms.Label()
         Me.grpOracleDatabase.SuspendLayout()
         Me.grpDatabaseType.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,7 +115,7 @@ Partial Class frmLoginDB
         '
         'cmdOk
         '
-        Me.cmdOk.Location = New System.Drawing.Point(51, 275)
+        Me.cmdOk.Location = New System.Drawing.Point(51, 335)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.Size = New System.Drawing.Size(101, 30)
         Me.cmdOk.TabIndex = 8
@@ -123,7 +124,7 @@ Partial Class frmLoginDB
         '
         'cmdCancel
         '
-        Me.cmdCancel.Location = New System.Drawing.Point(216, 275)
+        Me.cmdCancel.Location = New System.Drawing.Point(216, 335)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(101, 30)
         Me.cmdCancel.TabIndex = 9
@@ -227,7 +228,7 @@ Partial Class frmLoginDB
         '
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
         Me.PictureBox1.InitialImage = CType(resources.GetObject("PictureBox1.InitialImage"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(94, 341)
+        Me.PictureBox1.Location = New System.Drawing.Point(94, 384)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(191, 45)
         Me.PictureBox1.TabIndex = 16
@@ -244,11 +245,21 @@ Partial Class frmLoginDB
         Me.chkDefeatAutoLogin.Text = "Defeat Auto Login"
         Me.chkDefeatAutoLogin.UseVisualStyleBackColor = True
         '
+        'lblIniFile
+        '
+        Me.lblIniFile.AutoSize = True
+        Me.lblIniFile.Location = New System.Drawing.Point(6, 274)
+        Me.lblIniFile.Name = "lblIniFile"
+        Me.lblIniFile.Size = New System.Drawing.Size(140, 13)
+        Me.lblIniFile.TabIndex = 19
+        Me.lblIniFile.Text = "Instance Settings File PreFix"
+        '
         'frmLoginDB
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(410, 398)
+        Me.ClientSize = New System.Drawing.Size(410, 444)
+        Me.Controls.Add(Me.lblIniFile)
         Me.Controls.Add(Me.chkDefeatAutoLogin)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.grpDatabaseType)
@@ -295,4 +306,5 @@ Partial Class frmLoginDB
     Friend WithEvents radButOracle As System.Windows.Forms.RadioButton
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents chkDefeatAutoLogin As System.Windows.Forms.CheckBox
+    Friend WithEvents lblIniFile As Label
 End Class

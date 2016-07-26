@@ -63,6 +63,7 @@ Public Class frmLoginDB
         Else
             txtPassword.Focus()
         End If
+        lblIniFile.Text = "Using following files for this instance " + vbCrLf + gstrIniFileName + vbCrLf + gMdbFileName
     End Sub
 
 
@@ -168,7 +169,8 @@ Public Class frmLoginDB
     End Sub
 
     Private Sub PictureBox1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PictureBox1.Click
-        txtPassword.Text = "zdevel3_RWz"
+        'txtPassword.Text = "zdevel3_RWz"
+        txtPassword.Text = "devel3_RW"
         SelectOk()
     End Sub
 
