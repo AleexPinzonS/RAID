@@ -15,18 +15,37 @@ Public Class frmXMLEditor
         bXMLBeingEditedBeforeSending = bEditXMLBEforeSend
 
     End Sub
+    'Public Sub New(ByVal Xmlstring As String)
+
+    '    ' This call is required by the designer.
+    '    InitializeComponent()
+
+    '    ' Add any initialization after the InitializeComponent() call.
+    '    bXMLBeingEditedBeforeSending = False
+
+    '    'set the gstrLastXMLSent to the input xml
+    '    gstrLastXMLSent = Xmlstring
+    'End Sub
     Private Sub frmXMLEditor_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         GetData()
     End Sub
 
     Private Sub butSendXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butSendXML.Click
+        Dim sendStat As Boolean = False
         If bXMLBeingEditedBeforeSending = True Then
             'editor launched to edit a "in process" message
-            SendRequest(txtXML.Text, True)
+            sendStat = SendRequest(txtXML.Text, True)
             Me.Close()
         Else
             'xml editor was launched standalone
-            SendRequest(txtXML.Text)
+            sendStat = SendRequest(txtXML.Text)
+        End If
+
+        If (sendStat And ProcessData) Then
+            'Update the dataGridRow in db
+            updateTCS_TRAILER_EMU_MsgSts(DataGridRow)
+            Load_TCS_TRAILER_EMU(DataGridRow.DataGridView)
         End If
     End Sub
 
@@ -95,4 +114,26 @@ Public Class frmXMLEditor
     Private Sub butClearXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles butClearXML.Click
         txtXML.Text = String.Empty
     End Sub
+
+    Dim processGridData As Boolean = False
+    Public Property ProcessData As Boolean
+        Get
+            Return processGridData
+        End Get
+        Set(value As Boolean)
+            processGridData = value
+        End Set
+    End Property
+
+    Dim dgvRow As DataGridViewRow
+    Public Property DataGridRow As DataGridViewRow
+        Get
+            Return dgvRow
+        End Get
+        Set(value As DataGridViewRow)
+            dgvRow = value
+        End Set
+    End Property
+
+
 End Class
