@@ -10,6 +10,9 @@ Module Declarations
     '\\\\\\\MSg13 C(ancel)
     'redo autoscan off and on to use a sub  (liek MSg21 is now)
 
+    Public gInstancePrefix As String = ""
+    Public gApplication_ProductName As String = Application.ProductName
+
     Public gstrProgramDataPath As String
     Public gstrIniFileName As String
     Public gstrPassIniSection As String
@@ -29,7 +32,10 @@ Module Declarations
     Public colorFore As Color
     Public colorBack As Color
 
-    Public cstrLogFilePrefix As String = Application.ProductName & "_"
+    Public cstrLogFilePrefix As String = gApplication_ProductName + "_"
+    'IIf(Len(gInstancePrefix) > 0, gInstancePrefix + Application.ProductName + "_", Application.ProductName + "_").ToString
+
+    'Public cstrLogFilePrefix As String = Application.ProductName & "_"
 
     'Variables to hold UserName,Password, and Oracle TNS Name:
     Public DBUserName As String
@@ -38,6 +44,7 @@ Module Declarations
     Public DBSid As String
 
     Public strConnectStringMDB As String
+    Public gMdbFileName As String
 
     'ADO DB Objects:
     Public DBCON1 As ADODB.Connection
@@ -147,6 +154,13 @@ Module Declarations
         Dim ZeroAllowed As Boolean
     End Structure
 
+    'TCS Config Section
+    Public gTCSAutoConfirmTCSInbounds As Boolean = True
+    Public gstrTCSAutoConfDelaySec As Integer
+    Public gstrAtuoLoadTCSGrids As String = "N"
+
+
+
     Public Sub Ini_Main()
 
         Dim lpSectionName As String
@@ -157,8 +171,11 @@ Module Declarations
         IniRecordCount = 0
         ReDim IniEntries(0)
 
+        'gstrIniFileName = gstrProgramDataPath & Application.ProductName & ".ini"
+        gstrIniFileName = gstrProgramDataPath & gApplication_ProductName & ".ini"
 
-        gstrIniFileName = gstrProgramDataPath & Application.ProductName & ".ini"
+
+        WriteLog("Initialize ", "Using Ini File " + gstrIniFileName)
 
         'Get Data for the individual ini sections
 
@@ -188,6 +205,9 @@ Module Declarations
 
         lpSectionName = "DTLDriverSend"
         iniDTLDriverSend(oini, gstrIniFileName, lpSectionName)
+
+        lpSectionName = "TCSConfig"
+        iniTCSConfig(oini, gstrIniFileName, lpSectionName)
 
     End Sub
 
@@ -724,7 +744,7 @@ Module Declarations
 
     End Sub
 
-    Public Sub AddIniKeyNametoIniArray(ByRef lpSectionName As String, ByRef lpKeyName As String, ByRef strValue As String, _
+    Public Sub AddIniKeyNametoIniArray(ByRef lpSectionName As String, ByRef lpKeyName As String, ByRef strValue As String,
                                         Optional ByVal bNumeric As Boolean = False, Optional ByVal bZeroAllowed As Boolean = True)
         IniRecordCount += 1
         ReDim Preserve IniEntries(IniRecordCount)
@@ -735,5 +755,33 @@ Module Declarations
             IniEntries(IniRecordCount).Numeric = bNumeric
             IniEntries(IniRecordCount).ZeroAllowed = bZeroAllowed
         End With
+    End Sub
+
+    Private Sub iniTCSConfig(ByVal oini As ini, ByVal strIniFileName As String, ByVal lpSectionName As String)
+        Dim lpKeyName As String
+        Dim strValue As String
+
+        Try
+
+            lpKeyName = "AutoConfirmTCSInbounds"
+            strValue = oini.ProfileGetItem(lpSectionName, lpKeyName, "Y", strIniFileName).ToUpper
+            gTCSAutoConfirmTCSInbounds = If((strValue = "Y"), True, False)
+            Call AddIniKeyNametoIniArray(lpSectionName, lpKeyName, strValue)
+
+            lpKeyName = "AutoConfirmDelaySecs"
+            strValue = oini.ProfileGetItem(lpSectionName, lpKeyName, "0", strIniFileName).ToUpper
+            gstrTCSAutoConfDelaySec = CInt(strValue)
+            Call AddIniKeyNametoIniArray(lpSectionName, lpKeyName, strValue)
+
+            lpKeyName = "AutoLoadTCSEmuGrids"
+            strValue = oini.ProfileGetItem(lpSectionName, lpKeyName, "N", strIniFileName).ToUpper
+            gstrAtuoLoadTCSGrids = strValue
+            Call AddIniKeyNametoIniArray(lpSectionName, lpKeyName, strValue)
+
+
+        Catch
+
+        End Try
+
     End Sub
 End Module
